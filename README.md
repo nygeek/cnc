@@ -1,5 +1,6 @@
 # CNC
-Complex Number Calculator in honor of the late George Stibitz
+Complex Number Calculator in honor of the late George Stibitz and
+the 1972 HP35 scientific calculator.
 
 ## 2024-08-28 and 2024-09-01
 
