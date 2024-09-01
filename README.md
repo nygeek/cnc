@@ -3,9 +3,15 @@ Complex Number Calculator in honor of the late George Stibitz
 
 ## 2024-08-28 and 2024-09-01
 
-Everything except the arcsin, arccos, arctan, and x^y functions are
-implemented as of now.  The command list looks like this (from the
-internal help)
+All of the HP35 functionality except 'E EX' (enter exponent for scientific
+notation).  The command list looks like this (from the internal help)
+
+### Known bugs
+
+1.  The number recognizer doesn't understand a '-' prefix.  (This is
+actually like the HP35 ... to enter a negative number you had to enter
+the positive number and then press CHS.)
+
 
 1. "-"
     * subtract x from y
