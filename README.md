@@ -12,7 +12,7 @@ standard that most CPUs provide these days.
 
 The HP35 calculator had four primary registers arranged in a stack.
 The four registers were called X, Y, Z, and T.  In addition there
-was a memory register was called M.
+was a memory register called M.
 
 The bottom register, called X, was always displayed.
 
