@@ -57,7 +57,7 @@ def handle_arctan(stack, debug):
     if debug.get():
         print(f"{debug.indent()}handle_arctan()")
     _old = debug.inc()
-    stack.push(stack.pop(debug).arctan(debug))
+    stack.push(stack.pop(debug).arctan(debug), debug)
     debug.reset(_old)
 
 
