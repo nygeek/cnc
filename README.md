@@ -8,69 +8,69 @@ implemented as of now.  The command list looks like this (from the
 internal help)
 
 1. -
-* subtract x from y
+    * subtract x from y
 1. /
-* divide y by x
+    * divide y by x
 1. *
-* multiply y by x
+    * multiply y by x
 1. +
-* add x and y
+    * add x and y
 1. arccos
-* replace x with arccos(x)
+    * replace x with arccos(x)
 1. arcsin
-* replace x with arcsin(x)
+    * replace x with arcsin(x)
 1. arctan
-* replace x with arctan(x)
+    * replace x with arctan(x)
 1. arg
-* replace x with arg(x)
+    * replace x with arg(x)
 1. chs
-* reverse the sign of x
+    * reverse the sign of x
 1. clr
-* clear the stack
+    * clear the stack
 1. clx
-* clear the x register
+    * clear the x register
 1. cos
-* replace x with cos(x)
+    * replace x with cos(x)
 1. debug
-* toggle the debug flag
+    * toggle the debug flag
 1. e
-* push e onto the stack
+    * push e onto the stack
 1. enter
-* display the stack
+    * display the stack
 1. exch
-* exchange x and y
+    * exchange x and y
 1. exp
-* replace x with e^x
+    * replace x with e^x
 1. down
-* t to z, z to y, y to x, x to z
+    * t to z, z to y, y to x, x to z
 1. help
-* display documentation
+    * display documentation
 1. i
-* push i on to the stack
+    * push i on to the stack
 1. inv
-* replace x with put 1/x
+    * replace x with put 1/x
 1. ln
-* replace x with ln(x)
+    * replace x with ln(x)
 1. mod
-* replace x with mod(x)
+    * replace x with mod(x)
 1. pi
-* push pi onto the stack
+    * push pi onto the stack
 1. push
-* push everything up the stack
+    * push everything up the stack
 1. quit
-* exit the calculator
+    * exit the calculator
 1. rcl
-* replace x with the value in M
+    * replace x with the value in M
 1. sin
-* replace x with sin(x)
+    * replace x with sin(x)
 1. sqrt
-* replace x with sqrt(x)
+    * replace x with sqrt(x)
 1. sto
-* store x into M
+    * store x into M
 1. tan
-* replace x with tan(x)
+    * replace x with tan(x)
 1. xtoy
-* put x^y in x, removing both x and y
+    * put x^y in x, removing both x and y
 
 ## 2024-08-18
 
