@@ -119,9 +119,9 @@ class Complex:
             print(f"{debug.indent()}sin({self}")
         _old = debug.inc()
         _result = Complex(
-                math.sin(self.r)*math.cosh(self.i),
-                math.cos(self.r)*math.sinh(self.i),
-                debug.inc())
+                math.sin(self.r) * math.cosh(self.i),
+                math.cos(self.r) * math.sinh(self.i),
+                debug)
         debug.reset(_old)
         return _result
 
