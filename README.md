@@ -1,6 +1,45 @@
 # stibitz
 Complex Number Calculator in honor of the late George Stibitz
 
+## 2024-08-28 and 2024-09-01
+
+Everything except the arcsin, arccos, arctan, and x^y functions are
+implemented as of now.  The command list looks like this (from the
+internal help)
+
+1. '-' - 'subtract x from y'
+1.: '/' - 'divide y by x'
+1.: '*' - 'multiply y by x'
+1.: '+' - 'add x and y'
+1.: 'arccos' - 'replace x with arccos(x)'
+1.: 'arcsin' - 'replace x with arcsin(x)'
+1.: 'arctan' - 'replace x with arctan(x)'
+1.: 'arg' - 'replace x with arg(x)'
+1.: 'chs' - 'reverse the sign of x'
+1.: 'clr' - 'clear the stack'
+1.: 'clx' - 'clear the x register'
+1.: 'cos' - 'replace x with cos(x)'
+1.: 'debug' - 'toggle the debug flag'
+1.: 'e' - 'push e onto the stack'
+1.: 'enter' - 'display the stack'
+1.: 'exch' - 'exchange x and y'
+1.: 'exp' - 'replace x with e^x'
+1.: 'down' - 't to z, z to y, y to x, x to z'
+1.: 'help' - 'display documentation'
+1.: 'i' - 'push i on to the stack'
+1.: 'inv' - 'replace x with put 1/x'
+1.: 'ln' - 'replace x with ln(x)'
+1.: 'mod' - 'replace x with mod(x)'
+1.: 'pi' - 'push pi onto the stack'
+1.: 'push' - 'push everything up the stack'
+1.: 'quit' - 'exit the calculator'
+1.: 'rcl' - 'replace x with the value in M'
+1.: 'sin' - 'replace x with sin(x)'
+1.: 'sqrt' - 'replace x with sqrt(x)'
+1.: 'sto' - 'store x into M'
+1.: 'tan' - 'replace x with tan(x)'
+1.: 'xtoy' - 'put x^y in x, removing both x and y'
+
 ## 2024-08-18
 
 I have the cnc.py class functioning nicely.  It has a set of little tests in the main() function at the bottom.  It has a _debug flag that is used also as an indentation control for the debug output.  Each time a method calls another method it uses one more than the debug flag that it received and it prefixes all of its debug output with "  " * the debug flag so that the debug output is easier to read.

@@ -25,37 +25,59 @@ help:
 	echo "DATE: " ${DATE}
 
 PYTHON_SOURCE = \
-				cnc.py \
-				cnc_shell.py
+	cnc.py \
+	cnc_shell.py \
+	debug.py \
+	hp35stack.py \
+	new_shell.py
 
 SOURCE = \
-		 ${PYTHON_SOURCE} \
-		 Makefile \
-		 README.md
+	 ${PYTHON_SOURCE} \
+	 Makefile \
+	 README.md
 
-.PHONY: clean pylint listing test lint ci
+.PHONY: clean pylint listings test lint ci
 
 FILES = \
-		${SOURCE} \
-		pylintrc \
-		version.txt
+	${SOURCE} \
+	pylintrc
 
 clean:
+	- rm *.ps *.pdf
 
 ci:
 	ci -l ${FILES}
 
 pylint:
 	- pylint cnc.py
+	- pylint cnc_shell.py
+	- pylint debug.py
+	- pylint hp35stack.py
+	- pylint new_shell.py
 
 lint: pylint
 
 test:
-	${PYTHON} cnc.py
+	${PYTHON} new_shell.py
 
-listing:
-	enscript -G cnc.py -p listing-cnc.ps
-	ps2pdf listing-cnc.ps listing-cnc.pdf
+listings:\
+	listing-cnc.pdf \
+	listing-cnc_shell.pdf \
+	listing-debug.pdf \
+	listing-hp35stack.pdf \
+	listing-Makefile.pdf \
+	listing-new_shell.pdf
+	mv $^ ~/tmp
+
+listing-%.ps: %.py
+	enscript -G $< -p $@
+
+listing-Makefile.ps: Makefile
+	enscript -G $< -p $@
+
+%.pdf: %.ps
+	ps2pdf $< $@
+	rm $<
 
 # GIT operations
 
