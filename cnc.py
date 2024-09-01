@@ -76,7 +76,7 @@ class Complex:
         # arcsin(z) = (1/i) ln( iz + sqrt(1 - z^2) )
         _t1 = self.mul(self, debug) # z^2
         _t2 = Complex(1, 0, debug).sub(_t1, debug).sqrt(debug) # sqrt(1-z^2)
-        _t2 = _t2.add(self.mul(Complex(0, 1, debug), debug), debug) # iz + sqrt(1-z^2)
+        _t2 = _t2.add(self.mul(Complex(0, 1, debug), debug), debug)
         # 1/i is -i
         result = _t2.ln(debug).mul(Complex(0, -1, debug), debug)
         debug.reset(_old)

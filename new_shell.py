@@ -48,7 +48,7 @@ def handle_arcsin(stack, debug):
     if debug.get():
         print(f"{debug.indent()}handle_arcsin()")
     _old = debug.inc()
-    stack.push(stack.pop(debug).arcsin(debug))
+    stack.push(stack.pop(debug).arcsin(debug), debug)
     debug.reset(_old)
 
 
