@@ -12,6 +12,7 @@ notation).  The command list looks like this (from the internal help)
 actually like the HP35 ... to enter a negative number you had to enter
 the positive number and then press CHS.)
 
+### CNC functions
 
 1. "-"
     * subtract x from y
