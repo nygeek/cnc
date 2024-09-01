@@ -7,7 +7,7 @@ Everything except the arcsin, arccos, arctan, and x^y functions are
 implemented as of now.  The command list looks like this (from the
 internal help)
 
-1. -
+1. "-"
     * subtract x from y
 1. /
     * divide y by x
