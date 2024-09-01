@@ -1,4 +1,4 @@
-# stibitz
+# CNC
 Complex Number Calculator in honor of the late George Stibitz
 
 ## 2024-08-28 and 2024-09-01
