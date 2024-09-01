@@ -9,10 +9,12 @@ Started 2024-08-30
 
 Copyright (C) 2024 Marc Donner
 
+$Id$
+
 """
 
 # Complex class
-import cnc
+from cnc import Complex
 from debug import Debug
 
 class HP35Stack:
@@ -20,7 +22,7 @@ class HP35Stack:
 
     def __init__(self, debug):
         _old = debug.inc()
-        _zero = cnc.Complex(0.0, 0.0, debug)
+        _zero = Complex(0.0, 0.0, debug)
         self.stack = [_zero, _zero, _zero, _zero]
         self.storcl = _zero
         debug.reset(_old)
@@ -37,7 +39,7 @@ class HP35Stack:
 
     def push(self, cn, debug):
         """ push a number on to the stack """
-        # this destroys the value in self.stack[3]
+        # this destroys the value in z (self.stack[3])
         if debug.get():
             print(f"{debug.indent()}push({cn})")
         self.stack[3] = self.stack[2]
@@ -112,11 +114,11 @@ class HP35Stack:
 
     def rcl(self, debug):
         """ rcl function - copy M to x (push the rest up) """
-        self.push(self.storcl, debug.inc())
-        debug.dec()
         if debug.get():
             print(f"{debug.indent()}rcl()")
-            print(self)
+        _old = debug.inc()
+        self.push(self.storcl, debug)
+        debug.reset(_old)
 
 
     def exch(self, debug):
@@ -135,13 +137,13 @@ def main():
     print(f"debug.get(): {debug.get()}")
     stack = HP35Stack(debug)
     print(f"Stack:\n{stack}")
-    _three = cnc.Complex(3, 3, debug)
+    _three = Complex(3, 3, debug)
     stack.push(_three, debug)
-    _two = cnc.Complex(2, 2, debug)
+    _two = Complex(2, 2, debug)
     stack.push(_two, debug)
-    _one = cnc.Complex(1, 1, debug)
+    _one = Complex(1, 1, debug)
     stack.push(_one, debug)
-    _zero = cnc.Complex(-1, -1, debug)
+    _zero = Complex(-1, -1, debug)
     stack.push(_zero, debug)
     print(f"Stack:\n{stack}")
     qq = stack.get_x(debug)

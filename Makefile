@@ -26,7 +26,6 @@ help:
 
 PYTHON_SOURCE = \
 	cnc.py \
-	cnc_shell.py \
 	debug.py \
 	hp35stack.py \
 	new_shell.py
