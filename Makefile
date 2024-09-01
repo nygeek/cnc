@@ -49,7 +49,6 @@ ci:
 
 pylint:
 	- pylint cnc.py
-	- pylint cnc_shell.py
 	- pylint debug.py
 	- pylint hp35stack.py
 	- pylint new_shell.py
@@ -61,7 +60,6 @@ test:
 
 listings:\
 	listing-cnc.pdf \
-	listing-cnc_shell.pdf \
 	listing-debug.pdf \
 	listing-hp35stack.pdf \
 	listing-Makefile.pdf \
