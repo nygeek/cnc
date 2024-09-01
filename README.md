@@ -3,37 +3,39 @@ Complex Number Calculator in honor of the late George Stibitz
 
 ## 2024-08-28 and 2024-09-01
 
-All of the HP35 functionality except 'E EX' (enter exponent for scientific
-notation).  The command list looks like this (from the internal help)
+All of the HP35 functionality except 'E EX' (enter exponent for
+scientific notation) are working. The original HP35 did all of its
+work in decimal.  The largest number it could represent was
+9.999999999E99, or 10 to the 100.
 
-The HP35 calculator had four primary registers arranged in a stack.  The
-four registers were called X, Y, Z, and T.  In addition there was a
-memory register was called M.
+The HP35 calculator had four primary registers arranged in a stack.
+The four registers were called X, Y, Z, and T.  In addition there
+was a memory register was called M.
 
 The bottom register, called X, was always displayed.
 
-Pressing enter would push the number in X up to Y, Y up to Z,
-and Z up to T.  When this was done the value in T was lost.
+Pressing enter would push the number in X up to Y, Y up to Z, and
+Z up to T.  When this was done the value in T was lost.
 
-Roll down, shown on the keyboard with the letter R and a down arrow, would
-move t to z, z to y, y to x, and x around to t.
+Roll down, shown on the keyboard with the letter R and a down arrow,
+would move t to z, z to y, y to x, and x around to t.
 
-STO would take the value in save it in M.  RCL would replace the value
-in X with the value stored in M.
+STO would take the value in save it in M.  RCL would replace the
+value in X with the value stored in M.
 
-A unary function would replace the value of X with the result of the
-function.
+A unary function would replace the value of X with the result of
+the function.
 
-A binary function would operate on X and Y.  The result would be left in X
-and the values above in the stack would be pulled down: Z to Y, T to Z.
-The value in T would remain, so after any binary function the T and Z
-registers would hold the same value.
+A binary function would operate on X and Y.  The result would be
+left in X and the values above in the stack would be pulled down:
+Z to Y, T to Z.  The value in T would remain, so after any binary
+function the T and Z registers would hold the same value.
 
 ### Known bugs
 
-1.  The number recognizer doesn't understand a '-' prefix.  (This is
-actually like the HP35 ... to enter a negative number you had to enter
-the positive number and then press CHS.)
+1.  The number recognizer doesn't understand a '-' prefix.  (This
+is actually like the HP35 ... to enter a negative number you had
+to enter the positive number and then press CHS.)
 
 ### CNC functions
 
