@@ -9,11 +9,11 @@ internal help)
 
 1. "-"
     * subtract x from y
-1. /
+1. "/"
     * divide y by x
-1. *
+1. "*"
     * multiply y by x
-1. +
+1. "+"
     * add x and y
 1. arccos
     * replace x with arccos(x)
