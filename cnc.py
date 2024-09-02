@@ -59,10 +59,13 @@ class Complex:
         if debug.get():
             print(f"{debug.indent()}arccos({self}")
         _old = debug.inc()
-        # arccos(z) = (1/i) ln( z + sqrt(1 - z^2) )
+        # arccos(z) = (1/i) ln( z + sqrt(z^2-1) )
+        # z ^ 2
         _t1 = self.mul(self, debug) # z^2
-        _t2 = Complex(1, 0, debug).sub(_t1, debug).sqrt(debug) # sqrt(1-z^2)
-        _t2 = _t2.add(self, debug) # z + sqrt(1-z^2)
+        # sqrt( z^2 - 1 )
+        _t2 = _t1.sub(Complex(1, 0, debug), debug).sqrt(debug)
+        # z + sqrt(z^2-1)
+        _t2 = _t2.add(self, debug)
         result =  _t2.ln(debug).mul(Complex(0, -1, debug), debug)
         debug.reset(_old)
         return result
@@ -73,9 +76,12 @@ class Complex:
         if debug.get():
             print(f"{debug.indent()}arcsin({self}")
         _old = debug.inc()
-        # arcsin(z) = (1/i) ln( iz + sqrt(1 - z^2) )
-        _t1 = self.mul(self, debug) # z^2
-        _t2 = Complex(1, 0, debug).sub(_t1, debug).sqrt(debug) # sqrt(1-z^2)
+        # arcsin(z) = (1/i) ln( iz + sqrt(1-z^2) )
+        # z^2
+        _t1 = self.mul(self, debug)
+        # sqrt(1-z^2)
+        _t2 = Complex(1, 0, debug).sub(_t1, debug).sqrt(debug)
+        # iz + sqrt(1-z^2)
         _t2 = _t2.add(self.mul(Complex(0, 1, debug), debug), debug)
         # 1/i is -i
         result = _t2.ln(debug).mul(Complex(0, -1, debug), debug)
@@ -99,7 +105,7 @@ class Complex:
 
     def cos(self, debug):
         """ cosine function """
-        # this depends on the identity:
+        # this depends on Euler's result:
         # cos z = ( e^iz + e^-iz ) / 2
         if debug.get():
             print(f"{debug.indent()}cos({self}")
