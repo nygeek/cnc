@@ -181,11 +181,11 @@ def handle_help(_stack, debug):
     print("Complex Calculator")
     print("")
     print("This calculator is constructed in honor of the late")
-    print("George R Stibitz and of 1972's HP35 scientific calculator.")
-    print("")
+    print("George R Stibitz and of 1972's HP35 scientific calculator.\n")
     print("Functionally it behaves like the HP35, but it operates on")
-    print("complex numbers.")
-    print("")
+    print("complex numbers.\n")
+    print("Euler's formula can be tested by typing 'i pi * exp 1 +'\n")
+    print("Operations:")
     for _button, _info in BUTTONS.items():
         print(f"Button: '{_button}' - '{_info[1]}'")
     print("")
@@ -206,6 +206,15 @@ def handle_inv(stack, debug):
         print(f"{debug.indent()}handle_inv()")
     _old = debug.inc()
     stack.push(stack.pop(debug).inv(debug), debug)
+    debug.reset(_old)
+
+
+def handle_log(stack, debug):
+    """ handle ln """
+    if debug.get():
+        print(f"{debug.indent()}handle_log()")
+    _old = debug.inc()
+    stack.push(stack.pop(debug).log(debug), debug)
     debug.reset(_old)
 
 
@@ -362,7 +371,8 @@ BUTTONS = {
     "help": [handle_help, "display documentation"],
     "i": [handle_i, "push i on to the stack"],
     "inv": [handle_inv, "replace x with put 1/x"],
-    "ln": [handle_ln, "replace x with ln(x)"],
+    "log": [handle_log, "replace x with log(x) - log base 10"],
+    "ln": [handle_ln, "replace x with ln(x) - natural log"],
     "mod": [handle_mod, "replace x with mod(x)"],
     "pi": [handle_pi, "push pi onto the stack"],
     "push": [handle_push, "push everything up the stack"],

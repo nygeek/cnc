@@ -235,6 +235,20 @@ class Complex:
         return _result
 
 
+    def log(self, debug):
+        """ Complex base 10 logarithm """
+        if debug.get():
+            print(f"{debug.indent()}log({self})")
+        _old = debug.inc()
+        _r = math.log(self.mod(debug)) / math.log(10.0)
+        _arg = math.atan2(self.i, self.r)
+        _result = Complex(float(_r), float(_arg), debug)
+        debug.reset(_old)
+        if debug.get():
+            print(f"{debug.indent()}log ==> {_result}")
+        return _result
+
+
     def ln(self, debug):
         """Complex logarithm"""
         if debug.get():
