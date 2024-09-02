@@ -186,8 +186,10 @@ def handle_help(_stack, debug):
     print("complex numbers.\n")
     print("Euler's formula can be tested by typing 'i pi * exp 1 +'\n")
     print("Operations:")
+    button_number = 1
     for _button, _info in BUTTONS.items():
-        print(f"Button: '{_button}' - '{_info[1]}'")
+        print(f"{button_number}: '{_button}' - '{_info[1]}'")
+        button_number += 1
     print("")
 
 

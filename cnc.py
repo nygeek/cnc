@@ -240,9 +240,14 @@ class Complex:
         if debug.get():
             print(f"{debug.indent()}log({self})")
         _old = debug.inc()
-        _r = math.log(self.mod(debug)) / math.log(10.0)
-        _arg = math.atan2(self.i, self.r)
-        _result = Complex(float(_r), float(_arg), debug)
+        _mod = self.mod(debug)
+        if _mod > 0:
+            _r = math.log(_mod) / math.log(10.0)
+            _arg = math.atan2(self.i, self.r)
+            _result = Complex(float(_r), float(_arg), debug)
+        else:
+            print(f"Error.  mod({self}) is zero.")
+            _result = self
         debug.reset(_old)
         if debug.get():
             print(f"{debug.indent()}log ==> {_result}")
@@ -254,9 +259,14 @@ class Complex:
         if debug.get():
             print(f"{debug.indent()}ln({self})")
         _old = debug.inc()
-        _r = math.log(self.mod(debug))
-        _arg = math.atan2(self.i, self.r)
-        _result = Complex(float(_r), float(_arg), debug)
+        _mod = self.mod(debug)
+        if _mod > 0:
+            _r = math.log(_mod)
+            _arg = math.atan2(self.i, self.r)
+            _result = Complex(float(_r), float(_arg), debug)
+        else:
+            print(f"Error.  mod({self}) is zero.")
+            _result = self
         debug.reset(_old)
         if debug.get():
             print(f"{debug.indent()}ln ==> {_result}")
