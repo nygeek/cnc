@@ -1,15 +1,11 @@
 # CNC
-Complex Number Calculator in honor of the late George Stibitz and
-the 1972 HP35 scientific calculator.
+Complex Number Calculator in honor of the late George Stibitz and the 1972 HP35 scientific calculator.
 
 ## 2024-08-28 and 2024-09-01
 
-All of the HP35 functionality except 'E EX' (enter exponent for
-scientific notation) are working. The original HP35 did all of its
-work in decimal.  The largest number it could represent was
-9.999999999E99, or 10 to the 100.  This calculator does whatever
-the underlying Python engine supports, presumably the IEEE 754
-standard that most CPUs provide these days.
+All of the HP35 functionality except 'E EX' (enter exponent for scientific notation) are working.
+
+The original HP35 did all of its work in decimal.  The largest number it could represent was 9.999999999E99, or 10 to the 100.  This calculator does whatever the underlying Python engine supports, presumably the IEEE 754 standard that most CPUs provide these days.
 
 The HP35 calculator had four primary registers arranged in a stack.
 The four registers were called X, Y, Z, and T.  In addition there
