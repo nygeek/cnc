@@ -33,6 +33,7 @@ PYTHON_SOURCE = \
 SOURCE = \
 	 ${PYTHON_SOURCE} \
 	 Makefile \
+	 .gitignore \
 	 README.md
 
 .PHONY: clean pylint listings test lint ci
