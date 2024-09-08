@@ -1,7 +1,11 @@
 # CNC
 Complex Number Calculator in honor of the late George Stibitz and the 1972 HP35 scientific calculator.
 
-## 2024-08-28 and 2024-09-01
+## 2024-08-28 and 2024-09-01 and 2024-09-08
+
+Eliminated the old cnc.py that implemented complex number machinery directly.  Switched over to the complex class provided with the Python engine.
+
+The debug machinery is implemented using the Python trace hooks, thus triggering a callout to a trace function on each method entry and exit.
 
 All of the HP35 functionality except 'E EX' (enter exponent for scientific notation) are working.
 
@@ -30,11 +34,9 @@ left in X and the values above in the stack would be pulled down:
 Z to Y, T to Z.  The value in T would remain, so after any binary
 function the T and Z registers would hold the same value.
 
-### Known bugs
+(obsolete: cnc_shell.py, cnc.py debug.py
 
-1.  The number recognizer doesn't understand a '-' prefix.  (This
-is actually like the HP35 ... to enter a negative number you had
-to enter the positive number and then press CHS.)
+### Known bugs
 
 ### CNC functions
 
