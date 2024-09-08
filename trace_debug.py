@@ -100,7 +100,7 @@ class DebugTrace:
         return self
 
 
-DEBUG = DebugTrace(True)
+DEBUG = DebugTrace(False)
 
 def main():
     """Nada for now"""
