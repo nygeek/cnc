@@ -13,19 +13,14 @@ $Id$
 
 """
 
-# Complex class
-from cnc import Complex
-from debug import Debug
-
 class HP35Stack:
     """ Class to implement the HP35 Stack and sto/rcl register """
 
-    def __init__(self, debug):
-        _old = debug.inc()
-        _zero = Complex(0.0, 0.0, debug)
+    def __init__(self):
+        _zero = complex(0.0, 0.0)
         self.stack = [_zero, _zero, _zero, _zero]
         self.storcl = _zero
-        debug.reset(_old)
+        self.count = 0
 
 
     def __str__(self):
@@ -37,131 +32,109 @@ class HP35Stack:
         return _result
 
 
-    def push(self, cn, debug):
+    def push(self, cn):
         """ push a number on to the stack """
         # this destroys the value in z (self.stack[3])
-        if debug.get():
-            print(f"{debug.indent()}push({cn})")
         self.stack[3] = self.stack[2]
         self.stack[2] = self.stack[1]
         self.stack[1] = self.stack[0]
         self.stack[0] = cn
+        return cn
 
 
-    def pop(self, debug):
+    def pop(self):
         """ pop the bottom element (x) from the stack and return it """
         # this rolls the stack down, thus replicating t into z
         _result = self.stack[0]
         self.stack[0] = self.stack[1]
         self.stack[1] = self.stack[2]
         self.stack[2] = self.stack[3]
-        if debug.get():
-            print(f"{debug.indent()}pop()")
-            print(f"{debug.indent()}pop => {_result}")
         return _result
 
 
-    def rolldown(self, debug):
+    def rolldown(self):
         """ perform the roll down function """
-        if debug.get():
-            print(f"{debug.indent()}rolldown()")
         _t = self.stack[0]
         self.stack[0] = self.stack[1]
         self.stack[1] = self.stack[2]
         self.stack[2] = self.stack[3]
         self.stack[3] = _t
 
-    def get_x(self, debug):
+    def get_count(self):
+        """ return the count """
+        return self.count
+
+    def increment_count(self):
+        self.count += 1
+        return self.count
+
+    def get_x(self):
         """ retrieve the x value from the stack """
-        if debug.get():
-            print(f"{debug.indent()}get_x()")
-            print(f"{debug.indent()}get_x => {self.stack[0]}")
         return self.stack[0]
 
 
-    def get_y(self, debug):
+    def get_y(self):
         """ retrieve the y value from the stack """
-        if debug.get():
-            print(f"{debug.indent()}get_y()")
-            print(f"{debug.indent()}get_y => {self.stack[1]}")
         return self.stack[1]
 
 
-    def get_z(self, debug):
+    def get_z(self):
         """ retrieve the x value from the stack """
-        if debug.get():
-            print(f"{debug.indent()}get_z()")
-            print(f"{debug.indent()}get_z => {self.stack[2]}")
         return self.stack[2]
 
 
-    def get_t(self, debug):
+    def get_t(self):
         """ retrieve the t value from the stack """
-        if debug.get():
-            print(f"{debug.indent()}get_t()")
-            print(f"{debug.indent()}get_t => {self.stack[3]}")
         return self.stack[3]
 
 
-    def sto(self, debug):
+    def sto(self):
         """ sto function - copy x to M """
         self.storcl = self.stack[0]
-        if debug.get():
-            print(f"{debug.indent()}sto()")
-            print(self)
         return self.stack[0]
 
 
-    def rcl(self, debug):
+    def rcl(self):
         """ rcl function - copy M to x (push the rest up) """
-        if debug.get():
-            print(f"{debug.indent()}rcl()")
-        _old = debug.inc()
-        self.push(self.storcl, debug)
-        debug.reset(_old)
+        self.push(self.storcl)
 
 
-    def exch(self, debug):
+    def exch(self):
         """ exchange the values of x and y """
         x = self.stack[0]
         self.stack[0] = self.stack[1]
         self.stack[1] = x
-        if debug.get():
-            print(f"{debug.indent()}exch()")
-            print(self)
 
 
 def main():
     """ main """
-    debug = Debug(True)
-    print(f"debug.get(): {debug.get()}")
-    stack = HP35Stack(debug)
+    stack = HP35Stack()
     print(f"Stack:\n{stack}")
-    _three = Complex(3, 3, debug)
-    stack.push(_three, debug)
-    _two = Complex(2, 2, debug)
-    stack.push(_two, debug)
-    _one = Complex(1, 1, debug)
-    stack.push(_one, debug)
-    _zero = Complex(-1, -1, debug)
-    stack.push(_zero, debug)
+    _three = Complex(3, 3)
+    stack.push(_three)
+    _two = Complex(2, 2)
+    stack.push(_two)
+    _one = Complex(1, 1)
+    stack.push(_one)
+    _zero = Complex(-1, -1)
+    stack.push(_zero)
     print(f"Stack:\n{stack}")
-    qq = stack.get_x(debug)
+    qq = stack.get_x()
     print(f"x: {qq}")
-    qq = stack.get_y(debug)
+    qq = stack.get_y()
     print(f"y: {qq}")
-    qq = stack.get_z(debug)
+    qq = stack.get_z()
     print(f"z: {qq}")
-    qq = stack.get_t(debug)
+    qq = stack.get_t()
     print(f"t: {qq}")
-    qq = stack.pop(debug)
+    qq = stack.pop()
     print(f"pop =>: {qq}")
     print(f"Stack:\n{stack}")
-    stack.push(_two, debug)
-    stack.push(_one, debug)
-    stack.sto(debug)
-    stack.exch(debug)
-    stack.rcl(debug)
+    stack.push(_two)
+    stack.push(_one)
+    stack.sto()
+    stack.exch()
+    stack.rcl()
 
 
 if __name__ == '__main__':

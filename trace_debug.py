@@ -10,66 +10,68 @@
 
 import sys
 
-
 def trace_calls_and_returns(frame, event, arg):
     """ set up hooks for calls and returns """
-    global debug
+    global DEBUG
     frame_code = frame.f_code
     frame_locals = frame.f_locals
     method_name = frame_code.co_name
     if method_name in ("__init__", "__str__"):
         return
     if event == 'call':
-        print(f"{debug.indent()}{method_name}()")
-        debug.inc()
+        print(f"{DEBUG.indent()}{method_name}()")
+        DEBUG.inc()
         return trace_calls_and_returns
     elif event == 'return':
-        print(f"{debug.indent()}{method_name} => {arg}")
-        debug.dec()
+        print(f"{DEBUG.indent()}{method_name} => {arg}")
+        DEBUG.dec()
         return
 
 
 class DebugTrace:
     """ class for debug traces """
 
-    def __init__(self, _debug):
+    def __init__(self, _flag = False, tracer = trace_calls_and_returns):
         """ Create a debug flag """
-        if _debug:
-            sys.settrace(trace_calls_and_returns)
+        self.tracer = tracer
         self.prefix_step = ".."
         self.indent_count = 0
-        self.debug = _debug
+        self.flag = _flag
+        if _flag:
+            sys.settrace(self.tracer)
 
 
     def __str__(self):
         """ render """
-        return str(self.debug)
+        return str(self.flag)
 
 
     def get(self):
         """ what is it? """
-        return self.debug
+        return self.flag
 
 
     def set(self):
         """ make it True """
-        self.debug = True
+        self.flag = True
+        self.indent_count = 0
         sys.settrace(trace_calls_and_returns)
 
     def clear(self):
         """ make it False """
-        self.debug = False
+        self.flag = False
         sys.settrace(None)
 
 
     def toggle(self):
         """ flip it """
-        if self.debug:
-            self.debug = False
+        if self.flag:
+            self.flag = False
             sys.settrace(None)
         else:
-            self.debug = True
-            sys.settrace(trace_calls_and_returns)
+            self.flag = True
+            self.indent_count = 0
+            sys.settrace(self.tracer)
         print(f"Debug is {self}")
 
 
@@ -97,26 +99,11 @@ class DebugTrace:
         self.indent_count = max(0, _reset)
         return self
 
-debug = DebugTrace(True)
 
-def b():
-    """ b """
-    print("in b()")
-    a()
-    return 17
-
-
-def a():
-    """ a """
-    print("in a()")
-    return 2.3
-
+DEBUG = DebugTrace(True)
 
 def main():
-    """Test"""
-    sys.settrace(trace_calls_and_returns)
-    a()
-    b()
+    """Nada for now"""
 
 
 if __name__ == "__main__":

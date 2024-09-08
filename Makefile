@@ -25,10 +25,9 @@ help:
 	echo "DATE: " ${DATE}
 
 PYTHON_SOURCE = \
-	cnc.py \
-	debug.py \
+	trace_debug.py \
 	hp35stack.py \
-	new_shell.py
+	cnc_shell.py
 
 SOURCE = \
 	 ${PYTHON_SOURCE} \
