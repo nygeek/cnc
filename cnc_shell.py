@@ -20,7 +20,7 @@ import sys
 from hp35stack import HP35Stack
 from trace_debug import DebugTrace
 
-APPLICATION_NAME = 'ZZ'
+APPLICATION_NAME = 'CNC'
 
 def handle_add(stack):
     """ handle + """
@@ -338,7 +338,7 @@ def cnc_shell():
     running = True
     while running:
         try:
-            line = input(f"{APPLICATION_NAME}> ")
+            line = input(f"{APPLICATION_NAME}[{stack.get_count()}]> ")
             tokens = line.split(None)
 
             for token in tokens:
