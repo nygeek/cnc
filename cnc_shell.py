@@ -370,7 +370,7 @@ def cnc_shell():
             running = False
 
 
-DEBUG = DebugTrace(True)
+DEBUG = DebugTrace(False)
 
 def main():
     """Test code and basic CLI functionality."""
