@@ -48,22 +48,20 @@ ci:
 	ci -l ${FILES}
 
 pylint:
-	- pylint cnc.py
-	- pylint debug.py
+	- pylint trace_debug.py
 	- pylint hp35stack.py
-	- pylint new_shell.py
+	- pylint cnc_shell.py
 
 lint: pylint
 
 test:
-	${PYTHON} new_shell.py
+	${PYTHON} cnc_shell.py
 
 listings:\
-	listing-cnc.pdf \
-	listing-debug.pdf \
+	listing-trace_debug.pdf \
 	listing-hp35stack.pdf \
 	listing-Makefile.pdf \
-	listing-new_shell.pdf
+	listing-cnc_shell.pdf
 	mv $^ ~/tmp
 
 listing-%.ps: %.py
