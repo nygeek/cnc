@@ -34,7 +34,7 @@ def handle_add(stack):
 def handle_arccos(stack):
     """ handle arccos """
     _x = stack.pop()
-    _result = cmath.arccos(_x)
+    _result = cmath.acos(_x)
     stack.push(_result)
     return _result
 
@@ -42,7 +42,7 @@ def handle_arccos(stack):
 def handle_arcsin(stack):
     """ handle arcsin """
     _x = stack.pop()
-    _result = cmath.arcsin(_x)
+    _result = cmath.asin(_x)
     stack.push(_result)
     return _result
 
@@ -50,7 +50,7 @@ def handle_arcsin(stack):
 def handle_arctan(stack):
     """ handle arctan """
     _x = stack.pop()
-    _result = cmath.arctan(_x)
+    _result = cmath.atan(_x)
     stack.push(_result)
     return _result
 
