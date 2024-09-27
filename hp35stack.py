@@ -1,4 +1,5 @@
 """ Implementation of the hp35 stack for the CNC calculator
+        print(f"self.stack: [{self.stack}]")
     new_shell.py.
 
     If I were properly ambitious I would make this class handle
@@ -16,28 +17,33 @@ $Id$
 class HP35Stack:
     """ Class to implement the HP35 Stack and sto/rcl register """
 
-    def __init__(self):
+    def __init__(self, depth):
         _zero = complex(0.0, 0.0)
-        self.stack = [_zero, _zero, _zero, _zero]
+        self.stack = [_zero] * depth
+        self.depth = depth
+        self.labels = [0] * depth
+        for j in range(4, depth):
+            self.labels[j] = str(j)
+        self.labels[0] = "x"
+        self.labels[1] = "y"
+        self.labels[2] = "z"
+        self.labels[3] = "t"
         self.storcl = _zero
         self.count = 0
 
 
     def __str__(self):
         _result = "M: " + str(self.storcl) + "\n\n"
-        _result += "t: " + str(self.stack[3]) + "\n"
-        _result += "z: " + str(self.stack[2]) + "\n"
-        _result += "y: " + str(self.stack[1]) + "\n"
-        _result += "x: " + str(self.stack[0])
+        for j in range(self.depth - 1, -1, -1):
+            _result += self.labels[j] + ": " + str(self.stack[j]) + "\n"
         return _result
 
 
     def push(self, cn):
         """ push a number on to the stack """
-        # this destroys the value in z (self.stack[3])
-        self.stack[3] = self.stack[2]
-        self.stack[2] = self.stack[1]
-        self.stack[1] = self.stack[0]
+        # this destroys the value at the top of the stack
+        for j in range(self.depth - 1, 0, -1):
+            self.stack[j] = self.stack[j-1]
         self.stack[0] = cn
         return cn
 
@@ -46,19 +52,17 @@ class HP35Stack:
         """ pop the bottom element (x) from the stack and return it """
         # this rolls the stack down, thus replicating t into z
         _result = self.stack[0]
-        self.stack[0] = self.stack[1]
-        self.stack[1] = self.stack[2]
-        self.stack[2] = self.stack[3]
+        for j in range(0, self.depth - 1):
+            self.stack[j] = self.stack[j+1]
         return _result
 
 
     def rolldown(self):
         """ perform the roll down function """
         _t = self.stack[0]
-        self.stack[0] = self.stack[1]
-        self.stack[1] = self.stack[2]
-        self.stack[2] = self.stack[3]
-        self.stack[3] = _t
+        for j in range(0, self.depth - 1):
+            self.stack[j] = self.stack[j+1]
+        self.stack[self.depth - 1] = _t
 
     def get_count(self):
         """ return the count """
@@ -70,6 +74,12 @@ class HP35Stack:
 
     def get_x(self):
         """ retrieve the x value from the stack """
+        return self.stack[0]
+
+
+    def set_x(self, new_x):
+        """ retrieve the x value from the stack """
+        self.stack[0] = new_x
         return self.stack[0]
 
 
@@ -108,7 +118,7 @@ class HP35Stack:
 
 def main():
     """ main """
-    stack = HP35Stack()
+    stack = HP35Stack(8)
     print(f"Stack:\n{stack}")
     _three = Complex(3, 3)
     stack.push(_three)

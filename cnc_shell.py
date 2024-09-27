@@ -116,6 +116,14 @@ def handle_e(stack):
     return cmath.e
 
 
+def handle_eex(stack):
+    """ accept an exponent for X """
+    exponent = int(stack.pop().real)
+    mantissa = stack.get_x()
+    stack.set_x(mantissa * (10 ** exponent))
+    return stack.get_x()
+
+
 def handle_enter(stack):
     """ handle enter """
     print(stack)
@@ -307,6 +315,7 @@ BUTTONS = {
     "cos": [handle_cos, "replace x with cos(x)"],
     "debug": [handle_debug, "toggle the debug flag"],
     "e": [handle_e, "push e onto the stack"],
+    "eex": [handle_eex, "multiply X by 10 ** <enter>"],
     "enter": [handle_enter, "display the stack"],
     "exch": [handle_exch, "exchange x and y"],
     "exp": [handle_exp, "replace x with e^x"],
@@ -333,7 +342,7 @@ def cnc_shell():
     """
 
     # initialize the calculator storage
-    stack = HP35Stack()
+    stack = HP35Stack(8)
 
     running = True
     while running:
