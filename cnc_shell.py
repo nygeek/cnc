@@ -74,11 +74,8 @@ def handle_chs(stack):
 def handle_clr(stack):
     """ handle clr """
     _zero = complex(0.0, 0.0)
-    stack.push(_zero) # t
-    stack.push(_zero) # z
-    stack.push(_zero) # y
-    stack.push(_zero) # x
-    stack.sto()
+    for j in range(0, stack.depth):
+        stack.push(_zero)
     return _zero
 
 
