@@ -24,10 +24,10 @@ class HP35Stack:
         self.labels = [0] * depth
         for j in range(4, depth):
             self.labels[j] = str(j)
-        self.labels[0] = "x"
-        self.labels[1] = "y"
-        self.labels[2] = "z"
-        self.labels[3] = "t"
+        self.labels[0] = "X"
+        self.labels[1] = "Y"
+        self.labels[2] = "Z"
+        self.labels[3] = "T"
         self.storcl = _zero
         self.count = 0
 

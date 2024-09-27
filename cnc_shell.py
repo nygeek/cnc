@@ -315,7 +315,7 @@ BUTTONS = {
     "cos": [handle_cos, "replace x with cos(x)"],
     "debug": [handle_debug, "toggle the debug flag"],
     "e": [handle_e, "push e onto the stack"],
-    "eex": [handle_eex, "multiply X by 10 ** <enter>"],
+    "eex": [handle_eex, "push y * (10^x) onto the stack"],
     "enter": [handle_enter, "display the stack"],
     "exch": [handle_exch, "exchange x and y"],
     "exp": [handle_exp, "replace x with e^x"],
