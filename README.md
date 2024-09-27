@@ -1,27 +1,26 @@
 # CNC
+
 Complex Number Calculator in honor of the late George Stibitz and the 1972 HP35 scientific calculator.
 
-## 2024-08-28 and 2024-09-01 and 2024-09-08
+## 2024-08-28 and 2024-09-01 and 2024-09-08 and 2024-09-27
 
 Eliminated the old cnc.py that implemented complex number machinery directly.  Switched over to the complex class provided with the Python engine.
 
 The debug machinery is implemented using the Python trace hooks, thus triggering a callout to a trace function on each method entry and exit.
 
-All of the HP35 functionality except 'E EX' (enter exponent for scientific notation) are working.
-
 The original HP35 did all of its work in decimal.  The largest number it could represent was 9.999999999E99, or 10 to the 100.  This calculator does whatever the underlying Python engine supports, presumably the IEEE 754 standard that most CPUs provide these days.
 
-The HP35 calculator had four primary registers arranged in a stack.
-The four registers were called X, Y, Z, and T.  In addition there
-was a memory register called M.
+The HP35 calculator had four primary registers arranged in a stack.  The four registers were called X, Y, Z, and T.  In addition there was a memory register called M.  Our implementation of the HP35 stack has eight elements rather than four.  The bottom four are shown as X, Y, Z, and T, but the rest are simply shown by their index.
 
-The bottom register, called X, was always displayed.
+The bottom register, called X, was always displayed.  We display the entire
+stack and the M register every time the enter key is pressed.
 
 Pressing enter would push the number in X up to Y, Y up to Z, and
 Z up to T.  When this was done the value in T was lost.
 
 Roll down, shown on the keyboard with the letter R and a down arrow,
-would move t to z, z to y, y to x, and x around to t.
+would move t to z, z to y, y to x, and x around to t.  We call this
+'down'.
 
 STO would take the value in save it in M.  RCL would replace the
 value in X with the value stored in M.
@@ -33,8 +32,6 @@ A binary function would operate on X and Y.  The result would be
 left in X and the values above in the stack would be pulled down:
 Z to Y, T to Z.  The value in T would remain, so after any binary
 function the T and Z registers would hold the same value.
-
-(obsolete: cnc_shell.py, cnc.py debug.py
 
 ### Known bugs
 
@@ -68,6 +65,8 @@ function the T and Z registers would hold the same value.
     * toggle the debug flag
 1. e
     * push e onto the stack
+1. eex
+    * push 10^x * y onto the stack (Enter Exponent)
 1. enter
     * display the stack
 1. exch
