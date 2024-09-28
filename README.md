@@ -51,7 +51,7 @@ a number 10^(int(X.real)) in X and then multiplies Y by that number.
 So, entering a number in scientific notation, say 6.022E23 would
 be something like this:
 
-   6.0022 23 eex *
+   6.022 23 eex
 
 ### Known bugs
 
