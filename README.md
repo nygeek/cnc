@@ -143,8 +143,8 @@ the calculator back in the day.
 [George Stibitz](https://en.wikipedia.org/wiki/George_Stibitz/)
 built a complex number calculator at Bell Labs (CNC) in 1939.  He
 used a modified teletype to send commands over telegraph lines to
-the CNC in New York.  This was arguably the first telecomputing
-application.
+the CNC in New York for a demonstration at Dartmouth College in
+1940.  This the first telecomputing application.
 
 ---
 ## Metadata
