@@ -9,7 +9,6 @@ The debug machinery is implemented using the Python trace hooks,
 thus triggering a callout to a trace function on each method entry
 and exit.
 
-
 The HP35 calculator had four primary registers arranged in a stack.
 The four registers were called X, Y, Z, and T.  In addition there
 was a memory register called M.  Our implementation of the HP35
@@ -139,12 +138,13 @@ the calculator back in the day.
 1. xtoy
     * put x^y in x, removing both x and y
 
-### Why call this calculator **stibitz**? ###
+### George Stibitz
 
 [George Stibitz](https://en.wikipedia.org/wiki/George_Stibitz/)
 built a complex number calculator at Bell Labs (CNC) in 1939.  He
 used a modified teletype to send commands over telegraph lines to
-the CNC in New York.
+the CNC in New York for a demonstration at Dartmouth College in
+1940.  This the first telecomputing application.
 
 ---
 ## Metadata
