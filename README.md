@@ -66,6 +66,8 @@ the calculator back in the day.
 
 ### CNC functions
 
+1. "?"
+    * display this documentation
 1. "-"
     * subtract x from y
 1. "/"
@@ -108,6 +110,8 @@ the calculator back in the day.
     * display documentation
 1. i
     * push i on to the stack
+1. imag
+    * push the imaginary part of x onto the stack
 1. inv
     * replace x with put 1/x
 1. ln
@@ -120,6 +124,8 @@ the calculator back in the day.
     * push everything up the stack
 1. quit
     * exit the calculator
+1. real
+    * push the real part of x onto the stack
 1. rcl
     * replace x with the value in M
 1. sin
