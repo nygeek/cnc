@@ -175,6 +175,13 @@ def handle_i(stack):
     return _result
 
 
+def handle_imag(stack):
+    """ handle imag """
+    _result = stack.pop().imag
+    stack.push(_result)
+    return _result
+
+
 def handle_inv(stack):
     """ handle inv """
     _x = stack.pop()
@@ -242,6 +249,13 @@ def handle_quit(stack):
     sys.exit()
 
 
+def handle_real(stack):
+    """ handle real """
+    _result = stack.pop().real
+    stack.push(_result)
+    return _result
+
+
 def handle_rcl(stack):
     """ handle rcl """
     stack.rcl()
@@ -298,6 +312,7 @@ def handle_xtoy(stack):
 
 
 BUTTONS = {
+    "?": [handle_help, "display documentation"],
     "-": [handle_sub, "subtract x from y"],
     "/": [handle_div, "divide y by x"],
     "*": [handle_mul, "multiply y by x"],
@@ -319,6 +334,7 @@ BUTTONS = {
     "down": [handle_down, "t to z, z to y, y to x, x to z"],
     "help": [handle_help, "display documentation"],
     "i": [handle_i, "push i on to the stack"],
+    "imag": [handle_imag, "put imag(x) into x"],
     "inv": [handle_inv, "replace x with put 1/x"],
     "log": [handle_log, "replace x with log(x) - log base 10"],
     "ln": [handle_ln, "replace x with ln(x) - natural log"],
@@ -326,6 +342,7 @@ BUTTONS = {
     "pi": [handle_pi, "push pi onto the stack"],
     "push": [handle_push, "push everything up the stack"],
     "quit": [handle_quit, "exit the calculator"],
+    "real": [handle_real, "put real(x) into x"],
     "rcl": [handle_rcl, "replace x with the value in M"],
     "sin": [handle_sin, "replace x with sin(x)"],
     "sqrt": [handle_sqrt, "replace x with sqrt(x)"],
