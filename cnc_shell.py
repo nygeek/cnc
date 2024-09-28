@@ -66,7 +66,7 @@ def handle_arg(stack):
 def handle_chs(stack):
     """ handle chs - change sign of x """
     _x = stack.pop()
-    _result = -x
+    _result = -_x
     stack.push(_result)
     return _result
 
@@ -74,7 +74,7 @@ def handle_chs(stack):
 def handle_clr(stack):
     """ handle clr """
     _zero = complex(0.0, 0.0)
-    for j in range(0, stack.depth):
+    for _ in range(0, stack.depth):
         stack.push(_zero)
     return _zero
 
@@ -96,7 +96,6 @@ def handle_cos(stack):
 
 def handle_debug(_stack):
     """ handle debug """
-    global DEBUG
     DEBUG.toggle()
     return DEBUG.flag
 
@@ -378,7 +377,7 @@ def cnc_shell():
                     stack.increment_count()
                     handle_number(_number, stack)
                     continue
-                except:
+                except ValueError:
                     # it's not a number
                     print("not a number.")
 

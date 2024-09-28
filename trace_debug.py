@@ -12,20 +12,21 @@ import sys
 
 def trace_calls_and_returns(frame, event, arg):
     """ set up hooks for calls and returns """
-    global DEBUG
+    # global DEBUG
     frame_code = frame.f_code
-    frame_locals = frame.f_locals
+    # frame_locals = frame.f_locals
     method_name = frame_code.co_name
     if method_name in ("__init__", "__str__"):
-        return
+        return None
     if event == 'call':
         print(f"{DEBUG.indent()}{method_name}()")
         DEBUG.inc()
         return trace_calls_and_returns
-    elif event == 'return':
+    if event == 'return':
         print(f"{DEBUG.indent()}{method_name} => {arg}")
         DEBUG.dec()
-        return
+        return None
+    return None
 
 
 class DebugTrace:

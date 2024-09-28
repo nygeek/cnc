@@ -4,7 +4,7 @@
 
     If I were properly ambitious I would make this class handle
     a stack of arbitrary type, but I will be lazy and make it
-    handle only the CNC class Complex
+    handle only the cmath type complex.
 
 Started 2024-08-30
 
@@ -69,6 +69,7 @@ class HP35Stack:
         return self.count
 
     def increment_count(self):
+        """ increment the count of stack interactions """
         self.count += 1
         return self.count
 
@@ -120,13 +121,13 @@ def main():
     """ main """
     stack = HP35Stack(8)
     print(f"Stack:\n{stack}")
-    _three = Complex(3, 3)
+    _three = complex(3, 3)
     stack.push(_three)
-    _two = Complex(2, 2)
+    _two = complex(2, 2)
     stack.push(_two)
-    _one = Complex(1, 1)
+    _one = complex(1, 1)
     stack.push(_one)
-    _zero = Complex(-1, -1)
+    _zero = complex(-1, -1)
     stack.push(_zero)
     print(f"Stack:\n{stack}")
     qq = stack.get_x()
