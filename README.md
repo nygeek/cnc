@@ -1,25 +1,31 @@
 # CNC
 
-Complex Number Calculator in honor of the late George Stibitz and the 1972 HP35 scientific calculator.
+Complex Number Calculator in honor of the late George Stibitz and
+the 1972 HP35 scientific calculator.
 
-## 2024-08-28 and 2024-09-01 and 2024-09-08 and 2024-09-27
+## About
 
-Eliminated the old cnc.py that implemented complex number machinery directly.  Switched over to the complex class provided with the Python engine.
+The debug machinery is implemented using the Python trace hooks,
+thus triggering a callout to a trace function on each method entry
+and exit.
 
-The debug machinery is implemented using the Python trace hooks, thus triggering a callout to a trace function on each method entry and exit.
 
-The original HP35 did all of its work in decimal.  The largest number it could represent was 9.999999999E99, or 10 to the 100.  This calculator does whatever the underlying Python engine supports, presumably the IEEE 754 standard that most CPUs provide these days.
+The HP35 calculator had four primary registers arranged in a stack.
+The four registers were called X, Y, Z, and T.  In addition there
+was a memory register called M.  Our implementation of the HP35
+stack has eight elements rather than four.  The bottom four are
+shown as X, Y, Z, and T, but the rest are simply shown by their
+index.
 
-The HP35 calculator had four primary registers arranged in a stack.  The four registers were called X, Y, Z, and T.  In addition there was a memory register called M.  Our implementation of the HP35 stack has eight elements rather than four.  The bottom four are shown as X, Y, Z, and T, but the rest are simply shown by their index.
-
-The bottom register, called X, was always displayed.  We display the entire
-stack and the M register every time the enter key is pressed.
+The bottom register, called X, was always displayed.  We display
+the entire stack and the M register every time the enter key is
+pressed.
 
 Pressing enter would push the number in X up to Y, Y up to Z, and
 Z up to T.  When this was done the value in T was lost.
 
 Roll down, shown on the keyboard with the letter R and a down arrow,
-would move t to z, z to y, y to x, and x around to t.  We call this
+would move T to Z, Z to Y, Y to X, and X around to T.  We call this
 'down'.
 
 STO would take the value in save it in M.  RCL would replace the
@@ -31,9 +37,32 @@ the function.
 A binary function would operate on X and Y.  The result would be
 left in X and the values above in the stack would be pulled down:
 Z to Y, T to Z.  The value in T would remain, so after any binary
-function the T and Z registers would hold the same value.
+operation the T and Z registers would hold the same value.
+
+The EEX (Enter Exponent) button on the original HP35 operated
+completely outside the stack logic of the calculator.  If you were
+in the midst of entering a number you could press EEX button and
+could type digits into the exponent of the scientific notation
+representation of the value being entered into X.  You could set
+the sign of the exponent if you chose.  Our EEX implementation,
+however, uses the integer part of the real number in X and creates
+a number 10^(int(X.real)) in X and then multiplies Y by that number.
+
+So, entering a number in scientific notation, say 6.022E23 would
+be something like this:
+
+   6.0022 23 eex *
 
 ### Known bugs
+
+The original HP35 did all of its work in decimal.  The largest
+number it could represent was 9.999999999E99, or 10 to the 100.
+This calculator does whatever the underlying Python engine supports,
+presumably the IEEE 754 standard that most CPUs provide these days.
+
+As a consequence the base ten logarithm of the overflow value was
+100, a behavior that enabled a number of entertaining tricks with
+the calculator back in the day.
 
 ### CNC functions
 
@@ -104,76 +133,12 @@ function the T and Z registers would hold the same value.
 1. xtoy
     * put x^y in x, removing both x and y
 
-## 2024-08-18
+### Why call this calculator **stibitz**? ###
 
-I have the cnc.py class functioning nicely.  It has a set of little tests in the main() function at the bottom.  It has a _debug flag that is used also as an indentation control for the debug output.  Each time a method calls another method it uses one more than the debug flag that it received and it prefixes all of its debug output with "  " * the debug flag so that the debug output is easier to read.
-
-### Method list as of today:
-
-#### Complex results
-1. add(self, addend):
-   * return self + addend
-1. sub(self, diminuend):
-   * return self - diminuend
-1. mul(self, multiplicand):
-   * return self * multiplicand
-1. conj(self):
-   * return complex conjugate of self (a+bi) => (a-bi)
-1. inv(self):
-   * return 1/self
-1. div(self, divisor):
-   * return self / divisor
-1. exp(self):
-   * return e^self
-1. log(self)
-   * return log(self)
-#### Real results
-1. mod_squared(self):
-   * return self.dot(self)
-1. mod(self):
-   * return length(self) == **[self.dot(self)]**
-1. real(self):
-   * return realpart of self
-1. imag(self):
-   * return imagpart of self
-1. dot(self, z):
-   * return self.mul(z.conj()).real()
-   
-## 2024-08-17
-
-Why call this calculator **stibitz**?
-
-[George Stibitz](https://en.wikipedia.org/wiki/George_Stibitz/) built a complex number calculator at Bell Labs (CNC) in 1939.  He used a modified teletype to send commands over telegraph lines to the CNC in New York.
-
-Here are some design notes:
-
-First of all, the complex calculator will operate purely on complex numbers (a + bi).
-
-The first set of operators will be:
-
-*x* in **C**: *(a + bi)*
-
-*y* in **C**: *(d + ei)*
-
-*a, b, d, e* in **R**
-
-* complex(a, b) ⇒ x == (a + bi)
-* sum(x, y) ⇒ (x+y) == (a + d, (b + e)i)
-* diff(x, y) ⇒ (x - y) == (a - d, (b - e)i)
-* mul(x, y) ⇒ (x * y) == (ad - be, (ae + bd)i)
-* inv(x) ⇒ (1 / x) == a / (a^2 + b^2) - bi / (a^2 + b^2)
-* div(x, y) ⇒ x * inv(y)
-* conj(x) ⇒ (a, -bi)
-* mod(x) ⇒ sqrt(mul(x, conj(x))) [in R]
-* real(x) ⇒ (a, 0)
-* img(x) ⇒ (0, b)
-
-Question: should real(x) and img(x) return elements of R instead of C?
-
-Python design pattern: each operator will return element of C so
-that we can chain the results.
-
-So: complex(real(x), img(x)) == x
+[George Stibitz](https://en.wikipedia.org/wiki/George_Stibitz/)
+built a complex number calculator at Bell Labs (CNC) in 1939.  He
+used a modified teletype to send commands over telegraph lines to
+the CNC in New York.
 
 ---
 ## Metadata
