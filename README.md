@@ -9,7 +9,6 @@ The debug machinery is implemented using the Python trace hooks,
 thus triggering a callout to a trace function on each method entry
 and exit.
 
-
 The HP35 calculator had four primary registers arranged in a stack.
 The four registers were called X, Y, Z, and T.  In addition there
 was a memory register called M.  Our implementation of the HP35
