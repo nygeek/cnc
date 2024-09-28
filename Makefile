@@ -14,7 +14,7 @@ endif
 # Python version
 PYTHON := python3
 # PYTHON := python2
-PYLINT := python3 -m pylint
+PYLINT := ${PYTHON} -m pylint
 
 DIRS = "."
 DIRPATH = "~/projects/p/python/stibitz/"
