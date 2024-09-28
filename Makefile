@@ -14,6 +14,7 @@ endif
 # Python version
 PYTHON := python3
 # PYTHON := python2
+PYLINT := python3 -m pylint
 
 DIRS = "."
 DIRPATH = "~/projects/p/python/stibitz/"
@@ -48,9 +49,9 @@ ci:
 	ci -l ${FILES}
 
 pylint:
-	- pylint trace_debug.py
-	- pylint hp35stack.py
-	- pylint cnc_shell.py
+	- ${PYLINT} trace_debug.py
+	- ${PYLINT} hp35stack.py
+	- ${PYLINT} cnc_shell.py
 
 lint: pylint
 
