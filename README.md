@@ -138,12 +138,13 @@ the calculator back in the day.
 1. xtoy
     * put x^y in x, removing both x and y
 
-### Why call this calculator **stibitz**? ###
+### George Stibitz
 
 [George Stibitz](https://en.wikipedia.org/wiki/George_Stibitz/)
 built a complex number calculator at Bell Labs (CNC) in 1939.  He
 used a modified teletype to send commands over telegraph lines to
-the CNC in New York.
+the CNC in New York.  This was arguably the first telecomputing
+application.
 
 ---
 ## Metadata
