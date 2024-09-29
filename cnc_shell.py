@@ -82,7 +82,7 @@ def handle_clr(stack):
 def handle_clx(stack):
     """ handle clx """
     _zero = complex(0.0, 0.0)
-    stack.push(_zero)
+    stack.set_x(_zero)
     return _zero
 
 
