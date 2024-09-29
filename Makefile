@@ -87,14 +87,10 @@ status: ${FORCE}
 commit: .gitattributes
 	git commit ${FILES}
 	git push -u origin main
-	git describe --abbrev=4 --dirty --always --tags > version.txt
 
 # This brings the local copy into sync with the remote (main)
 pull: .gitattributes
 	git pull origin main
-
-version.txt: ${FORCE}
-	git describe --abbrev=4 --dirty --always --tags > version.txt
 
 log: .gitattributes
 	git log --pretty=oneline
