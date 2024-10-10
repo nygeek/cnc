@@ -71,6 +71,19 @@ def handle_chs(stack):
     return _result
 
 
+def handle_set_clamp(stack):
+    """ set the clamp value """
+    stack.clamp_threshold = stack.pop()
+    return stack.clamp_threshold
+
+
+def handle_get_clamp(stack):
+    """ push the clamp value onto the stack """
+    stack.push(0+0j)
+    stack.set_x(stack.clamp_threshold) # this avoids the clamp applied to push
+    # Do not say "hack!"
+
+
 def handle_clr(stack):
     """ handle clr """
     _zero = complex(0.0, 0.0)
@@ -321,16 +334,18 @@ BUTTONS = {
     "arctan": [handle_arctan, "replace x with arctan(x)"],
     "arg": [handle_arg, "replace x with arg(x)"],
     "chs": [handle_chs, "reverse the sign of x"],
+    "clamp": [handle_set_clamp, "set the clamp threshold."],
     "clr": [handle_clr, "clear the stack"],
     "clx": [handle_clx, "clear the x register"],
     "cos": [handle_cos, "replace x with cos(x)"],
     "debug": [handle_debug, "toggle the debug flag"],
+    "down": [handle_down, "t to z, z to y, y to x, x to z"],
     "e": [handle_e, "push e onto the stack"],
     "eex": [handle_eex, "push y * (10^x) onto the stack"],
     "enter": [handle_enter, "display the stack"],
     "exch": [handle_exch, "exchange x and y"],
     "exp": [handle_exp, "replace x with e^x"],
-    "down": [handle_down, "t to z, z to y, y to x, x to z"],
+    "getclamp": [handle_get_clamp, "push the clamp value."],
     "help": [handle_help, "display documentation"],
     "i": [handle_i, "push i on to the stack"],
     "imag": [handle_imag, "put imag(x) into x"],

@@ -17,10 +17,11 @@ $Id$
 class HP35Stack:
     """ Class to implement the HP35 Stack and sto/rcl register """
 
-    def __init__(self, depth):
+    def __init__(self, depth=4, _clamp=1e-10 ):
         _zero = complex(0.0, 0.0)
         self.stack = [_zero] * depth
         self.depth = depth
+        self.clamp_threshold = _clamp
         self.labels = [0] * depth
         for j in range(4, depth):
             self.labels[j] = str(j)
@@ -44,8 +45,19 @@ class HP35Stack:
         # this destroys the value at the top of the stack
         for j in range(self.depth - 1, 0, -1):
             self.stack[j] = self.stack[j-1]
-        self.stack[0] = cn
+        self.stack[0] = self.clamp(cn)
         return cn
+
+
+    def clamp(self, z):
+        """ clamp real and imag parts of z to within clamp of ints """
+        r = z.real
+        i = z.imag
+        if abs(r-round(r)) < self.clamp_threshold:
+            r = round(r)
+        if abs(i-round(i)) < self.clamp_threshold:
+            i = round(i)
+        return complex(r, i)
 
 
     def pop(self):
@@ -64,14 +76,17 @@ class HP35Stack:
             self.stack[j] = self.stack[j+1]
         self.stack[self.depth - 1] = _t
 
+
     def get_count(self):
         """ return the count """
         return self.count
+
 
     def increment_count(self):
         """ increment the count of stack interactions """
         self.count += 1
         return self.count
+
 
     def get_x(self):
         """ retrieve the x value from the stack """
