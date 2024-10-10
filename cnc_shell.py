@@ -80,7 +80,8 @@ def handle_set_clamp(stack):
 def handle_get_clamp(stack):
     """ push the clamp value onto the stack """
     stack.push(0+0j)
-    stack.set_x(stack.clamp_threshold) # this avoids the clamp applied to push
+    # this avoids applying clamp to the clamp threshold :-)
+    stack.set_x(stack.clamp_threshold)
     # Do not say "hack!"
 
 
@@ -157,7 +158,12 @@ def handle_div(stack):
     """ handle / """
     _x = stack.pop()
     _y = stack.pop()
-    _result = _y / _x
+    if abs(_x) != 0:
+        _result = _y / _x
+    else:
+        stack.push(_y)
+        _result = _x
+        print("divide by zero.")
     stack.push(_result)
     return _result
 
