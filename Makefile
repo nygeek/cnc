@@ -1,5 +1,5 @@
 #
-# Stibitz project Makefile
+# CNC project Makefile
 #
 # $Id$
 
@@ -17,7 +17,7 @@ PYTHON := python3
 PYLINT := ${PYTHON} -m pylint
 
 DIRS = "."
-DIRPATH = "~/projects/p/python/stibitz/"
+DIRPATH = "~/projects/p/python/cnc/"
 
 .PHONY: help
 help:
