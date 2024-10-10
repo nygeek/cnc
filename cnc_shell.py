@@ -197,7 +197,11 @@ def handle_imag(stack):
 def handle_inv(stack):
     """ handle inv """
     _x = stack.pop()
-    _result = 1 / _x
+    if abs(_x) != 0:
+        _result = 1 / _x
+    else:
+        print("divide by zero.")
+        _result = _x
     stack.push(_result)
     return _result
 

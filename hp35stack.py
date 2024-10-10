@@ -51,8 +51,8 @@ class HP35Stack:
 
     def clamp(self, z):
         """ clamp real and imag parts of z to within clamp of ints """
-        r = z.real
-        i = z.imag
+        r = complex(z).real
+        i = complex(z).imag
         if abs(r-round(r)) < self.clamp_threshold:
             r = round(r)
         if abs(i-round(i)) < self.clamp_threshold:

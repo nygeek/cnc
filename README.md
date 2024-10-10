@@ -85,6 +85,8 @@ the calculator back in the day.
     * replace x with arg(x)
 1. chs
     * reverse the sign of x
+1. clamp
+    * set the clamp threshold to the value in x
 1. clr
     * clear the stack
 1. clx
@@ -105,6 +107,8 @@ the calculator back in the day.
     * replace x with e^x
 1. down
     * t to z, z to y, y to x, x to z
+1. getclamp
+    * push the clamp threshold onto the stack
 1. help
     * display documentation
 1. i
