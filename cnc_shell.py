@@ -40,55 +40,6 @@ def handle_unary(stack, lambdafunc):
     return _result
 
 
-def handle_add(stack):
-    """ handle + """
-    _x = stack.pop()
-    _y = stack.pop()
-    _result = _x + _y
-    stack.push(_result)
-    return _result
-
-
-def handle_arccos(stack):
-    """ handle arccos """
-    _x = stack.pop()
-    _result = cmath.acos(_x)
-    stack.push(_result)
-    return _result
-
-
-def handle_arcsin(stack):
-    """ handle arcsin """
-    _x = stack.pop()
-    _result = cmath.asin(_x)
-    stack.push(_result)
-    return _result
-
-
-def handle_arctan(stack):
-    """ handle arctan """
-    _x = stack.pop()
-    _result = cmath.atan(_x)
-    stack.push(_result)
-    return _result
-
-
-def handle_arg(stack):
-    """ handle arg """
-    _x = stack.pop()
-    _result = cmath.phase(_x)
-    stack.push(_result)
-    return _result
-
-
-def handle_chs(stack):
-    """ handle chs - change sign of x """
-    _x = stack.pop()
-    _result = -_x
-    stack.push(_result)
-    return _result
-
-
 def handle_set_clamp(stack, _func):
     """ set the clamp value """
     stack.clamp_threshold = stack.pop()
@@ -118,14 +69,6 @@ def handle_clx(stack):
     return _zero
 
 
-def handle_cos(stack):
-    """ handle cos """
-    _x = stack.pop()
-    _result = cmath.cos(_x)
-    stack.push(_result)
-    return _result
-
-
 def handle_debug(_stack, _func):
     """ handle debug """
     DEBUG.toggle()
@@ -144,14 +87,6 @@ def handle_e(stack, _func):
     return cmath.e
 
 
-def handle_eex(stack):
-    """ accept an exponent for X """
-    exponent = int(stack.pop().real)
-    mantissa = stack.get_x()
-    stack.set_x(mantissa * (10 ** exponent))
-    return stack.get_x()
-
-
 def handle_enter(stack, _func):
     """ handle enter """
     print(stack)
@@ -162,28 +97,6 @@ def handle_exch(stack, _func):
     """ handle exch """
     stack.exch()
     return stack.get_x()
-
-
-def handle_exp(stack):
-    """ handle exp """
-    _x = stack.pop()
-    _result = cmath.exp(_x)
-    stack.push(_result)
-    return _result
-
-
-def handle_div(stack):
-    """ handle / """
-    _x = stack.pop()
-    _y = stack.pop()
-    if abs(_x) != 0:
-        _result = _y / _x
-    else:
-        stack.push(_y)
-        _result = _x
-        print("divide by zero.")
-    stack.push(_result)
-    return _result
 
 
 def handle_help(_stack, _func):
@@ -207,58 +120,6 @@ def handle_help(_stack, _func):
 def handle_i(stack, _func):
     """ handle i """
     _result = complex(0, 1)
-    stack.push(_result)
-    return _result
-
-
-def handle_imag(stack):
-    """ handle imag """
-    _result = stack.pop().imag
-    stack.push(_result)
-    return _result
-
-
-def handle_inv(stack):
-    """ handle inv """
-    _x = stack.pop()
-    if abs(_x) != 0:
-        _result = 1 / _x
-    else:
-        print("divide by zero.")
-        _result = _x
-    stack.push(_result)
-    return _result
-
-
-def handle_log(stack):
-    """ handle ln """
-    _x = stack.pop()
-    _result = cmath.log10(_x)
-    stack.push(_result)
-    return _result
-
-
-def handle_ln(stack):
-    """ handle ln """
-    _x = stack.pop()
-    _result = cmath.log(_x)
-    stack.push(_result)
-    return _result
-
-
-def handle_mod(stack):
-    """ handle mod """
-    _x = stack.pop()
-    _result = abs(_x)
-    stack.push(_result)
-    return _result
-
-
-def handle_mul(stack):
-    """ handle + """
-    _x = stack.pop()
-    _y = stack.pop()
-    _result = _x * _y
     stack.push(_result)
     return _result
 
@@ -289,13 +150,6 @@ def handle_quit(stack, _func):
     sys.exit()
 
 
-def handle_real(stack):
-    """ handle real """
-    _result = stack.pop().real
-    stack.push(_result)
-    return _result
-
-
 def handle_rcl(stack, _func):
     """ handle rcl """
     stack.rcl()
@@ -303,51 +157,9 @@ def handle_rcl(stack, _func):
     return _result
 
 
-def handle_sin(stack):
-    """ handle sin """
-    _x = stack.pop()
-    _result = cmath.sin(_x)
-    stack.push(_result)
-    return _result
-
-
 def handle_sto(stack):
     """ handle sto """
     _result = stack.sto()
-    return _result
-
-
-def handle_sqrt(stack):
-    """ handle sqrt """
-    _x = stack.pop()
-    _result = cmath.sqrt(_x)
-    stack.push(_result)
-    return _result
-
-
-def handle_sub(stack):
-    """ handle + """
-    _x = stack.pop()
-    _y = stack.pop()
-    _result = _y - _x
-    stack.push(_result)
-    return _result
-
-
-def handle_tan(stack):
-    """ handle tan """
-    _x = stack.pop()
-    _result = cmath.tan(_x)
-    stack.push(_result)
-    return _result
-
-
-def handle_xtoy(stack):
-    """ handle x to the power of y """
-    _x = stack.pop()
-    _y = stack.pop()
-    _result = cmath.exp(cmath.log(_x) * _y)
-    stack.push(_result)
     return _result
 
 

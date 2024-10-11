@@ -19,11 +19,11 @@ import cmath
 class HP35Stack:
     """ Class to implement the HP35 Stack and sto/rcl register """
 
-    def __init__(self, depth=4, _clamp=1e-10 ):
+    def __init__(self, depth=4, _rel_to=1e-10 ):
         _zero = complex(0.0, 0.0)
         self.stack = [_zero] * depth
         self.depth = depth
-        self.clamp_threshold = _clamp
+        self.rel_to = _rel_to
         self.labels = [0] * depth
         for j in range(4, depth):
             self.labels[j] = str(j)
@@ -47,19 +47,20 @@ class HP35Stack:
         # this destroys the value at the top of the stack
         for j in range(self.depth - 1, 0, -1):
             self.stack[j] = self.stack[j-1]
-        self.stack[0] = complex(self.clamp(cn))
-        return cn
+        _result = self.clamp(cn)
+        self.set_x(_result)
+        return _result
 
 
     def clamp(self, z):
         """ clamp real and imag parts of z to within clamp of ints """
         r = complex(z).real
         i = complex(z).imag
-        if round(r) != 0 and cmath.isclose(
-                r, round(r), rel_tol=self.clamp_threshold):
+        if round(abs(z)) != 0 and cmath.isclose(
+                r, round(r), rel_tol=self.rel_to):
             r = round(r)
-        if round(i) != 0 and cmath.isclose(
-                i, round(i), rel_tol=self.clamp_threshold):
+        if round(abs(z)) != 0 and cmath.isclose(
+                i, round(i), rel_tol=self.rel_to):
             i = round(i)
         return complex(r, i)
 
