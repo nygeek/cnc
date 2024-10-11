@@ -14,7 +14,8 @@ endif
 # Python version
 PYTHON := python3
 # PYTHON := python2
-PYLINT := ${PYTHON} -m pylint
+# PYLINT := ${PYTHON} -m pylint
+PYLINT := pylint
 
 DIRS = "."
 DIRPATH = "~/projects/p/python/cnc/"

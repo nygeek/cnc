@@ -22,6 +22,24 @@ from trace_debug import DebugTrace
 
 APPLICATION_NAME = 'CNC'
 
+
+def handle_binary(stack, lambdafunc):
+    """ handle binary operator """
+    _x = stack.pop()
+    _y = stack.pop()
+    _result = lambdafunc(_x, _y)
+    stack.push(_result)
+    return _result
+
+
+def handle_unary(stack, lambdafunc):
+    """ handle unary operator """
+    _x = stack.pop()
+    _result = lambdafunc(_x)
+    stack.push(_result)
+    return _result
+
+
 def handle_add(stack):
     """ handle + """
     _x = stack.pop()
@@ -71,13 +89,13 @@ def handle_chs(stack):
     return _result
 
 
-def handle_set_clamp(stack):
+def handle_set_clamp(stack, _func):
     """ set the clamp value """
     stack.clamp_threshold = stack.pop()
     return stack.clamp_threshold
 
 
-def handle_get_clamp(stack):
+def handle_get_clamp(stack, _func):
     """ push the clamp value onto the stack """
     stack.push(0+0j)
     # this avoids applying clamp to the clamp threshold :-)
@@ -85,7 +103,7 @@ def handle_get_clamp(stack):
     # Do not say "hack!"
 
 
-def handle_clr(stack):
+def handle_clr(stack, _func):
     """ handle clr """
     _zero = complex(0.0, 0.0)
     for _ in range(0, stack.depth):
@@ -108,19 +126,19 @@ def handle_cos(stack):
     return _result
 
 
-def handle_debug(_stack):
+def handle_debug(_stack, _func):
     """ handle debug """
     DEBUG.toggle()
     return DEBUG.flag
 
 
-def handle_down(stack):
+def handle_down(stack, _func):
     """ handle roll down - rotate the stack downward """
     stack.rolldown()
     return stack.get_x()
 
 
-def handle_e(stack):
+def handle_e(stack, _func):
     """ put the constant e on the stack """
     stack.push(cmath.e)
     return cmath.e
@@ -134,13 +152,13 @@ def handle_eex(stack):
     return stack.get_x()
 
 
-def handle_enter(stack):
+def handle_enter(stack, _func):
     """ handle enter """
     print(stack)
     return stack.get_x()
 
 
-def handle_exch(stack):
+def handle_exch(stack, _func):
     """ handle exch """
     stack.exch()
     return stack.get_x()
@@ -168,7 +186,7 @@ def handle_div(stack):
     return _result
 
 
-def handle_help(_stack):
+def handle_help(_stack, _func):
     """ handle help """
     print("Complex Calculator")
     print("")
@@ -186,7 +204,7 @@ def handle_help(_stack):
     return 100
 
 
-def handle_i(stack):
+def handle_i(stack, _func):
     """ handle i """
     _result = complex(0, 1)
     stack.push(_result)
@@ -251,21 +269,21 @@ def handle_number(number, stack):
     return number
 
 
-def handle_pi(stack):
+def handle_pi(stack, _func):
     """ handle the pi button """
     _result = cmath.pi
     stack.push(_result)
     return _result
 
 
-def handle_push(stack):
+def handle_push(stack, _func):
     """ handle push (x -> y, and the rest up) """
     _result = stack.get_x()
     stack.push(_result)
     return _result
 
 
-def handle_quit(stack):
+def handle_quit(stack, _func):
     """ handle quit """
     print(f"count: {stack.get_count()}")
     sys.exit()
@@ -278,7 +296,7 @@ def handle_real(stack):
     return _result
 
 
-def handle_rcl(stack):
+def handle_rcl(stack, _func):
     """ handle rcl """
     stack.rcl()
     _result = stack.get_x()
@@ -333,47 +351,76 @@ def handle_xtoy(stack):
     return _result
 
 
+def no_op(_x):
+    """ no_op """
+    return _x
+
+
 BUTTONS = {
-    "?": [handle_help, "display documentation"],
-    "-": [handle_sub, "subtract x from y"],
-    "/": [handle_div, "divide y by x"],
-    "*": [handle_mul, "multiply y by x"],
-    "+": [handle_add, "add x and y"],
-    "arccos": [handle_arccos, "replace x with arccos(x)"],
-    "arcsin": [handle_arcsin, "replace x with arcsin(x)"],
-    "arctan": [handle_arctan, "replace x with arctan(x)"],
-    "arg": [handle_arg, "replace x with arg(x)"],
-    "chs": [handle_chs, "reverse the sign of x"],
-    "clamp": [handle_set_clamp, "set the clamp threshold."],
-    "clr": [handle_clr, "clear the stack"],
-    "clx": [handle_clx, "clear the x register"],
-    "cos": [handle_cos, "replace x with cos(x)"],
-    "debug": [handle_debug, "toggle the debug flag"],
-    "down": [handle_down, "t to z, z to y, y to x, x to z"],
-    "e": [handle_e, "push e onto the stack"],
-    "eex": [handle_eex, "push y * (10^x) onto the stack"],
-    "enter": [handle_enter, "display the stack"],
-    "exch": [handle_exch, "exchange x and y"],
-    "exp": [handle_exp, "replace x with e^x"],
-    "getclamp": [handle_get_clamp, "push the clamp value."],
-    "help": [handle_help, "display documentation"],
-    "i": [handle_i, "push i on to the stack"],
-    "imag": [handle_imag, "put imag(x) into x"],
-    "inv": [handle_inv, "replace x with put 1/x"],
-    "log": [handle_log, "replace x with log(x) - log base 10"],
-    "ln": [handle_ln, "replace x with ln(x) - natural log"],
-    "mod": [handle_mod, "replace x with mod(x)"],
-    "pi": [handle_pi, "push pi onto the stack"],
-    "push": [handle_push, "push everything up the stack"],
-    "quit": [handle_quit, "exit the calculator"],
-    "real": [handle_real, "put real(x) into x"],
-    "rcl": [handle_rcl, "replace x with the value in M"],
-    "sin": [handle_sin, "replace x with sin(x)"],
-    "sqrt": [handle_sqrt, "replace x with sqrt(x)"],
-    "sto": [handle_sto, "store x into M"],
-    "tan": [handle_tan, "replace x with tan(x)"],
-    "xtoy": [handle_xtoy, "put x^y in x, removing both x and y"],
+    "?": [handle_help, "display documentation", no_op],
+    "-": [handle_binary, "subtract x from y",
+          lambda _x, _y: _y - _x],
+    "/": [handle_binary, "divide y by x",
+          lambda _x, _y: _y / _x],
+    "*": [handle_binary, "multiply y by x",
+          lambda _x, _y: _x * _y],
+    "+": [handle_binary, "add x and y",
+          lambda _x, _y: _x + _y],
+    "arccos": [handle_unary, "replace x with arccos(x)",
+            cmath.acos],
+            # lambda _x: cmath.acos(_x)],
+    "arcsin": [handle_unary, "replace x with arcsin(x)",
+            cmath.asin],
+    "arctan": [handle_unary, "replace x with arctan(x)",
+               cmath.atan],
+    "arg": [handle_unary, "replace x with arg(x)",
+            cmath.phase],
+    "chs": [handle_unary, "reverse the sign of x",
+            lambda _x: -(_x)],
+    "clr": [handle_clr, "clear the stack", no_op],
+    "clx": [handle_clx, "clear the x register", no_op],
+    "cos": [handle_unary, "replace x with cos(x)",
+            cmath.cos],
+    "debug": [handle_debug, "toggle the debug flag", no_op],
+    "down": [handle_down, "t to z, z to y, y to x, x to z", no_op],
+    "e": [handle_e, "push e onto the stack", no_op],
+    "eex": [handle_binary, "push y * (10^x) onto the stack",
+            lambda _x, _y: _y * (10 ** int(_x.real))],
+    "enter": [handle_enter, "display the stack", no_op],
+    "exch": [handle_exch, "exchange x and y", no_op],
+    "exp": [handle_unary, "replace x with e^x",
+            cmath.exp],
+    "getclamp": [handle_get_clamp, "push the clamp value.", no_op],
+    "help": [handle_help, "display documentation", no_op],
+    "i": [handle_i, "push i on to the stack", no_op],
+    "imag": [handle_unary, "put imag(x) into x",
+             lambda _x: _x.imag],
+    "inv": [handle_unary, "replace x with put 1/x",
+            lambda _x: 1 / _x if _x != 0 else _x],
+    "log": [handle_unary, "replace x with log(x) - log base 10",
+            cmath.log10],
+    "ln": [handle_unary, "replace x with ln(x) - natural log",
+           cmath.log],
+    "mod": [handle_unary, "replace x with mod(x)",
+            abs],
+    "pi": [handle_pi, "push pi onto the stack", no_op],
+    "push": [handle_push, "push everything up the stack", no_op],
+    "quit": [handle_quit, "exit the calculator", no_op],
+    "real": [handle_unary, "put real(x) into x",
+             lambda _x: _x.real],
+    "rcl": [handle_rcl, "replace x with the value in M", no_op],
+    "setclamp": [handle_set_clamp, "set the clamp threshold.", no_op],
+    "sin": [handle_unary, "replace x with sin(x)",
+            cmath.sin],
+    "sqrt": [handle_unary, "replace x with sqrt(x)",
+             cmath.sqrt],
+    "sto": [handle_sto, "store x into M", no_op],
+    "tan": [handle_unary, "replace x with tan(x)",
+            cmath.tan],
+    "xtoy": [handle_binary, "put x^y in x, removing both x and y",
+             lambda _x, _y: cmath.exp(cmath.log(_x) * _y)],
     }
+
 
 def cnc_shell():
     """ The shell supporting interactive use of the Complex machinery.
@@ -393,7 +440,7 @@ def cnc_shell():
                 # is it a button?
                 if token in BUTTONS:
                     stack.increment_count()
-                    (BUTTONS[token][0](stack))
+                    (BUTTONS[token][0](stack, BUTTONS[token][2]))
                     continue
 
                 # is it a number?
@@ -409,7 +456,7 @@ def cnc_shell():
                 print(f"input '{token}' unrecognized.")
 
             # Nothing left
-            handle_enter(stack)
+            handle_enter(stack, no_op)
 
 
         except EOFError:
