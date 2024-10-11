@@ -19,11 +19,11 @@ import cmath
 class HP35Stack:
     """ Class to implement the HP35 Stack and sto/rcl register """
 
-    def __init__(self, depth=4, _rel_to=1e-10 ):
+    def __init__(self, depth=4, _rel_tol=1e-10 ):
         _zero = complex(0.0, 0.0)
         self.stack = [_zero] * depth
         self.depth = depth
-        self.rel_to = _rel_to
+        self.rel_tol = _rel_tol
         self.labels = [0] * depth
         for j in range(4, depth):
             self.labels[j] = str(j)
@@ -54,15 +54,23 @@ class HP35Stack:
 
     def clamp(self, z):
         """ clamp real and imag parts of z to within clamp of ints """
-        r = complex(z).real
-        i = complex(z).imag
-        if round(abs(z)) != 0 and cmath.isclose(
-                r, round(r), rel_tol=self.rel_to):
-            r = round(r)
-        if round(abs(z)) != 0 and cmath.isclose(
-                i, round(i), rel_tol=self.rel_to):
-            i = round(i)
-        return complex(r, i)
+        _r = complex(z).real
+        _i = complex(z).imag
+        print(f"z: {z} _r: {_r} _i: {_i}")
+        print(f"abs(z): {abs(z)}")
+        print(f"round(_r): {round(_r)} round(_i): {round(_i)}")
+        if round(abs(z)) != 0:
+            if cmath.isclose(_r, round(_r),
+                             rel_tol=self.rel_tol,
+                             abs_tol=self.rel_tol):
+                print(f"rounding _r: {_r}")
+                _r = round(_r)
+            if cmath.isclose(_i, round(_i),
+                             rel_tol=self.rel_tol,
+                             abs_tol=self.rel_tol):
+                print(f"rounding _i: {_i}")
+                _i = round(_i)
+        return complex(_r, _i)
 
 
     def pop(self):

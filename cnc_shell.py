@@ -23,19 +23,19 @@ from trace_debug import DebugTrace
 APPLICATION_NAME = 'CNC'
 
 
-def handle_binary(stack, lambdafunc):
+def handle_binary(stack, _func):
     """ handle binary operator """
     _x = stack.pop()
     _y = stack.pop()
-    _result = lambdafunc(_x, _y)
+    _result = _func(_x, _y)
     stack.push(_result)
     return _result
 
 
-def handle_unary(stack, lambdafunc):
+def handle_unary(stack, _func):
     """ handle unary operator """
     _x = stack.pop()
-    _result = lambdafunc(_x)
+    _result = _func(_x)
     stack.push(_result)
     return _result
 
@@ -62,7 +62,7 @@ def handle_clr(stack, _func):
     return _zero
 
 
-def handle_clx(stack):
+def handle_clx(stack, _func):
     """ handle clx """
     _zero = complex(0.0, 0.0)
     stack.set_x(_zero)
@@ -173,7 +173,7 @@ BUTTONS = {
     "-": [handle_binary, "subtract x from y",
           lambda _x, _y: _y - _x],
     "/": [handle_binary, "divide y by x",
-          lambda _x, _y: _y / _x],
+          lambda _x, _y: _y / _x if _x != 0 else _y],
     "*": [handle_binary, "multiply y by x",
           lambda _x, _y: _x * _y],
     "+": [handle_binary, "add x and y",
@@ -276,7 +276,7 @@ def cnc_shell():
             running = False
 
 
-DEBUG = DebugTrace(False)
+DEBUG = DebugTrace(True)
 
 def main():
     """Test code and basic CLI functionality."""
