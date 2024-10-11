@@ -52,6 +52,17 @@ be something like this:
 
    6.022 23 eex
 
+Because we enter and examine our numbers in decimal but do our
+calculations in binary, there are often small differences resulting
+from the conversion process.  To manage that we have added the
+"clamp" machinery.  When pushing a number onto the stack we check
+the real and imaginary parts against the closest integer.  If the
+difference between a component and a nearby integer is smaller than
+the clamp value, which defaults to 1E-10, then we round that component
+to the closest integer.  You may examine the clamp value with the
+getclamp button and set it using the setclamp button.  Note that we
+do *not* clamp numbers to zero, just non-zero integers.
+
 ### Known bugs
 
 The original HP35 did all of its work in decimal.  The largest
@@ -85,8 +96,6 @@ the calculator back in the day.
     * replace x with arg(x)
 1. chs
     * reverse the sign of x
-1. clamp
-    * set the clamp threshold to the value in x
 1. clr
     * clear the stack
 1. clx
@@ -131,6 +140,8 @@ the calculator back in the day.
     * push the real part of x onto the stack
 1. rcl
     * replace x with the value in M
+1. setclamp
+    * set the clamp threshold to the value in x
 1. sin
     * replace x with sin(x)
 1. sqrt
