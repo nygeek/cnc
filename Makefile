@@ -34,6 +34,7 @@ PYTHON_SOURCE = \
 SOURCE = \
 	 ${PYTHON_SOURCE} \
 	 cnc-35.html \
+	 cnc.sh \
 	 Makefile \
 	 .gitignore \
 	 README.md
@@ -44,11 +45,12 @@ FILES = \
 	${SOURCE} \
 	pylintrc
 
+install: cnc.sh
+	cp cnc.sh ${HOME}/bin/cnc
+	chmod +x ${HOME}/bin/cnc
+
 clean:
 	- rm *.ps *.pdf
-
-ci:
-	ci -l ${FILES}
 
 pylint:
 	- ${PYLINT} trace_debug.py

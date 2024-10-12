@@ -283,7 +283,6 @@ DEBUG = DebugTrace(False)
 def main():
     """Test code and basic CLI functionality."""
     program_name = sys.argv[0]
-    print(f"program_name: {program_name}")
     parser = argparse.ArgumentParser(
             description='CNC complex number calculator.')
     parser.add_argument('-d', '--debug', dest='debug',
