@@ -34,7 +34,6 @@ PYTHON_SOURCE = \
 SOURCE = \
 	 ${PYTHON_SOURCE} \
 	 cnc-35.html \
-	 cnc.sh \
 	 Makefile \
 	 .gitignore \
 	 README.md
