@@ -42,15 +42,15 @@ def handle_unary(stack, _func):
 
 def handle_set_clamp(stack, _func):
     """ set the clamp value """
-    stack.clamp_threshold = stack.pop()
-    return stack.clamp_threshold
+    stack.rel_tol = stack.pop()
+    return stack.rel_tol
 
 
 def handle_get_clamp(stack, _func):
     """ push the clamp value onto the stack """
     stack.push(0+0j)
     # this avoids applying clamp to the clamp threshold :-)
-    stack.set_x(stack.clamp_threshold)
+    stack.set_x(stack.rel_tol)
     # Do not say "hack!"
 
 
