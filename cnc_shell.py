@@ -42,7 +42,7 @@ def handle_unary(stack, _func):
 
 def handle_set_clamp(stack, _func):
     """ set the clamp value """
-    stack.rel_tol = stack.pop()
+    stack.rel_tol = stack.pop().real
     return stack.rel_tol
 
 
