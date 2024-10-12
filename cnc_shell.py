@@ -298,11 +298,9 @@ def main():
     depth = 8
     if args.depth != None and args.depth >= 4:
         depth = args.depth
-    print(f"depth: {depth}")
     clamp = 1e-10
     if args.clamp != None:
         clamp = args.clamp
-    print(f"clamp: {clamp}")
     cnc_shell(depth, clamp)
 
 
