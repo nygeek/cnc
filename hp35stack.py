@@ -56,20 +56,16 @@ class HP35Stack:
         """ clamp real and imag parts of z to within clamp of ints """
         _r = complex(z).real
         _i = complex(z).imag
-        print(f"z: {z} _r: {_r} _i: {_i}")
-        print(f"abs(z): {abs(z)}")
-        print(f"round(_r): {round(_r)} round(_i): {round(_i)}")
-        if round(abs(z)) != 0:
-            if cmath.isclose(_r, round(_r),
-                             rel_tol=self.rel_tol,
-                             abs_tol=self.rel_tol):
-                print(f"rounding _r: {_r}")
-                _r = round(_r)
-            if cmath.isclose(_i, round(_i),
-                             rel_tol=self.rel_tol,
-                             abs_tol=self.rel_tol):
-                print(f"rounding _i: {_i}")
-                _i = round(_i)
+        if self.rel_tol != 0:
+            if round(abs(z)) != 0:
+                if cmath.isclose(_r, round(_r),
+                                 rel_tol=self.rel_tol,
+                                 abs_tol=self.rel_tol):
+                    _r = round(_r)
+                if cmath.isclose(_i, round(_i),
+                                 rel_tol=self.rel_tol,
+                                 abs_tol=self.rel_tol):
+                    _i = round(_i)
         return complex(_r, _i)
 
 

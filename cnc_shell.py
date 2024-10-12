@@ -157,7 +157,7 @@ def handle_rcl(stack, _func):
     return _result
 
 
-def handle_sto(stack):
+def handle_sto(stack, _func):
     """ handle sto """
     _result = stack.sto()
     return _result
