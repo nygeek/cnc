@@ -17,14 +17,14 @@ PYTHON := python3
 # PYLINT := ${PYTHON} -m pylint
 PYLINT := pylint
 
-DIRS = "."
-DIRPATH = "~/projects/p/python/cnc/"
+HERE := $(shell pwd)
 
 .PHONY: help
 help:
 	cat Makefile
 	echo "OS: " ${OS}
 	echo "DATE: " ${DATE}
+	echo "HERE: " ${HERE}
 
 PYTHON_SOURCE = \
 	trace_debug.py \
@@ -45,7 +45,9 @@ FILES = \
 	${SOURCE} \
 	pylintrc
 
-install: cnc.sh
+.phony: install
+install: 
+	echo 'python3' ${HERE}/cnc_shell.py '$*' > cnc.sh
 	cp cnc.sh ${HOME}/bin/cnc
 	chmod +x ${HOME}/bin/cnc
 
