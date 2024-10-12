@@ -13,6 +13,7 @@ $Id$
 """
 
 # libraries
+import argparse
 import cmath
 import sys
 
@@ -235,12 +236,12 @@ BUTTONS = {
     }
 
 
-def cnc_shell():
+def cnc_shell(depth=8):
     """ The shell supporting interactive use of the Complex machinery.
     """
 
     # initialize the calculator storage
-    stack = HP35Stack(8)
+    stack = HP35Stack(depth)
 
     running = True
     while running:
@@ -281,7 +282,22 @@ DEBUG = DebugTrace(False)
 
 def main():
     """Test code and basic CLI functionality."""
-    cnc_shell()
+    program_name = sys.argv[0]
+    print(f"program_name: {program_name}")
+    parser = argparse.ArgumentParser(
+            description='CNC complex number calculator.')
+    parser.add_argument('-d', '--debug', dest='debug',
+                        action='store_true',
+                        help="Turn on debugging.")
+    parser.add_argument('--depth', type=int, dest='depth',
+                        help="Set stack depth.")
+    args = parser.parse_args()
+    if args.debug:
+        DEBUG.set()
+    depth = 8
+    if args.depth != None and args.depth >= 4:
+        depth = args.depth
+    cnc_shell(depth)
 
 
 if __name__ == "__main__":
