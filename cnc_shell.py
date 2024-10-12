@@ -236,12 +236,12 @@ BUTTONS = {
     }
 
 
-def cnc_shell(depth=8):
+def cnc_shell(depth=8, clamp=1e-10):
     """ The shell supporting interactive use of the Complex machinery.
     """
 
     # initialize the calculator storage
-    stack = HP35Stack(depth)
+    stack = HP35Stack(depth, rel_tol=clamp)
 
     running = True
     while running:
@@ -290,13 +290,20 @@ def main():
                         help="Turn on debugging.")
     parser.add_argument('--depth', type=int, dest='depth',
                         help="Set stack depth.")
+    parser.add_argument('--clamp', type=float, dest='clamp',
+                        help="Set the clamp threshold.")
     args = parser.parse_args()
     if args.debug:
         DEBUG.set()
     depth = 8
     if args.depth != None and args.depth >= 4:
         depth = args.depth
-    cnc_shell(depth)
+    print(f"depth: {depth}")
+    clamp = 1e-10
+    if args.clamp != None:
+        clamp = args.clamp
+    print(f"clamp: {clamp}")
+    cnc_shell(depth, clamp)
 
 
 if __name__ == "__main__":

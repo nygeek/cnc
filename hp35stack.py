@@ -19,11 +19,11 @@ import cmath
 class HP35Stack:
     """ Class to implement the HP35 Stack and sto/rcl register """
 
-    def __init__(self, depth=4, _rel_tol=1e-10 ):
+    def __init__(self, depth=4, rel_tol=1e-10 ):
         _zero = complex(0.0, 0.0)
         self.stack = [_zero] * depth
         self.depth = depth
-        self.rel_tol = _rel_tol
+        self.rel_tol = rel_tol
         self.labels = [0] * depth
         for j in range(4, depth):
             self.labels[j] = str(j)
