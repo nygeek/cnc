@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 
-""" Implementation of the interactive CNC Shell using the Complex class
-    implemented in cnc.py.  Also the HP35Stack class implemented in
-    hp35stack.py.  Also the Debug class implemented in debug.py
+""" Implementation of the interactive CNC Shell using the
+    HP35Stack class implemented in hp35stack.py and the Debug
+    class implemented in debug.py
 
 Started 2024-08-22 by Marc Donner
 
@@ -107,7 +107,8 @@ def handle_help(_stack, _func):
     print("George R Stibitz and of 1972's HP35 scientific calculator.\n")
     print("Functionally it behaves like the HP35, but it operates on")
     print("complex numbers.\n")
-    print("Euler's formula can be tested by typing 'i pi * exp 1 +'\n")
+    print("Euler's formula can be demonstrated by typing")
+    print("    'i pi * exp 1 +'\n")
     print("Operations:")
     button_number = 1
     for _button, _info in BUTTONS.items():

@@ -108,21 +108,6 @@ class HP35Stack:
         return self.stack[0]
 
 
-    def get_y(self):
-        """ retrieve the y value from the stack """
-        return self.stack[1]
-
-
-    def get_z(self):
-        """ retrieve the x value from the stack """
-        return self.stack[2]
-
-
-    def get_t(self):
-        """ retrieve the t value from the stack """
-        return self.stack[3]
-
-
     def sto(self):
         """ sto function - copy x to M """
         self.storcl = self.stack[0]
@@ -156,12 +141,6 @@ def main():
     print(f"Stack:\n{stack}")
     qq = stack.get_x()
     print(f"x: {qq}")
-    qq = stack.get_y()
-    print(f"y: {qq}")
-    qq = stack.get_z()
-    print(f"z: {qq}")
-    qq = stack.get_t()
-    print(f"t: {qq}")
     qq = stack.pop()
     print(f"pop =>: {qq}")
     print(f"Stack:\n{stack}")
