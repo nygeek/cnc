@@ -1,1 +1,1 @@
-python3 /home/marc_donner/cnc/cnc_shell.py 
+python3 /home/marc_donner/cnc/cnc_shell.py $*
