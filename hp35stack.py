@@ -97,11 +97,6 @@ class HP35Stack:
         return self.count
 
 
-    def get_x(self):
-        """ retrieve the x value from the stack """
-        return self.stack[0]
-
-
     def set_x(self, new_x):
         """ retrieve the x value from the stack """
         self.stack[0] = new_x
@@ -139,7 +134,7 @@ def main():
     _zero = complex(-1, -1)
     stack.push(_zero)
     print(f"Stack:\n{stack}")
-    qq = stack.get_x()
+    qq = stack.stack[0]
     print(f"x: {qq}")
     qq = stack.pop()
     print(f"pop =>: {qq}")

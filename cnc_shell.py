@@ -79,7 +79,7 @@ def handle_debug(_stack, _func):
 def handle_down(stack, _func):
     """ handle roll down - rotate the stack downward """
     stack.rolldown()
-    return stack.get_x()
+    return stack.stack[0]
 
 
 def handle_e(stack, _func):
@@ -91,13 +91,13 @@ def handle_e(stack, _func):
 def handle_enter(stack, _func):
     """ handle enter """
     print(stack)
-    return stack.get_x()
+    return stack.stack[0]
 
 
 def handle_exch(stack, _func):
     """ handle exch """
     stack.exch()
-    return stack.get_x()
+    return stack.stack[0]
 
 
 def handle_help(_stack, _func):
@@ -141,7 +141,7 @@ def handle_pi(stack, _func):
 
 def handle_push(stack, _func):
     """ handle push (x -> y, and the rest up) """
-    _result = stack.get_x()
+    _result = stack.stack[0]
     stack.push(_result)
     return _result
 
@@ -155,7 +155,7 @@ def handle_quit(stack, _func):
 def handle_rcl(stack, _func):
     """ handle rcl """
     stack.rcl()
-    _result = stack.get_x()
+    _result = stack.stack[0]
     return _result
 
 
