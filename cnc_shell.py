@@ -181,6 +181,16 @@ def no_op(_x):
 
 # -------------- BUTTONS - Dispatch Table -------------- #
 
+"""
+For this dictionary the key is the button name.  In the CLI
+one simply types the button name to invoke it.
+
+The value is a list with three elements:
+[0] is the function to be invoked to handle the button.
+[1] is the description of the button for the help documentation
+[2] is the function to be passed to handle_unary() or handle_binary()
+"""
+
 BUTTONS = {
     "?": [handle_help, "display documentation", no_op],
     "-": [handle_binary, "subtract x from y",
