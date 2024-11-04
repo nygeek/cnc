@@ -33,7 +33,7 @@ PYTHON_SOURCE = \
 
 SOURCE = \
 	 ${PYTHON_SOURCE} \
-	 cnc-35.html \
+	 templates/cnc-35.html \
 	 Makefile \
 	 .gitignore \
 	 README.md

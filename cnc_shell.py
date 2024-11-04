@@ -12,17 +12,26 @@ $Id$
 
 """
 
-# libraries
+# --------- Python Libraries --------- #
 import argparse
 import cmath
 import sys
 
-# CNC libraries
+# ---------- CNC libraries ---------- #
 from hp35stack import HP35Stack
 from trace_debug import DebugTrace
 
 APPLICATION_NAME = 'CNC'
 
+# ----------- Functions ----------- #
+
+"""
+The two functions handle_binary() and handle_unary() are
+generic mechanisms for most of the CNC calculator functionality.
+They replace a raft of handle_xxx() machinery that I was able
+to rip out.  They are dispatched using function references stored
+in the BUTTONS dictionary.
+"""
 
 def handle_binary(stack, _func):
     """ handle binary operator """
@@ -40,6 +49,7 @@ def handle_unary(stack, _func):
     stack.push(_result)
     return _result
 
+# From here on down the functions are listed in alphabetical order #
 
 def handle_set_clamp(stack, _func):
     """ set the clamp value """
@@ -108,7 +118,7 @@ def handle_help(_stack, _func):
     print("George R Stibitz and of 1972's HP35 scientific calculator.\n")
     print("Functionally it behaves like the HP35, but it operates on")
     print("complex numbers.\n")
-    print("Euler's formula can be demonstrated by typing")
+    print("Euler's identity can be demonstrated by typing")
     print("    'i pi * exp 1 +'\n")
     print("Operations:")
     button_number = 1
@@ -120,7 +130,7 @@ def handle_help(_stack, _func):
 
 
 def handle_i(stack, _func):
-    """ handle i """
+    """ handle i (also handles j) """
     _result = complex(0, 1)
     stack.push(_result)
     return _result
@@ -169,6 +179,7 @@ def no_op(_x):
     """ no_op """
     return _x
 
+# -------------- BUTTONS - Dispatch Table -------------- #
 
 BUTTONS = {
     "?": [handle_help, "display documentation", no_op],
@@ -237,7 +248,7 @@ BUTTONS = {
 
 
 def cnc_shell(depth=8, clamp=1e-10):
-    """ The shell supporting interactive use of the Complex machinery.
+    """ The calculator's CLI.
     """
 
     # initialize the calculator storage
@@ -281,7 +292,7 @@ def cnc_shell(depth=8, clamp=1e-10):
 DEBUG = DebugTrace(False)
 
 def main():
-    """Test code and basic CLI functionality."""
+    """ Handle command line arguments and then call the shell. """
     program_name = sys.argv[0]
     parser = argparse.ArgumentParser(
             description='CNC complex number calculator.')
