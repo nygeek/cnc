@@ -21,7 +21,10 @@ import sys
 from hp35stack import HP35Stack
 from trace_debug import DebugTrace
 
+# ---------- Variables ---------- #
+
 APPLICATION_NAME = 'CNC'
+DEBUG = DebugTrace(False)
 
 # ----------- Functions ----------- #
 
@@ -181,15 +184,13 @@ def no_op(_x):
 
 # -------------- BUTTONS - Dispatch Table -------------- #
 
-"""
-For this dictionary the key is the button name.  In the CLI
-one simply types the button name to invoke it.
-
-The value is a list with three elements:
-[0] is the function to be invoked to handle the button.
-[1] is the description of the button for the help documentation
-[2] is the function to be passed to handle_unary() or handle_binary()
-"""
+# For this dictionary the key is the button name.  In the CLI
+# one simply types the button name to invoke it.
+#
+# The value is a list with three elements:
+# [0] is the function to be invoked to handle the button.
+# [1] is the description of the button for the help documentation
+# [2] is the function to be passed to handle_unary() or handle_binary()
 
 BUTTONS = {
     "?": [handle_help, "display documentation", no_op],
@@ -299,11 +300,9 @@ def cnc_shell(depth=8, clamp=1e-10):
             running = False
 
 
-DEBUG = DebugTrace(False)
-
 def main():
     """ Handle command line arguments and then call the shell. """
-    program_name = sys.argv[0]
+    # program_name = sys.argv[0]
     parser = argparse.ArgumentParser(
             description='CNC complex number calculator.')
     parser.add_argument('-d', '--debug', dest='debug',
@@ -317,10 +316,10 @@ def main():
     if args.debug:
         DEBUG.set()
     depth = 8
-    if args.depth != None and args.depth >= 4:
+    if args.depth is not None and args.depth >= 4:
         depth = args.depth
     clamp = 1e-10
-    if args.clamp != None:
+    if args.clamp is not None:
         clamp = args.clamp
     cnc_shell(depth, clamp)
 

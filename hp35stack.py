@@ -1,6 +1,4 @@
 """ Implementation of the hp35 stack for the CNC calculator
-        print(f"self.stack: [{self.stack}]")
-    new_shell.py.
 
     If I were properly ambitious I would make this class handle
     a stack of arbitrary type, but I will be lazy and make it
@@ -14,7 +12,11 @@ $Id$
 
 """
 
+# --------- Python Libraries --------- #
+
 import cmath
+
+# --------- HP 35 Stack Class --------- #
 
 class HP35Stack:
     """ Class to implement the HP35 Stack and sto/rcl register """
@@ -122,7 +124,7 @@ class HP35Stack:
 
 
 def main():
-    """ main """
+    """ Simple unit tests. """
     stack = HP35Stack(8)
     print(f"Stack:\n{stack}")
     _three = complex(3, 3)
