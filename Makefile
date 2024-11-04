@@ -49,6 +49,7 @@ install:
 	echo 'python3' ${HERE}/cnc_shell.py '$$*' > cnc.sh
 	cp cnc.sh ${HOME}/bin/cnc
 	chmod +x ${HOME}/bin/cnc
+	- rm cnc.sh
 
 clean:
 	- rm *.ps *.pdf
