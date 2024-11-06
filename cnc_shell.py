@@ -34,6 +34,11 @@ generic mechanisms for most of the CNC calculator functionality.
 They replace a raft of handle_xxx() machinery that I was able
 to rip out.  They are dispatched using function references stored
 in the BUTTONS dictionary.
+
+As of 2024-11-06 six buttons are bound to handle_binary
+As of 2024-11-06 sixteen buttons are bound to handle_unary
+As of 2024-11-06 seventeen buttons are bound to sixteen unique handlers
+("help" and "?" are synonyms)
 """
 
 def handle_binary(stack, _func):
