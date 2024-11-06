@@ -8,7 +8,14 @@
 
 """
 
+# ----- Python Library ----- #
 import sys
+
+# ----- Function ----- #
+
+# Notice that this function and the variable DEBUG are
+# required for the functioning of the DebugTrace class.
+# As such, this module is inherently not well structured.
 
 def trace_calls_and_returns(frame, event, arg):
     """ set up hooks for calls and returns """
@@ -28,6 +35,7 @@ def trace_calls_and_returns(frame, event, arg):
         return None
     return None
 
+# ----- Class ----- #
 
 class DebugTrace:
     """ class for debug traces """
@@ -100,12 +108,6 @@ class DebugTrace:
         self.indent_count = max(0, _reset)
         return self
 
+# ----- Variable -----#
 
 DEBUG = DebugTrace(False)
-
-def main():
-    """Nada for now"""
-
-
-if __name__ == "__main__":
-    main()

@@ -2,7 +2,7 @@
 
 """ Implementation of the interactive CNC Shell using the
     HP35Stack class implemented in hp35stack.py and the Debug
-    class implemented in debug.py
+    class implemented in trace_debug.py
 
 Started 2024-08-22 by Marc Donner
 
@@ -12,21 +12,21 @@ $Id$
 
 """
 
-# --------- Python Libraries --------- #
+# ----- Python Libraries ----- #
 import argparse
 import cmath
 import sys
 
-# ---------- CNC libraries ---------- #
+# ----- CNC libraries ----- #
 from hp35stack import HP35Stack
 from trace_debug import DebugTrace
 
-# ---------- Variables ---------- #
+# ----- Variables ----- #
 
 APPLICATION_NAME = 'CNC'
 DEBUG = DebugTrace(False)
 
-# ----------- Functions ----------- #
+# ----- Functions ----- #
 
 """
 The two functions handle_binary() and handle_unary() are
@@ -187,7 +187,7 @@ def no_op(_x):
     """ no_op """
     return _x
 
-# -------------- BUTTONS - Dispatch Table -------------- #
+# ----- BUTTONS - Dispatch Table ----- #
 
 # For this dictionary the key is the button name.  In the CLI
 # one simply types the button name to invoke it.
