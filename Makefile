@@ -59,6 +59,7 @@ pylint:
 	- ${PYLINT} trace_debug.py
 	- ${PYLINT} hp35stack.py
 	- ${PYLINT} cnc_shell.py
+	- ${PYLINT} cnc.py
 
 lint: pylint
 

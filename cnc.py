@@ -24,8 +24,6 @@ from trace_debug import DebugTrace
 
 DEBUG = DebugTrace(False)
 
-# ----- Functions ----- #
-
 """
 The two functions binary() and unary() are generic mechanisms for
 most of the CNC calculator functionality.  They replace a raft of

@@ -26,7 +26,7 @@ class HP35Stack:
         self.stack = [_zero] * depth
         self.depth = depth
         self.rel_tol = rel_tol
-        self.labels = [0] * depth
+        self.labels = ['0'] * depth
         for j in range(4, depth):
             self.labels[j] = str(j)
         self.labels[0] = "X"
