@@ -29,6 +29,7 @@ help:
 PYTHON_SOURCE = \
 	trace_debug.py \
 	hp35stack.py \
+	cnc.py \
 	cnc_shell.py
 
 SOURCE = \
