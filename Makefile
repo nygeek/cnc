@@ -30,6 +30,7 @@ PYTHON_SOURCE = \
 	trace_debug.py \
 	hp35stack.py \
 	cnc.py \
+	cnc_flask.py \
 	cnc_shell.py
 
 SOURCE = \
@@ -63,8 +64,13 @@ pylint:
 
 lint: pylint
 
+.PHONY: test
 test:
 	${PYTHON} cnc_shell.py
+
+.PHONY: flask
+flask:
+	flask --app cnc_flask run
 
 listings:\
 	listing-trace_debug.pdf \

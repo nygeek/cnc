@@ -5,6 +5,19 @@
     </head>
     <body>
         <h1>CNC-35</h1>
+        <table border="2px" border-collapse: collapse>
+            <caption>Stack</caption>
+            <tr>
+                <th width="15">Register</th>
+                <th width="150">&nbsp;</th>
+            </tr>
+            {% for index in range(stack.depth - 1, -1, -1) %}
+            <tr>
+                <td text-align="center">{{ stack.labels[index] }}</td>
+                <td text-align="right">{{ stack.stack[index] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
             <table>
                 <tr>
             <td><button class="styled" type="button">x^y</button></td>
