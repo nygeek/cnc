@@ -36,6 +36,7 @@ PYTHON_SOURCE = \
 SOURCE = \
 	 ${PYTHON_SOURCE} \
 	 templates/cnc-35.html \
+	 static/keyboard.css \
 	 Makefile \
 	 .gitignore \
 	 README.md

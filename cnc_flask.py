@@ -31,7 +31,7 @@ cnc_engine = ComplexNumberCalculator(stack_depth=8, clamp=1e-10)
 @cnc.route("/")
 def index():
     """ display the calculator framework """
-    cnc_engine.push(complex(17))
+    cnc_engine.stack.push(complex(17))
     return render_template('cnc-35.html',
                            stack=cnc_engine.stack,
                            appname=APPLICATION_NAME)

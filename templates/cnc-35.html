@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <link rel="stylesheet" href="../static/keyboard.css" />
         <title>CNC-35</title>
     </head>
-    <body>
+    <body background-color: gray>
         <h1>CNC-35</h1>
         <table border="2px" border-collapse: collapse>
             <caption>Stack</caption>
@@ -11,7 +12,7 @@
                 <th width="15">Register</th>
                 <th width="150">&nbsp;</th>
             </tr>
-            {% for index in range(stack.depth - 1, -1, -1) %}
+            {% for index in range(stack.depth-1, -1, -1) %}
             <tr>
                 <td text-align="center">{{ stack.labels[index] }}</td>
                 <td text-align="right">{{ stack.stack[index] }}</td>
@@ -24,19 +25,19 @@
             <td><button class="styled" type="button">log</button></td>
             <td><button class="styled" type="button">ln</button></td>
             <td><button class="styled" type="button">e^x</button></td>
-            <td><button class="styled" type="button">clr</button></td>
+            <td><button class="styled" type="button" class="arithmetic">clr</button></td>
                 </tr>
                 <tr>
             <td><button class="styled" type="button">sqrt</button></td>
-            <td><button class="styled" type="button">sin</button></td>
-            <td><button class="styled" type="button">cos</button></td>
-            <td><button class="styled" type="button">tan</button></td>
+            <td><button class="trig" type="button">sin</button></td>
+            <td><button class="trig" type="button">cos</button></td>
+            <td><button class="trig" type="button">tan</button></td>
                 </tr>
                 <tr>
                     <td></td>
-            <td><button class="styled" type="button">arcsin</button></td>
-            <td><button class="styled" type="button">arccos</button></td>
-            <td><button class="styled" type="button">arctan</button></td>
+            <td><button class="trig" type="button">arcsin</button></td>
+            <td><button class="trig" type="button">arccos</button></td>
+            <td><button class="trig" type="button">arctan</button></td>
                 </tr>
                 <tr>
             <td><button class="styled" type="button">1/x</button></td>
@@ -46,35 +47,35 @@
             <td><button class="styled" type="button">rcl</button></td>
                 </tr>
                 <tr>
-            <td><button class="styled" type="button">enter</button></td>
-            <td><button class="styled" type="button">chs</button></td>
-            <td><button class="styled" type="button">eex</button></td>
-            <td><button class="styled" type="button">clx</button></td>
+            <td><button class="arithmetic" type="button">enter</button></td>
+            <td><button class="arithmetic" type="button">chs</button></td>
+            <td><button class="arithmetic" type="button">eex</button></td>
+            <td><button class="arithmetic" type="button">clx</button></td>
                 </tr>
                 <tr>
-            <td><button class="styled" type="button">-</button></td>
-            <td><button class="styled" type="button">7</button></td>
-            <td><button class="styled" type="button">8</button></td>
-            <td><button class="styled" type="button">9</button></td>
+            <td><button class="arithmetic" type="button">-</button></td>
+            <td><button class="digit" type="button">7</button></td>
+            <td><button class="digit" type="button">8</button></td>
+            <td><button class="digit" type="button">9</button></td>
                 </tr>
                 <tr>
-            <td><button class="styled" type="button">+</button></td>
-            <td><button class="styled" type="button">4</button></td>
-            <td><button class="styled" type="button">5</button></td>
-            <td><button class="styled" type="button">6</button></td>
+            <td><button class="arithmetic" type="button">+</button></td>
+            <td><button class="digit" type="button">4</button></td>
+            <td><button class="digit" type="button">5</button></td>
+            <td><button class="digit" type="button">6</button></td>
                 </tr>
                 <tr>
-            <td><button class="styled" type="button">x</button></td>
-            <td><button class="styled" type="button">1</button></td>
-            <td><button class="styled" type="button">2</button></td>
-            <td><button class="styled" type="button">3</button></td>
+            <td><button class="arithmetic" type="button">x</button></td>
+            <td><button class="digit" type="button">1</button></td>
+            <td><button class="digit" type="button">2</button></td>
+            <td><button class="digit" type="button">3</button></td>
                 </tr>
                 <tr>
-            <td><button class="styled" type="button">/</button></td>
-            <td><button class="styled" type="button">0</button></td>
-            <td><button class="styled" type="button">.</button></td>
-            <td><button class="styled" type="button">pi</button></td>
-            <td><button class="styled" type="button">i</button></td>
+            <td><button class="arithmetic" type="button">/</button></td>
+            <td><button class="digit" type="button">0</button></td>
+            <td><button class="digit" type="button">.</button></td>
+            <td><button class="digit" type="button">pi</button></td>
+            <td><button class="digit" type="button">i</button></td>
                 </tr>
             </table>
     </body>
