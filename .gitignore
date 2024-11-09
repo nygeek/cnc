@@ -9,5 +9,10 @@ htmlcov/
 dist/
 build/
 *.egg-info/
+<<<<<<< HEAD
 .coverage
 .htmlcov/
+=======
+cnc.sh
+version.txt
+>>>>>>> 99e8915 (update .gitignore)
