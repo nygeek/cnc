@@ -7,11 +7,12 @@
     <body background-color="gray">
         <h1>CNC-35</h1>
         <table class=memory border="1px">
-            <caption>Memory</caption>
-            <tr><td width="150" text-align: right>
+            <tr>
+                <td width="25">M</td>
+                <td align="right" width="150" text-align: right>
                     {{ stack.storcl.real }}
                 </td>
-                <td width="150" text-align: right>
+                <td align="right" width="150" text-align: right>
                     {{ stack.storcl.imag }}
                 </td>
             </tr>
@@ -19,9 +20,9 @@
         <table border="1px">
             <caption style="font-family:Helvetica;color:white">Stack</caption>
             <tr style="font-family:Helvetica;color:white">
-                <th width="25">&nbsp;</th>
-                <th width="150">real</th>
-                <th width="150">imag</th>
+                <td width="25">&nbsp;</td>
+                <td align="center" width="150">real</td>
+                <td align="center" width="150">imag</td>
             </tr>
             {% for index in range(stack.depth-1, -1, -1) %}
             <tr class="stack">
@@ -31,6 +32,10 @@
             </tr>
             {% endfor %}
         </table>
+        <form method="POST">
+            <input name="command">
+            <input type="submit">
+        </form>
         <table>
             <tr>
                 <td><a href="/button/xtoy">

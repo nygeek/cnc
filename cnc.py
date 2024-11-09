@@ -135,6 +135,23 @@ class ComplexNumberCalculator:
             return False
 
 
+    def handle_string(self, text):
+        """ handle a command string """
+        tokens = text.split(None)
+        for token in tokens:
+            # is it a button?
+            if token in self.buttons:
+                # yes
+                rc = self.handle_button_by_name(token)
+            else:
+                # no - assume it's a number
+                _number = complex(token)
+                self.stack.increment_count()
+                self.number(_number)
+
+        self.enter(self.no_op)
+
+
     def binary(self, _func):
         """ handle binary operator """
         _x = self.stack.pop()
