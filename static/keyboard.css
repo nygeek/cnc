@@ -1,3 +1,7 @@
+body {
+    background: gray;
+}
+
 button {
     background-color: black;
     border: none;
@@ -9,6 +13,18 @@ button {
     font-size: 16px;
     border-radius: 8px;
     width: 60px;
+}
+
+.stack {
+    background-color: black;
+    color: red;
+    font-family: Helvetica;
+}
+
+.memory {
+    background-color: black;
+    color: white;
+    font-family: Helvetica;
 }
 
 button:hover {

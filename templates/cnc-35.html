@@ -4,18 +4,30 @@
         <link rel="stylesheet" href="../static/keyboard.css" />
         <title>CNC-35</title>
     </head>
-    <body background-color: gray>
+    <body background-color="gray">
         <h1>CNC-35</h1>
-        <table border="2px" border-collapse: collapse>
-            <caption>Stack</caption>
-            <tr>
-                <th width="15">Register</th>
-                <th width="150">&nbsp;</th>
+        <table class=memory border="1px">
+            <caption>Memory</caption>
+            <tr><td width="150" text-align: right>
+                    {{ stack.storcl.real }}
+                </td>
+                <td width="150" text-align: right>
+                    {{ stack.storcl.imag }}
+                </td>
+            </tr>
+        </table>
+        <table border="1px">
+            <caption style="font-family:Helvetica;color:white">Stack</caption>
+            <tr style="font-family:Helvetica;color:white">
+                <th width="25">&nbsp;</th>
+                <th width="150">real</th>
+                <th width="150">imag</th>
             </tr>
             {% for index in range(stack.depth-1, -1, -1) %}
-            <tr>
-                <td text-align="center">{{ stack.labels[index] }}</td>
-                <td text-align="right">{{ stack.stack[index] }}</td>
+            <tr class="stack">
+                <td align="center">{{ stack.labels[index] }}</td>
+                <td align="right">{{ stack.stack[index].real }}</td>
+                <td align="right">{{ stack.stack[index].imag }}</td>
             </tr>
             {% endfor %}
         </table>
