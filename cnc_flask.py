@@ -28,12 +28,11 @@ DEBUG = DebugTrace(False)
 cnc = Flask(__name__)
 cnc.secret_key = 'do5XKxpBdY_JyqOYpnSLvA'
 cnc_engine = ComplexNumberCalculator(stack_depth=8, clamp=1e-10)
+cnc_engine.stack.push(complex(17))
 
 @cnc.route("/")
 def index():
     """ display the calculator framework """
-    cnc_engine.stack.push(complex(17))
-    # cnc.get_flashed_messages()
     return render_template('cnc-35.html',
                            stack=cnc_engine.stack,
                            appname=APPLICATION_NAME)
@@ -41,7 +40,8 @@ def index():
 @cnc.route("/button/<bname>")
 def button(bname):
     cnc_engine.handle_button_by_name(bname)
-    return render_template('cnc-35.html',
+    render_template('cnc-35.html',
                            stack=cnc_engine.stack,
                            appname=APPLICATION_NAME)
+    return redirect(url_for('index'))
 
