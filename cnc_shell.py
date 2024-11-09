@@ -43,8 +43,7 @@ def cnc_shell(depth=8, clamp=1e-10):
 
                 # is it a button?
                 if token in cnc.buttons:
-                    cnc.stack.increment_count()
-                    (cnc.buttons[token][0](cnc.buttons[token][2]))
+                    rc = cnc.handle_button_by_name(token)
                     continue
 
                 # is it a number?

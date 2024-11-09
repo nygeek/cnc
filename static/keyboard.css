@@ -8,18 +8,28 @@ button {
     display: inline-block;
     font-size: 16px;
     border-radius: 8px;
+    width: 60px;
+}
+
+button:hover {
+    color: yellow;
+    background-color: red;
 }
 
 .trig {
     background-color: darkgray;
+    width: 60px;
 }
 
 .digit {
     background-color: white;
+    border-color: black;
     color: black;
+    width: 60px;
 }
 
 .arithmetic {
     background-color: skyblue;
     color: white;
+    width: 60px;
 }

@@ -124,6 +124,17 @@ class ComplexNumberCalculator:
                      lambda _x, _y: cmath.exp(cmath.log(_x) * _y)],
             }
 
+
+    def handle_button_by_name(self, button):
+        """ handle a button given its name """
+        if button in self.buttons:
+            self.stack.increment_count()
+            (self.buttons[button][0](self.buttons[button][2]))
+            return True
+        else:
+            return False
+
+
     def binary(self, _func):
         """ handle binary operator """
         _x = self.stack.pop()
