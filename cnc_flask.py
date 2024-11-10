@@ -16,7 +16,7 @@ $Id$
 # ----- Python Libraries ----- #
 from flask import Flask, flash, redirect, render_template, request, url_for
 
-# ----- CNC libraries ----- #
+# ----- Calculator libraries ----- #
 from cnc import ComplexNumberCalculator
 from trace_debug import DebugTrace
 
