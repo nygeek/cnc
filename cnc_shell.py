@@ -16,7 +16,7 @@ $Id$
 # ----- Python Libraries ----- #
 import argparse
 
-# ----- CNC libraries ----- #
+# ----- Calculator libraries ----- #
 from cnc import ComplexNumberCalculator
 from trace_debug import DebugTrace
 
