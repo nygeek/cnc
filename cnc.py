@@ -10,6 +10,11 @@ Copyright (C) 2024 Marc Donner
 
 $Id$
 
+ToDo:
+    [2024-11-10] Add a log of actions ('tape') that we can display
+    or save.
+    [2024-11-10] Improve error / overflow handling
+
 """
 
 # ----- Python Libraries ----- #
