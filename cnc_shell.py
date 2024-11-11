@@ -43,7 +43,7 @@ def cnc_shell(depth=8, clamp=1e-10):
 
                 # is it a button?
                 if token in cnc.buttons:
-                    rc = cnc.handle_button_by_name(token)
+                    _rc = cnc.handle_button_by_name(token)
                     continue
 
                 # is it a number?

@@ -136,8 +136,7 @@ class ComplexNumberCalculator:
             self.stack.increment_count()
             (self.buttons[button][0](self.buttons[button][2]))
             return True
-        else:
-            return False
+        return False
 
 
     def handle_string(self, text):
@@ -147,7 +146,7 @@ class ComplexNumberCalculator:
             # is it a button?
             if token in self.buttons:
                 # yes
-                rc = self.handle_button_by_name(token)
+                _rc = self.handle_button_by_name(token)
             else:
                 # no - assume it's a number
                 _number = complex(token)

@@ -1,45 +1,44 @@
-#!/usr/bin/python3
+"""
 
-""" Implementation of the web UI for the CNC using:
-    [1] ComplexNumberCalculator class in cnc.py,
-    [2] HP35Stack class implemented in hp35stack.py
-    [3] DebugTrace class implemented in trace_debug.py
-
-Started 2024-08-22 by Marc Donner
-
-Copyright (C) 2024 Marc Donner
-
-$Id$
+main.py - root of GAE cnc calculator.
 
 """
 
-# ----- Python Libraries ----- #
-from flask import Flask, redirect, render_template, request, url_for
+# Started 2024-09-28 by Marc Donner
+# Contact: marc.donner@gmail.com
 
-# ----- Calculator libraries ----- #
+# [START gae_python310_app]
+# [START gae_python3_app]
+
+from flask import Flask, render_template, redirect, url_for, request
+
 from cnc import ComplexNumberCalculator
-from trace_debug import DebugTrace
+# from trace_debug import DebugTrace
 
-# ----- Variables ----- #
+# from flaskr.db import get_db
 
-APPLICATION_NAME = 'CNC-WEB'
-DEBUG = DebugTrace(False)
+# from werkzeug.security import check_password_hash, generate_password_hash
 
-cnc = Flask(__name__)
-cnc.secret_key = 'do5XKxpBdY_JyqOYpnSLvA'
+# bp = Blueprint('auth', __name__, url_prefix='/auth')
+
+# import functools
+
+app = Flask(__name__)
+app.secret_key = 'do5XKxpBdY_JyqOYpnSLvA'
 cnc_engine = ComplexNumberCalculator(stack_depth=8, clamp=1e-10)
 cnc_engine.stack.push(complex(17))
+APPLICATION_NAME = "CNC_GAE"
 
-@cnc.route("/")
+@app.route("/")
 def index():
     """ display the calculator framework """
     return render_template('cnc-35.html',
                            stack=cnc_engine.stack,
                            appname=APPLICATION_NAME)
 
-@cnc.route("/", methods=["POST"])
+@app.route("/", methods=["POST"])
 def handle_post_form():
-    """ handle text input from the form """
+    """ handle typed input """
     text = request.form['command']
     cnc_engine.handle_string(text)
     render_template('cnc-35.html',
@@ -47,11 +46,17 @@ def handle_post_form():
                            appname=APPLICATION_NAME)
     return redirect(url_for('index'))
 
-@cnc.route("/button/<bname>")
+@app.route("/button/<bname>")
 def button(bname):
-    """ handle a button click """
+    """ handle a button """
     cnc_engine.handle_button_by_name(bname)
     render_template('cnc-35.html',
                            stack=cnc_engine.stack,
                            appname=APPLICATION_NAME)
     return redirect(url_for('index'))
+
+if __name__ == "__main__":
+    app.run(host="127.0.0.1", port=8080, debug=True)
+
+# [END gae_python3_app]
+# [END gae_python310_app]

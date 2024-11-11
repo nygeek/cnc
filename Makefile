@@ -32,15 +32,18 @@ PYTHON_SOURCE = \
 	cnc.py \
 	cnc_flask.py \
 	cnc_gae.py \
-	cnc_shell.py
+	cnc_shell.py \
+	main.py
 
 SOURCE = \
 	 ${PYTHON_SOURCE} \
-	 templates/cnc-35.html \
-	 static/keyboard.css \
-	 Makefile \
+	 app.yaml \
 	 .gitignore \
-	 README.md
+	 Makefile \
+	 README.md \
+	 requirements.txt \
+	 static/keyboard.css \
+	 templates/cnc-35.html
 
 .PHONY: clean pylint listings test lint ci
 
@@ -48,12 +51,18 @@ FILES = \
 	${SOURCE} \
 	pylintrc
 
-.phony: install
+.PHONY: install
 install: 
 	echo 'python3' ${HERE}/cnc_shell.py '$$*' > cnc.sh
 	cp cnc.sh ${HOME}/bin/cnc
 	chmod +x ${HOME}/bin/cnc
 	- rm cnc.sh
+
+.PHONY: gae_deploy
+gae_deploy:
+	gcloud storage rsync ./static gs://complex-35.appspot.com/static
+	gcloud storage rsync ./templates gs://complex-35.appspot.com/templates
+	gcloud app deploy
 
 clean:
 	- rm *.ps *.pdf
@@ -63,6 +72,9 @@ pylint:
 	- ${PYLINT} hp35stack.py
 	- ${PYLINT} cnc_shell.py
 	- ${PYLINT} cnc.py
+	- ${PYLINT} cnc_flask.py
+	- ${PYLINT} cnc_gae.py
+	- ${PYLINT} main.py
 
 lint: pylint
 
