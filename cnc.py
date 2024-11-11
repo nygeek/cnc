@@ -224,7 +224,7 @@ class ComplexNumberCalculator:
 
     def enter(self, _func):
         """ handle enter """
-        print(self.stack)
+        # print(self.stack)
         return self.stack.stack[0]
 
 

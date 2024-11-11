@@ -59,7 +59,7 @@ def cnc_shell(depth=8, clamp=1e-10):
                 print(f"input '{token}' unrecognized.")
 
             # Nothing left
-            cnc.enter(cnc.no_op)
+            print(cnc.stack)
 
 
         except EOFError:
