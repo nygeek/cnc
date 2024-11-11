@@ -14,6 +14,7 @@ ToDo:
     [2024-11-10] Add a log of actions ('tape') that we can display
     or save.
     [2024-11-10] Improve error / overflow handling
+    [2024-11-10] Link user to session so that we do not restart.
 
 """
 

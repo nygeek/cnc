@@ -26,7 +26,7 @@ from cnc import ComplexNumberCalculator
 app = Flask(__name__)
 app.secret_key = 'do5XKxpBdY_JyqOYpnSLvA'
 cnc_engine = ComplexNumberCalculator(stack_depth=8, clamp=1e-10)
-cnc_engine.stack.push(complex(17))
+# cnc_engine.stack.push(complex(17))
 APPLICATION_NAME = "CNC_GAE"
 
 @app.route("/")
