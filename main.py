@@ -10,7 +10,14 @@ main.py - root of GAE cnc calculator.
 # [START gae_python310_app]
 # [START gae_python3_app]
 
-from flask import Flask, render_template, redirect, url_for, request
+from flask import (
+        Flask,
+        render_template,
+        redirect,
+        url_for,
+        request,
+        session
+        )
 
 from cnc import ComplexNumberCalculator
 # from trace_debug import DebugTrace
@@ -24,7 +31,7 @@ from cnc import ComplexNumberCalculator
 # import functools
 
 app = Flask(__name__)
-app.secret_key = 'do5XKxpBdY_JyqOYpnSLvA'
+app.secret_key = '17ff751d08cf47eda51d8856f9e193ee73099b10944809728d4534c953fadd3b'
 cnc_engine = ComplexNumberCalculator(stack_depth=8, clamp=1e-10)
 # cnc_engine.stack.push(complex(17))
 APPLICATION_NAME = "CNC_GAE"
