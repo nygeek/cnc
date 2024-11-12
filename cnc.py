@@ -49,6 +49,7 @@ class ComplexNumberCalculator:
         """ Set up the structure of the calculator. """
         self.stack = HP35Stack(stack_depth, rel_tol=clamp)
         self.clamp = clamp
+        self.input_number = ""
 
         # ----- BUTTONS - Dispatch Table ----- #
         # For this dictionary the key is the button name.  In the CLI
@@ -133,6 +134,7 @@ class ComplexNumberCalculator:
 
     def handle_button_by_name(self, button):
         """ handle a button given its name """
+        self.input_number = ""
         if button in self.buttons:
             self.stack.increment_count()
             (self.buttons[button][0](self.buttons[button][2]))
@@ -142,6 +144,7 @@ class ComplexNumberCalculator:
 
     def handle_string(self, text):
         """ handle a command string """
+        self.input_number = ""
         tokens = text.split(None)
         for token in tokens:
             # is it a button?
@@ -153,7 +156,6 @@ class ComplexNumberCalculator:
                 _number = complex(token)
                 self.stack.increment_count()
                 self.number(_number)
-
         self.enter(self.no_op)
 
 
@@ -164,6 +166,22 @@ class ComplexNumberCalculator:
         _result = _func(_x, _y)
         self.stack.push(_result)
         return _result
+
+
+    def digit(self, _digit):
+        """ handle a digit clicked on a 'keyboard' """
+        _zero = complex(0)
+        _x = self.stack.stack[0]
+        if _x != _zero:
+            _x = _zero
+            self.stack.push(_x)
+        if _digit != "dot":
+            self.input_number += str(_digit)
+        else:
+            self.input_number += "."
+        _x = complex(float(self.input_number),0)
+        self.stack.stack[0] = _x
+        return (_x, self.input_number)
 
 
     def unary(self, _func):

@@ -1,178 +1,174 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <link rel="stylesheet" href="../static/keyboard.css" />
-        <title>CNC-35</title>
-    </head>
-    <body background-color="gray">
-        <h1>CNC-35</h1>
-        <table class=memory border="1px">
-            <tr>
-                <td width="25">M</td>
-                <td align="right" width="150" text-align: right>
-                    {{ stack.storcl.real }}
-                </td>
-                <td align="right" width="150" text-align: right>
-                    {{ stack.storcl.imag }}
-                </td>
-            </tr>
-        </table>
-        <table border="1px">
-            <caption style="font-family:Helvetica;color:white">Stack</caption>
-            <tr style="font-family:Helvetica;color:white">
-                <td width="25">&nbsp;</td>
-                <td align="center" width="150">real</td>
-                <td align="center" width="150">imag</td>
-            </tr>
-            {% for index in range(stack.depth-1, -1, -1) %}
-            <tr class="stack">
-                <td align="center">{{ stack.labels[index] }}</td>
-                <td align="right">{{ stack.stack[index].real }}</td>
-                <td align="right">{{ stack.stack[index].imag }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-        <form method="POST">
-            <input name="command">
-            <input type="submit">
-        </form>
-        <table>
-            <tr>
-                <td><a href="/button/xtoy">
-                  <button class="styled">x^y</button>
-                  </a></td>
-                <td><a href="/button/log">
-                  <button class="styled">log</button>
-                  </a></td>
-                <td><a href="/button/ln">
-                  <button class="styled">ln</button>
-                  </a></td>
-                <td><a href="/button/exp">
-                  <button class="styled">e^x</button>
-                  </a></td>
-                <td><a href="/button/clr">
-                  <button class="arithmetic"type="submit">clr</button>
-                  </a></td>
-            </tr>
-            <tr>
-                <td><a href="/button/sqrt">
-                        <button class="styled">sqrt</button>
-                    </a></td>
-                <td><a href="/button/sin">
-                        <button class="trig">sin</button>
-                    </a></td>
-                <td><a href="/button/cos">
-                        <button class="trig">cos</button>
-                    </a></td>
-                <td><a href="/button/tan">
-                        <button class="trig">tan</button>
-                    </a></td>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-                <td><a href="/button/arcsin">
-                        <button class="trig">arcsin</button>
-                    </a></td>
-                <td><a href="/button/arccos">
-                        <button class="trig">arccos</button>
-                    </a></td>
-                <td><a href="/button/arctan">
-                        <button class="trig">arctan</button>
-                    </a></td>
-            </tr>
-            <tr>
-                <td><a href="/button/inv">
-                        <button class="styled">1/x</button>
-                    </a></td>
-                <td><a href="/button/exch">
-                        <button class="styled">exch</button>
-                    </a></td>
-                <td><a href="/button/down">
-                        <button class="styled">down</button>
-                    </a></td>
-                <td><a href="/button/sto">
-                        <button class="styled">sto</button>
-                    </a></td>
-                <td><a href="/button/rcl">
-                        <button class="styled">rcl</button>
-                    </a></td>
-            </tr>
-            <tr>
-                <td><a href="/button/push">
-                        <button class="arithmetic">enter</button>
-                    </a></td>
-                <td><a href="/button/chs">
-                        <button class="arithmetic">chs</button>
-                    </a></td>
-                <td><a href="/button/eex">
-                        <button class="arithmetic">eex</button>
-                    </a></td>
-                <td><a href="/button/clx">
-                        <button class="arithmetic">clx</button>
-                    </a></td>
-            </tr>
-            <tr>
-                <td><a href="/button/-">
-                        <button class="arithmetic">-</button>
-                    </a></td>
-                <td><a href="/button/7">
-                        <button class="digit">7</button>
-                    </a></td>
-                <td><a href="/button/8">
-                        <button class="digit">8</button>
-                    </a></td>
-                <td><a href="/button/9">
-                        <button class="digit">9</button>
-                    </a></td>
-            </tr>
-            <tr>
-                <td><a href="/button/+">
-                        <button class="arithmetic">+</button>
-                    </a></td>
-                <td><a href="/button/4">
-                        <button class="digit">4</button>
-                    </a></td>
-                <td><a href="/button/5">
-                        <button class="digit">5</button>
-                    </a></td>
-                <td><a href="/button/6">
-                        <button class="digit">6</button>
-                    </a></td>
-            </tr>
-            <tr>
-                <td><a href="/button/*">
-                        <button class="arithmetic">x</button>
-                    </a></td>
-                <td><a href="/button/1">
-                        <button class="digit">1</button>
-                    </a></td>
-                <td><a href="/button/2">
-                        <button class="digit">2</button>
-                    </a></td>
-                <td><a href="/button/3">
-                        <button class="digit">3</button>
-                    </a></td>
-            </tr>
-            <tr>
-                <td><a href="/button//">
-                        <button class="arithmetic">/</button>
-                    </a></td>
-                <td><a href="/button/0">
-                        <button class="digit">0</button>
-                    </a></td>
-                <td><a href="/button/.">
-                        <button class="digit">.</button>
-                    </a></td>
-                <td><a href="/button/pi">
-                        <button class="digit">pi</button>
-                    </a></td>
-                <td><a href="/button/i">
-                        <button class="digit">i</button>
-                    </a></td>
-            </tr>
-        </table>
-        <table>
-            <tr><td>Count: {{ stack.count }}</td></tr>
-        </table>
-    </body>
-</html>
+{% extends "layout.html" %}
+{% block body %}
+<body background-color="gray">
+    <h2>{{ appname }}</h2>
+    <table class=memory border="1px">
+        <tr>
+            <td width="25">M</td>
+            <td align="right" width="150" text-align: right>
+                {{ stack.storcl.real }}
+            </td>
+            <td align="right" width="150" text-align: right>
+                {{ stack.storcl.imag }}
+            </td>
+        </tr>
+    </table>
+    <table border="1px">
+        <caption style="font-family:Helvetica;color:white">Stack</caption>
+        <tr style="font-family:Helvetica;color:white">
+            <td width="25">&nbsp;</td>
+            <td align="center" width="150">real</td>
+            <td align="center" width="150">imag</td>
+        </tr>
+        {% for index in range(stack.depth-1, -1, -1) %}
+        <tr class="stack">
+            <td align="center">{{ stack.labels[index] }}</td>
+            <td align="right">{{ stack.stack[index].real }}</td>
+            <td align="right">{{ stack.stack[index].imag }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <form method="POST">
+        <input name="command">
+        <input type="submit">
+    </form>
+    <table>
+        <tr>
+            <td><a href="/button/xtoy">
+              <button class="styled">x^y</button>
+              </a></td>
+            <td><a href="/button/log">
+              <button class="styled">log</button>
+              </a></td>
+            <td><a href="/button/ln">
+              <button class="styled">ln</button>
+              </a></td>
+            <td><a href="/button/exp">
+              <button class="styled">e^x</button>
+              </a></td>
+            <td><a href="/button/clr">
+              <button class="arithmetic"type="submit">clr</button>
+              </a></td>
+        </tr>
+        <tr>
+            <td><a href="/button/sqrt">
+                    <button class="styled">sqrt</button>
+                </a></td>
+            <td><a href="/button/sin">
+                    <button class="trig">sin</button>
+                </a></td>
+            <td><a href="/button/cos">
+                    <button class="trig">cos</button>
+                </a></td>
+            <td><a href="/button/tan">
+                    <button class="trig">tan</button>
+                </a></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td><a href="/button/arcsin">
+                    <button class="trig">arcsin</button>
+                </a></td>
+            <td><a href="/button/arccos">
+                    <button class="trig">arccos</button>
+                </a></td>
+            <td><a href="/button/arctan">
+                    <button class="trig">arctan</button>
+                </a></td>
+        </tr>
+        <tr>
+            <td><a href="/button/inv">
+                    <button class="styled">1/x</button>
+                </a></td>
+            <td><a href="/button/exch">
+                    <button class="styled">exch</button>
+                </a></td>
+            <td><a href="/button/down">
+                    <button class="styled">down</button>
+                </a></td>
+            <td><a href="/button/sto">
+                    <button class="styled">sto</button>
+                </a></td>
+            <td><a href="/button/rcl">
+                    <button class="styled">rcl</button>
+                </a></td>
+        </tr>
+        <tr>
+            <td><a href="/button/push">
+                    <button class="arithmetic">enter</button>
+                </a></td>
+            <td><a href="/button/chs">
+                    <button class="arithmetic">chs</button>
+                </a></td>
+            <td><a href="/button/eex">
+                    <button class="arithmetic">eex</button>
+                </a></td>
+            <td><a href="/button/clx">
+                    <button class="arithmetic">clx</button>
+                </a></td>
+        </tr>
+        <tr>
+            <td><a href="/button/-">
+                    <button class="arithmetic">-</button>
+                </a></td>
+            <td><a href="/digit/7">
+                    <button class="digit">7</button>
+                </a></td>
+            <td><a href="/digit/8">
+                    <button class="digit">8</button>
+                </a></td>
+            <td><a href="/digit/9">
+                    <button class="digit">9</button>
+                </a></td>
+        </tr>
+        <tr>
+            <td><a href="/button/+">
+                    <button class="arithmetic">+</button>
+                </a></td>
+            <td><a href="/digit/4">
+                    <button class="digit">4</button>
+                </a></td>
+            <td><a href="/digit/5">
+                    <button class="digit">5</button>
+                </a></td>
+            <td><a href="/digit/6">
+                    <button class="digit">6</button>
+                </a></td>
+        </tr>
+        <tr>
+            <td><a href="/button/*">
+                    <button class="arithmetic">x</button>
+                </a></td>
+            <td><a href="/digit/1">
+                    <button class="digit">1</button>
+                </a></td>
+            <td><a href="/digit/2">
+                    <button class="digit">2</button>
+                </a></td>
+            <td><a href="/digit/3">
+                    <button class="digit">3</button>
+                </a></td>
+        </tr>
+        <tr>
+            <td><a href="/button//">
+                    <button class="arithmetic">/</button>
+                </a></td>
+            <td><a href="/digit/0">
+                    <button class="digit">0</button>
+                </a></td>
+            <td><a href="/digit/dot">
+                    <button class="digit">.</button>
+                </a></td>
+            <td><a href="/button/pi">
+                    <button class="digit">pi</button>
+                </a></td>
+            <td><a href="/button/i">
+                    <button class="digit">i</button>
+                </a></td>
+        </tr>
+    </table>
+    <table>
+        <tr><td>Count: {{ stack.count }}</td></tr>
+    </table>
+{% endblock %}

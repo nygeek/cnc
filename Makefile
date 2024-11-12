@@ -36,14 +36,15 @@ PYTHON_SOURCE = \
 	main.py
 
 SOURCE = \
-	 ${PYTHON_SOURCE} \
-	 app.yaml \
-	 .gitignore \
-	 Makefile \
-	 README.md \
-	 requirements.txt \
-	 static/keyboard.css \
-	 templates/cnc-35.html
+	${PYTHON_SOURCE} \
+	app.yaml \
+	.gitignore \
+	Makefile \
+	README.md \
+	requirements.txt \
+	static/keyboard.css \
+	templates/cnc-35.html \
+	templates/layout.html
 
 .PHONY: clean pylint listings test lint ci
 
