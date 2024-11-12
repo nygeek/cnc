@@ -53,6 +53,7 @@ def handle_post_form():
                            appname=APPLICATION_NAME)
     return redirect(url_for('index'))
 
+
 @app.route("/button/<bname>")
 def button(bname):
     """ handle a button """
@@ -61,6 +62,7 @@ def button(bname):
                            stack=cnc_engine.stack,
                            appname=APPLICATION_NAME)
     return redirect(url_for('index'))
+
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=8080, debug=True)
