@@ -59,24 +59,15 @@ def handle_post_form():
     text = request.form['command']
     (_rc, message) = cnc_engine.handle_string(text)
     if _rc == -1:
-        print(f"error: '{message}', text: {text}")
+        # print(f"error: '{message}', text: {text}")
         flash('error: ' + message + ' text: ' + text)
-    render_template('cnc-35.html',
-                           stack=cnc_engine.stack,
-                           appname=APPLICATION_NAME,
-                           tape=cnc_engine.log)
     return redirect(url_for('index'))
-
 
 @app.route("/digit/<dig>")
 def digit(dig):
     """ handle a digit button click """
     (_x, num) = cnc_engine.digit(dig)
     flash('dig: ' + str(dig) + ', num: ' + str(num))
-    render_template('cnc-35.html',
-                           stack=cnc_engine.stack,
-                           appname=APPLICATION_NAME,
-                           tape=cnc_engine.log)
     return redirect(url_for('index'))
 
 
@@ -85,8 +76,4 @@ def button(bname):
     """ handle a button click """
     cnc_engine.handle_button_by_name(bname)
     flash(f'bname: {bname}')
-    render_template('cnc-35.html',
-                           stack=cnc_engine.stack,
-                           appname=APPLICATION_NAME,
-                           tape=cnc_engine.log)
     return redirect(url_for('index'))
