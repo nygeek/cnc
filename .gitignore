@@ -1,18 +1,15 @@
-/RCS/
+RCS/
 .venv/
-*.pyc
 __pycache__/
+stash/
 instance/
 .pytest_cache/
-.coverage
 htmlcov/
 dist/
 build/
-*.egg-info/
-<<<<<<< HEAD
-.coverage
 .htmlcov/
-=======
+*.egg-info/
+*.pyc
+.coverage
 cnc.sh
 version.txt
->>>>>>> 99e8915 (update .gitignore)
