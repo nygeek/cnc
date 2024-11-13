@@ -21,7 +21,7 @@ from flask import (
         redirect,
         render_template,
         request,
-        session,
+#       session,
         url_for
         )
 
@@ -31,10 +31,10 @@ from trace_debug import DebugTrace
 
 # ----- Variables ----- #
 
-APPLICATION_NAME = 'CNC-WEB'
+APPLICATION_NAME = 'CNC-Flask'
 DEBUG = DebugTrace(False)
 
-app = Flask(__name__)
+app = Flask(APPLICATION_NAME)
 app.secret_key = '17ff751d08cf47eda51d8856f9e193ee73099b10944809728d4534c953fadd3b'
 cnc_engine = ComplexNumberCalculator(stack_depth=8, clamp=1e-10)
 cnc_engine.stack.push(complex(17))
@@ -46,7 +46,8 @@ def index():
     resp = make_response(render_template('cnc-35.html',
                          stack=cnc_engine.stack,
                          username=_tag,
-                         appname=APPLICATION_NAME))
+                         appname=APPLICATION_NAME,
+                         tape=cnc_engine.log))
     resp.set_cookie('username', 'marc')
     flash("Cookie set.")
     return resp
@@ -56,11 +57,14 @@ def index():
 def handle_post_form():
     """ handle text input from the form """
     text = request.form['command']
-    cnc_engine.handle_string(text)
-    flash(f'text: {text}')
+    (_rc, message) = cnc_engine.handle_string(text)
+    if _rc == -1:
+        print(f"error: '{message}', text: {text}")
+        flash('error: ' + message + ' text: ' + text)
     render_template('cnc-35.html',
                            stack=cnc_engine.stack,
-                           appname=APPLICATION_NAME)
+                           appname=APPLICATION_NAME,
+                           tape=cnc_engine.log)
     return redirect(url_for('index'))
 
 
@@ -68,10 +72,11 @@ def handle_post_form():
 def digit(dig):
     """ handle a digit button click """
     (_x, num) = cnc_engine.digit(dig)
-    flash(f'dig: {dig}, num: {num}')
+    flash('dig: ' + str(dig) + ', num: ' + str(num))
     render_template('cnc-35.html',
                            stack=cnc_engine.stack,
-                           appname=APPLICATION_NAME)
+                           appname=APPLICATION_NAME,
+                           tape=cnc_engine.log)
     return redirect(url_for('index'))
 
 
@@ -82,5 +87,6 @@ def button(bname):
     flash(f'bname: {bname}')
     render_template('cnc-35.html',
                            stack=cnc_engine.stack,
-                           appname=APPLICATION_NAME)
+                           appname=APPLICATION_NAME,
+                           tape=cnc_engine.log)
     return redirect(url_for('index'))

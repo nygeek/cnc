@@ -33,6 +33,7 @@ PYTHON_SOURCE = \
 	cnc_flask.py \
 	cnc_gae.py \
 	cnc_shell.py \
+	logcnc.py \
 	main.py
 
 SOURCE = \
@@ -75,6 +76,7 @@ pylint:
 	- ${PYLINT} cnc.py
 	- ${PYLINT} cnc_flask.py
 	- ${PYLINT} cnc_gae.py
+	- ${PYLINT} logcnc.py
 	- ${PYLINT} main.py
 
 lint: pylint

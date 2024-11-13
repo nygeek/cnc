@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 {% extends "layout.html" %}
 {% block body %}
-<body background-color="gray">
+<body>
     <h2>{{ appname }}</h2>
-    <p>This calculator is created in honor of the late George Stibitz
-        of Bell Labs, creator in the 1930s of a complex number calculator
-        that was also the first demonstration of telecomputing.
+<table>
+    <tr class="caption">
+    <td span=2>
+    <p>This calculator honors the late George Stibitz
+       of Bell Labs, creator in the 1930s of a complex number
+       calculator that was also the first demonstration of
+       telecomputing.
         
     <p>It also honors the HP-35, the first electronic scientific
-        calculator.  The HP-35 was released commercially in 1972
-        and was sold until 1975.  The keyboard layout and color
-        scheme is designed to evoke the HP-35, and its function
-        replicates the RPN operating model of the HP-35.
+       calculator.  The HP-35 was released commercially in 1972
+       and was sold until 1975.  The keyboard layout and color
+       scheme is designed to evoke the HP-35, and its function
+       replicates the RPN operating model of the HP-35.
+    </td>
+    </tr>
+<tr>
+    <td><div id="Calculator" class="calculator">
     <table class=memory border="1px">
         <tr>
             <td width="25">M</td>
@@ -177,6 +185,15 @@
                 </a></td>
         </tr>
     </table>
+        </div></td>
+        <td><div id="Tape" class="tape">
+                <ol>
+                {% for entry in tape.log_list %}
+                <li>{{ entry }}
+                {% endfor %}
+                </ol>
+            </div></td>
+
     <table>
         <tr><td>Count: {{ stack.count }}</td></tr>
     </table>

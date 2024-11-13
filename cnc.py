@@ -13,8 +13,9 @@ $Id$
 ToDo:
     [2024-11-10] Add a log of actions ('tape') that we can display
     or save.
+        [2024-11-12] Done
     [2024-11-10] Improve error / overflow handling
-    [2024-11-10] Link user to session so that we do not restart.
+    [2024-11-10] Link user to session in GAE so that we do not restart.
 
 """
 
@@ -25,6 +26,7 @@ import sys
 # ----- CNC libraries ----- #
 from hp35stack import HP35Stack
 from trace_debug import DebugTrace
+from logcnc import LogCNC
 
 # ----- Variables ----- #
 
@@ -50,6 +52,7 @@ class ComplexNumberCalculator:
         self.stack = HP35Stack(stack_depth, rel_tol=clamp)
         self.clamp = clamp
         self.input_number = ""
+        self.log = LogCNC()
 
         # ----- BUTTONS - Dispatch Table ----- #
         # For this dictionary the key is the button name.  In the CLI
@@ -65,6 +68,8 @@ class ComplexNumberCalculator:
             "-": [self.binary, "subtract x from y",
                   lambda _x, _y: _y - _x],
             "/": [self.binary, "divide y by x",
+                  lambda _x, _y: _y / _x if _x != 0 else _y],
+            "div": [self.binary, "divide y by x",
                   lambda _x, _y: _y / _x if _x != 0 else _y],
             "*": [self.binary, "multiply y by x",
                   lambda _x, _y: _x * _y],
@@ -134,7 +139,9 @@ class ComplexNumberCalculator:
 
     def handle_button_by_name(self, button):
         """ handle a button given its name """
+        # Caller must validate the name - this code assumes a valid name
         self.input_number = ""
+        self.log.log(button)
         if button in self.buttons:
             self.stack.increment_count()
             (self.buttons[button][0](self.buttons[button][2]))
@@ -150,13 +157,17 @@ class ComplexNumberCalculator:
             # is it a button?
             if token in self.buttons:
                 # yes
-                _rc = self.handle_button_by_name(token)
-            else:
-                # no - assume it's a number
+                _result = (self.handle_button_by_name(token), "")
+            elif isinstance(text, complex):
+                # it is a number
                 _number = complex(token)
                 self.stack.increment_count()
-                self.number(_number)
-        self.enter(self.no_op)
+                self.enter(self.no_op)
+                _result = (self.number(_number), "")
+            else:
+                # it is an error
+                _result = (-1, "Unrecognized: " + text)
+            return _result
 
 
     def binary(self, _func):
@@ -170,7 +181,7 @@ class ComplexNumberCalculator:
 
     def digit(self, _digit):
         """ handle a digit clicked on a 'keyboard' """
-        _zero = complex(0)
+        _zero = complex(0, 0)
         _x = self.stack.stack[0]
         if _x != _zero:
             _x = _zero
@@ -242,6 +253,7 @@ class ComplexNumberCalculator:
 
     def enter(self, _func):
         """ handle enter """
+        print("enter()")
         # print(self.stack)
         return self.stack.stack[0]
 
@@ -280,6 +292,7 @@ class ComplexNumberCalculator:
 
     def number(self, number):
         """ handle a number entered """
+        self.log.log(number)
         self.stack.push(number)
         return number
 
@@ -301,6 +314,8 @@ class ComplexNumberCalculator:
     def quit(self, _func):
         """ handle quit """
         print(f"count: {self.stack.get_count()}")
+        print("----- log -----")
+        print(self.log)
         sys.exit()
 
 

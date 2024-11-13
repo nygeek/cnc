@@ -49,3 +49,21 @@ button:hover {
     color: white;
     width: 60px;
 }
+
+.calculator {
+    background-color: gray;
+    border: 2px solid white;
+}
+
+.tape {
+    background-color: teal;
+    color: white;
+    border: 1px solid black;
+    width: 100px;
+}
+
+.caption {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    width: 500px;
