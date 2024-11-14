@@ -32,6 +32,19 @@ from logcnc import LogCNC
 
 DEBUG = DebugTrace(False)
 
+# ----- Functions ----- #
+
+def isa_number(text):
+    """ might be complex or float """
+    if text.isnumeric():
+        return True
+    else:
+        try:
+            complex(text)
+            return True
+        except ValueError:
+            return False
+
 """
 The two functions binary() and unary() are generic mechanisms for
 most of the CNC calculator functionality.  They replace a raft of
@@ -158,7 +171,7 @@ class ComplexNumberCalculator:
             if token in self.buttons:
                 # yes
                 _result = (self.handle_button_by_name(token), "")
-            elif isinstance(text, complex):
+            elif isa_number(text):
                 # it is a number
                 _number = complex(token)
                 self.stack.increment_count()
@@ -166,7 +179,7 @@ class ComplexNumberCalculator:
                 _result = (self.number(_number), "")
             else:
                 # it is an error
-                _result = (-1, "Unrecognized: " + text)
+                _result = (-1, "Unrecognized: '" + text + "'")
             return _result
 
 
@@ -183,9 +196,8 @@ class ComplexNumberCalculator:
         """ handle a digit clicked on a 'keyboard' """
         _zero = complex(0, 0)
         _x = self.stack.stack[0]
-        if _x != _zero:
-            _x = _zero
-            self.stack.push(_x)
+        if self.input_number == "":
+            self.stack.push(_zero)
         if _digit != "dot":
             self.input_number += str(_digit)
         else:

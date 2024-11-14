@@ -36,20 +36,17 @@ DEBUG = DebugTrace(False)
 
 app = Flask(APPLICATION_NAME)
 app.secret_key = '17ff751d08cf47eda51d8856f9e193ee73099b10944809728d4534c953fadd3b'
+
 cnc_engine = ComplexNumberCalculator(stack_depth=8, clamp=1e-10)
-cnc_engine.stack.push(complex(17))
+# cnc_engine.stack.push(complex(17))
 
 @app.route("/")
 def index():
     """ display the calculator framework """
-    _tag = request.cookies.get('username')
     resp = make_response(render_template('cnc-35.html',
                          stack=cnc_engine.stack,
-                         username=_tag,
                          appname=APPLICATION_NAME,
                          tape=cnc_engine.log))
-    resp.set_cookie('username', 'marc')
-    flash("Cookie set.")
     return resp
 
 
@@ -59,8 +56,7 @@ def handle_post_form():
     text = request.form['command']
     (_rc, message) = cnc_engine.handle_string(text)
     if _rc == -1:
-        # print(f"error: '{message}', text: {text}")
-        flash('error: ' + message + ' text: ' + text)
+        flash('error: ' + message)
     return redirect(url_for('index'))
 
 @app.route("/digit/<dig>")
@@ -75,5 +71,5 @@ def digit(dig):
 def button(bname):
     """ handle a button click """
     cnc_engine.handle_button_by_name(bname)
-    flash(f'bname: {bname}')
+    # flash(f'bname: {bname}')
     return redirect(url_for('index'))

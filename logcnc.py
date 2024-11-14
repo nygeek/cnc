@@ -27,7 +27,6 @@ class LogCNC:
         """ append to the log """
         self.depth += 1
         self.log_list.append(str(line))
-        print(f"log(line: {line}) ==> depth: {self.depth}")
         return self.depth
 
 def main():

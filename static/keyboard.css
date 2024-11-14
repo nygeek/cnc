@@ -53,13 +53,14 @@ button:hover {
 .calculator {
     background-color: gray;
     border: 2px solid white;
+    width: 400px;
 }
 
 .tape {
     background-color: teal;
     color: white;
     border: 1px solid black;
-    width: 100px;
+    width: 250px;
 }
 
 .caption {
