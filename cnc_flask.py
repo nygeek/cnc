@@ -63,7 +63,7 @@ def handle_post_form():
 def digit(dig):
     """ handle a digit button click """
     (_x, num) = cnc_engine.digit(dig)
-    flash('dig: ' + str(dig) + ', num: ' + str(num))
+    # flash('dig: ' + str(dig) + ', num: ' + str(num))
     return redirect(url_for('index'))
 
 

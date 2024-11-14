@@ -165,22 +165,23 @@ class ComplexNumberCalculator:
     def handle_string(self, text):
         """ handle a command string """
         self.input_number = ""
-        tokens = text.split(None)
+        tokens = text.split()
         for token in tokens:
             # is it a button?
             if token in self.buttons:
                 # yes
                 _result = (self.handle_button_by_name(token), "")
-            elif isa_number(text):
+            elif isa_number(token):
                 # it is a number
                 _number = complex(token)
+                self.stack.push(_number)
                 self.stack.increment_count()
-                self.enter(self.no_op)
+                # print(f"[number] token: {token}, _number: {_number}")
                 _result = (self.number(_number), "")
             else:
                 # it is an error
                 _result = (-1, "Unrecognized: '" + text + "'")
-            return _result
+        return _result
 
 
     def binary(self, _func):
