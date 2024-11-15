@@ -35,7 +35,6 @@ APPLICATION_NAME = 'CNC-Flask'
 DEBUG = DebugTrace(False)
 
 app = Flask(APPLICATION_NAME)
-app.secret_key = '17ff751d08cf47eda51d8856f9e193ee73099b10944809728d4534c953fadd3b'
 
 cnc_engine = ComplexNumberCalculator(stack_depth=8, clamp=1e-10)
 # cnc_engine.stack.push(complex(17))
