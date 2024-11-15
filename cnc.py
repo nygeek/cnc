@@ -174,7 +174,7 @@ class ComplexNumberCalculator:
             elif isa_number(token):
                 # it is a number
                 _number = complex(token)
-                self.stack.push(_number)
+                # self.stack.push(_number)
                 self.stack.increment_count()
                 # print(f"[number] token: {token}, _number: {_number}")
                 _result = (self.number(_number), "")
