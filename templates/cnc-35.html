@@ -3,7 +3,7 @@
 {% block body %}
 <body>
     <h2>{{ appname }}</h2>
-<table>
+<table">
     <tr class="caption">
     <td colspan=2>
         <p>This calculator honors the late <a href="https://en.wikipedia.org/wiki/George_Stibitz">George Stibitz</a> of Bell Labs, creator in the 1930s of a <a href="https://www.computerhistory.org/revolution/birth-of-the-computer/4/85/342">complex number calculator</a> that was also one of the first demonstrations of telecomputing.
@@ -180,14 +180,11 @@
     </table>
         </div></td>
         <td><div id="Tape" class="tape">
+                <p>Tape [{{ stack.count }}]</p>
                 <ol>
                 {% for entry in tape.log_list %}
                 <li>{{ entry }}
                 {% endfor %}
                 </ol>
             </div></td>
-
-    <table>
-        <tr><td>Count: {{ stack.count }}</td></tr>
-    </table>
 {% endblock %}

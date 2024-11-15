@@ -1,5 +1,28 @@
 body {
     background: gray;
+    width: 600px;
+    color: white:
+}
+
+.calculator {
+    background-color: gray;
+    border: 2px solid white;
+    min-width: 300px;
+    width: 350px;
+}
+
+.tape {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    width: 200px;
+}
+
+.caption {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    width: 500px;
 }
 
 button {
@@ -50,21 +73,3 @@ button:hover {
     width: 60px;
 }
 
-.calculator {
-    background-color: gray;
-    border: 2px solid white;
-    width: 400px;
-}
-
-.tape {
-    background-color: teal;
-    color: white;
-    border: 1px solid black;
-    width: 250px;
-}
-
-.caption {
-    background-color: white;
-    color: black;
-    border: 1px solid black;
-    width: 500px;
