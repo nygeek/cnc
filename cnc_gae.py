@@ -29,7 +29,6 @@ APPLICATION_NAME = 'CNC-WEB'
 DEBUG = DebugTrace(False)
 
 cnc = Flask(__name__)
-cnc.secret_key = 'do5XKxpBdY_JyqOYpnSLvA'
 cnc_engine = ComplexNumberCalculator(stack_depth=8, clamp=1e-10)
 cnc_engine.stack.push(complex(17))
 
