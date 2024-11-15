@@ -4,6 +4,12 @@ body {
     color: white:
 }
 
+.abstract {
+    background-color: white;
+    color: black;
+    border: 1px solid blue;
+}
+
 .calculator {
     background-color: gray;
     border: 2px solid white;
@@ -72,4 +78,3 @@ button:hover {
     color: white;
     width: 60px;
 }
-
