@@ -45,7 +45,8 @@ SOURCE = \
 	requirements.txt \
 	static/keyboard.css \
 	templates/cnc-35.html \
-	templates/layout.html
+	templates/layout.html \
+	templates/status.html 
 
 .PHONY: clean pylint listings test lint ci
 
