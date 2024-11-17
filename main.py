@@ -10,6 +10,8 @@ main.py - root of GAE cnc calculator.
 # [START gae_python310_app]
 # [START gae_python3_app]
 
+import os
+
 from flask import (
         Flask,
         flash,
@@ -20,7 +22,6 @@ from flask import (
 #       session,
         url_for
         )
-import os
 
 from cnc import ComplexNumberCalculator
 from trace_debug import DebugTrace
@@ -48,7 +49,6 @@ def handle_post_form():
     text = request.form['command']
     (_rc, message) = cnc_engine.handle_string(text)
     if _rc == -1:
-        # print(f"error: '{message}', text: {text}")
         flash('error: ' + message + ' text: ' + text)
     return redirect(url_for('index'))
 
@@ -58,19 +58,17 @@ def button(bname):
     cnc_engine.handle_button_by_name(bname)
     return redirect(url_for('index'))
 
-
 @app.route("/digit/<dig>")
 def digit(dig):
     """ handle a digit button click """
-    (_x, num) = cnc_engine.digit(dig)
-    flash(f'dig: {dig}, num: {num}')
+    (_x, _num) = cnc_engine.digit(dig)
     return redirect(url_for('index'))
 
 
 @app.route("/status")
 def status():
     """ report the status of the appengine system """
-    return render_template('status.html', os.environ)
+    return render_template('status.html', environ=os.environ)
 
 
 if __name__ == "__main__":
