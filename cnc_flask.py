@@ -61,7 +61,7 @@ def handle_post_form():
 @app.route("/digit/<dig>")
 def digit(dig):
     """ handle a digit button click """
-    (_x, num) = cnc_engine.digit(dig)
+    (_x, _num) = cnc_engine.digit(dig)
     # flash('dig: ' + str(dig) + ', num: ' + str(num))
     return redirect(url_for('index'))
 

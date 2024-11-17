@@ -36,26 +36,24 @@ DEBUG = DebugTrace(False)
 
 def isa_number(text):
     """ might be complex or float """
-    if text.isnumeric():
-        return True
-    else:
+    if not text.isnumeric():
         try:
             complex(text)
             return True
         except ValueError:
             return False
+    return True
 
-"""
-The two functions binary() and unary() are generic mechanisms for
-most of the CNC calculator functionality.  They replace a raft of
-machinery that I was able to rip out.  They are dispatched using
-function references stored in the BUTTONS dictionary.
-
-As of 2024-11-06 six buttons are bound to binary
-As of 2024-11-06 sixteen buttons are bound to unary
-As of 2024-11-06 seventeen buttons are bound to sixteen unique handlers
-("help" and "?" are synonyms)
-"""
+#
+# The two functions binary() and unary() are generic mechanisms for
+# most of the CNC calculator functionality.  They replace a raft of
+# machinery that I was able to rip out.  They are dispatched using
+# function references stored in the BUTTONS dictionary.
+#
+# As of 2024-11-06 six buttons are bound to binary
+# As of 2024-11-06 sixteen buttons are bound to unary
+# As of 2024-11-06 seventeen buttons are bound to sixteen unique handlers
+#
 
 class ComplexNumberCalculator:
     """ Class to implement the CNC-35 calculator """
