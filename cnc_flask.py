@@ -14,6 +14,9 @@ $Id$
 """
 
 # ----- Python Libraries ----- #
+
+import os
+
 from flask import (
         Flask,
         flash,
@@ -30,7 +33,6 @@ from cnc import ComplexNumberCalculator
 from trace_debug import DebugTrace
 
 # ----- Variables ----- #
-
 APPLICATION_NAME = 'CNC-Flask'
 DEBUG = DebugTrace(False)
 
@@ -58,6 +60,13 @@ def handle_post_form():
         flash('error: ' + message)
     return redirect(url_for('index'))
 
+@app.route("/button/<bname>")
+def button(bname):
+    """ handle a button click """
+    cnc_engine.handle_button_by_name(bname)
+    # flash(f'bname: {bname}')
+    return redirect(url_for('index'))
+
 @app.route("/digit/<dig>")
 def digit(dig):
     """ handle a digit button click """
@@ -65,10 +74,7 @@ def digit(dig):
     # flash('dig: ' + str(dig) + ', num: ' + str(num))
     return redirect(url_for('index'))
 
-
-@app.route("/button/<bname>")
-def button(bname):
-    """ handle a button click """
-    cnc_engine.handle_button_by_name(bname)
-    # flash(f'bname: {bname}')
-    return redirect(url_for('index'))
+@app.route("/status")
+def status():
+    """ report the status of the appengine system """
+    return render_template('status.html', environ=os.environ)
