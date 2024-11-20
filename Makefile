@@ -44,6 +44,7 @@ SOURCE = \
 	README.md \
 	requirements.txt \
 	static/keyboard.css \
+	static/cnc-favicon.png \
 	templates/cnc-35.html \
 	templates/layout.html \
 	templates/status.html 

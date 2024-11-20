@@ -4,6 +4,7 @@
 <body>
     <h2>{{ appname }}</h2>
     <table class="status">
+        <caption>AppEngine Status</caption>
         <tr><th>Attribute</th><th>Value</th></tr>
         <tr><td>GAE_APPLICATION</td>
             <td>{{ environ.get("GAE_APPLICATION") }}</td></tr>
@@ -25,5 +26,11 @@
             <td>{{ environ.get("GOOGLE_CLOUD_PROJECT") }}</td></tr>
         <tr><td>PORT</td>
             <td>{{ environ.get("PORT") }}</td></tr>
+    </table>
+    <table>
+        <caption>Cookies</caption>
+        <tr><th>Attribute</th><th>Value</th></tr>
+        <tr><td>cookie_value</td><td>{{ cookie_value }}</td></tr>
+        <table>
 </body>
 {% endblock %}

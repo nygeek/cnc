@@ -51,9 +51,9 @@ cnc_engine = ComplexNumberCalculator(stack_depth=8, clamp=1e-10)
 def index():
     """ display the calculator framework """
     resp = make_response(render_template('cnc-35.html',
-                           stack=cnc_engine.stack,
-                           appname=APPLICATION_NAME,
-                           tape=cnc_engine.log))
+                        stack=cnc_engine.stack,
+                        appname=APPLICATION_NAME,
+                        tape=cnc_engine.log))
     return resp
 
 @app.route("/", methods=["POST"])
@@ -67,7 +67,7 @@ def handle_post_form():
 
 @app.route("/button/<bname>")
 def button(bname):
-    """ handle a button """
+    """ handle a button click """
     cnc_engine.handle_button_by_name(bname)
     return redirect(url_for('index'))
 

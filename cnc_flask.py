@@ -44,10 +44,11 @@ cnc_engine = ComplexNumberCalculator(stack_depth=8, clamp=1e-10)
 @app.route("/")
 def index():
     """ display the calculator framework """
-    resp = make_response(render_template('cnc-35.html',
-                         stack=cnc_engine.stack,
-                         appname=APPLICATION_NAME,
-                         tape=cnc_engine.log))
+    resp = app.make_response(render_template('cnc-35.html',
+                    stack=cnc_engine.stack,
+                    appname=APPLICATION_NAME,
+                    tape=cnc_engine.log))
+    resp.set_cookie("xyzzy", value="plugh")
     return resp
 
 
@@ -64,17 +65,18 @@ def handle_post_form():
 def button(bname):
     """ handle a button click """
     cnc_engine.handle_button_by_name(bname)
-    # flash(f'bname: {bname}')
     return redirect(url_for('index'))
 
 @app.route("/digit/<dig>")
 def digit(dig):
     """ handle a digit button click """
     (_x, _num) = cnc_engine.digit(dig)
-    # flash('dig: ' + str(dig) + ', num: ' + str(num))
     return redirect(url_for('index'))
 
 @app.route("/status")
 def status():
     """ report the status of the appengine system """
-    return render_template('status.html', environ=os.environ)
+    cookie_value = request.cookies.get('xyzzy')
+    return render_template('status.html',
+                           environ=os.environ,
+                           cookie=cookie_value)
