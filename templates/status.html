@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% extends "layout.html" %}
 {% block body %}
+<link rel="icon" href="../static/cnc-favicon.png"/>
 <body>
     <h2>{{ appname }}</h2>
     <table class="status">
@@ -30,7 +31,7 @@
     <table>
         <caption>Cookies</caption>
         <tr><th>Attribute</th><th>Value</th></tr>
-        <tr><td>cookie_value</td><td>{{ cookie_value }}</td></tr>
+        <tr><td>cookie</td><td>{{ cookie }}</td></tr>
         <table>
 </body>
 {% endblock %}

@@ -17,6 +17,7 @@ $Id$
 
 import os
 
+import json
 from flask import (
         Flask,
         flash,
@@ -31,12 +32,16 @@ from flask import (
 # ----- Calculator libraries ----- #
 from cnc import ComplexNumberCalculator
 from trace_debug import DebugTrace
+from secret_stash import SecretStash
 
 # ----- Variables ----- #
 APPLICATION_NAME = 'CNC-Flask'
 DEBUG = DebugTrace(False)
 
+stash = SecretStash()
+print(f"secret: {stash.secret}")
 app = Flask(APPLICATION_NAME)
+app.secret_key = stash.get_secret()
 
 cnc_engine = ComplexNumberCalculator(stack_depth=8, clamp=1e-10)
 # cnc_engine.stack.push(complex(17))
@@ -48,7 +53,12 @@ def index():
                     stack=cnc_engine.stack,
                     appname=APPLICATION_NAME,
                     tape=cnc_engine.log))
-    resp.set_cookie("xyzzy", value="plugh")
+    cnc_stack_json = request.cookies.get('cnc_stack')
+    if cnc_stack_json is None:
+        resp.set_cookie('cnc_stack', json.dumps(cnc_engine.stack))
+    else:
+        cnc_engine.stack = json.loads(cnc_stack_json)
+        flash('cnc_stack_json: ' + cnc_stack_json)
     return resp
 
 
@@ -77,6 +87,7 @@ def digit(dig):
 def status():
     """ report the status of the appengine system """
     cookie_value = request.cookies.get('xyzzy')
+    print(f"cookie_value: {cookie_value}")
     return render_template('status.html',
                            environ=os.environ,
                            cookie=cookie_value)

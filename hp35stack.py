@@ -10,10 +10,17 @@ Copyright (C) 2024 Marc Donner
 
 $Id$
 
+ToDo:
+    [2024-11-23] create a rendering of the stack that has [r, i]
+    instead of complex.
+    [2024-11-23] add a json serialize for the rendered stack
+    [2024-11-23] add a json load for the stack
+
 """
 
 # --------- Python Libraries --------- #
 
+import json
 import cmath
 
 # --------- HP 35 Stack Class --------- #
@@ -122,6 +129,42 @@ class HP35Stack:
         self.stack[0] = self.stack[1]
         self.stack[1] = x
 
+    def clear(self):
+        """ clear the stack """
+        _zero = complex(0,0)
+        self.stack = [_zero] * self.depth
+        self.storcl = _zero
+
+
+    def complex_to_real(self):
+        """ return an array of arrays representing the stack as reals """
+        stack = [[0, 0]] * self.depth
+        result = {}
+        for i in range(0, self.depth):
+            stack[i] = [self.stack[i].real, self.stack[i].imag]
+        result['stack'] = stack
+        result['storcl'] = [self.storcl.real, self.storcl.imag]
+        return result
+
+
+    def render_to_json(self):
+        """ using complex_to_real, dump the stack as json """
+        return json.dumps(self.complex_to_real())
+
+
+    def real_to_complex(self, new_stack):
+        """ given a structure containing the real-ified stack, reconstitute it """
+        for j in range(0, self.depth):
+            _z = new_stack['stack'][j]
+            self.stack[j] = complex(_z[0], _z[1])
+        self.storcl = complex(new_stack['storcl'][0], new_stack['storcl'][1])
+
+
+    def load_from_json(self, stack_as_json):
+        """ given a json string, reconstitute the stack and use real_to_complex to rebuild it """
+        new_stack = json.loads(stack_as_json)
+        self.real_to_complex(new_stack)
+
 
 def main():
     """ Simple unit tests. """
@@ -146,6 +189,14 @@ def main():
     stack.sto()
     stack.exch()
     stack.rcl()
+    json_stash = stack.render_to_json()
+    print(f"json_stash: {json_stash}")
+    # now let's clear the stack
+    stack.clear()
+    print(f"Stack:\n{stack}")
+    # now reconstitute the stack ...
+    stack.load_from_json(json_stash)
+    print(f"Stack:\n{stack}")
 
 
 if __name__ == '__main__':
