@@ -17,7 +17,6 @@ $Id$
 
 import os
 
-import json
 from flask import (
         Flask,
         flash,
@@ -25,7 +24,7 @@ from flask import (
         redirect,
         render_template,
         request,
-#       session,
+        session,
         url_for
         )
 
@@ -39,26 +38,28 @@ APPLICATION_NAME = 'CNC-Flask'
 DEBUG = DebugTrace(False)
 
 stash = SecretStash()
-print(f"secret: {stash.secret}")
+print(f"secret: {stash.get_secret()}")
+
 app = Flask(APPLICATION_NAME)
 app.secret_key = stash.get_secret()
 
 cnc_engine = ComplexNumberCalculator(stack_depth=8, clamp=1e-10)
-# cnc_engine.stack.push(complex(17))
+# cnc_stack_json = request.cookies.get('cnc_stack')
+# if cnc_stack_json is not None:
+#     cnc_engine.stack.load_stack_from_json(cnc_stack_json)
 
 @app.route("/")
 def index():
     """ display the calculator framework """
-    resp = app.make_response(render_template('cnc-35.html',
-                    stack=cnc_engine.stack,
-                    appname=APPLICATION_NAME,
-                    tape=cnc_engine.log))
+    resp = make_response(render_template('cnc-35.html',
+            stack=cnc_engine.stack,
+            appname=APPLICATION_NAME,
+            tape=cnc_engine.log))
     cnc_stack_json = request.cookies.get('cnc_stack')
     if cnc_stack_json is None:
-        resp.set_cookie('cnc_stack', json.dumps(cnc_engine.stack))
+        resp.set_cookie('cnc_stack', cnc_engine.stack.stack_to_json())
     else:
-        cnc_engine.stack = json.loads(cnc_stack_json)
-        flash('cnc_stack_json: ' + cnc_stack_json)
+        cnc_engine.stack.load_stack_from_json(cnc_stack_json)
     return resp
 
 
@@ -69,19 +70,25 @@ def handle_post_form():
     (_rc, message) = cnc_engine.handle_string(text)
     if _rc == -1:
         flash('error: ' + message)
-    return redirect(url_for('index'))
+    resp = make_response(redirect(url_for('index')))
+    resp.set_cookie('cnc_stack', cnc_engine.stack.stack_to_json())
+    return resp
 
 @app.route("/button/<bname>")
 def button(bname):
     """ handle a button click """
     cnc_engine.handle_button_by_name(bname)
-    return redirect(url_for('index'))
+    resp = make_response(redirect(url_for('index')))
+    resp.set_cookie('cnc_stack', cnc_engine.stack.stack_to_json())
+    return resp
 
 @app.route("/digit/<dig>")
 def digit(dig):
     """ handle a digit button click """
     (_x, _num) = cnc_engine.digit(dig)
-    return redirect(url_for('index'))
+    resp = make_response(redirect(url_for('index')))
+    resp.set_cookie('cnc_stack', cnc_engine.stack.stack_to_json())
+    return resp
 
 @app.route("/status")
 def status():

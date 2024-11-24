@@ -119,6 +119,9 @@ class ComplexNumberCalculator:
                      lambda _x: _x.imag],
             "inv": [self.unary, "replace x with put 1/x",
                     lambda _x: 1 / _x if _x != 0 else _x],
+            "json": [self.handle_render_stack,
+                     "render the stack as json.",
+                     self.no_op],
             "log": [self.unary, "replace x with log(x) - log base 10",
                     cmath.log10],
             "ln": [self.unary, "replace x with ln(x) - natural log",
@@ -143,6 +146,9 @@ class ComplexNumberCalculator:
             "sto": [self.sto, "store x into M", self.no_op],
             "tan": [self.unary, "replace x with tan(x)",
                     cmath.tan],
+            "tape": [self.handle_dump_log,
+                     "dump the tape.",
+                     self.no_op],
             "xtoy": [self.binary, "put x^y in x, removing both x and y",
                      lambda _x, _y: cmath.exp(cmath.log(_x) * _y)],
             }
@@ -346,3 +352,13 @@ class ComplexNumberCalculator:
     def no_op(self, _x):
         """ no_op """
         return _x
+
+
+    def handle_render_stack(self, _func):
+        """ Render the stack as JSON """
+        print(self.stack.stack_to_json())
+
+
+    def handle_dump_log(self, _func):
+        """ dump the 'tape' """
+        print(f"Tape: {self.log}")
