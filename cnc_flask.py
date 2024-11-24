@@ -24,7 +24,7 @@ from flask import (
         redirect,
         render_template,
         request,
-        session,
+#       session,
         url_for
         )
 
