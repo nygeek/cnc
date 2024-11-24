@@ -38,7 +38,6 @@ APPLICATION_NAME = 'CNC-Flask'
 DEBUG = DebugTrace(False)
 
 stash = SecretStash()
-print(f"secret: {stash.get_secret()}")
 
 app = Flask(APPLICATION_NAME)
 app.secret_key = stash.get_secret()

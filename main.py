@@ -37,11 +37,13 @@ from flask import (
 # ----- Calculator libraries ----- #
 from cnc import ComplexNumberCalculator
 from trace_debug import DebugTrace
+from secret_stash import SecretStash
 
 # ----- Variables ----- #
 APPLICATION_NAME = 'CNC-AppEngine'
 DEBUG = DebugTrace(False)
 
+stash = SecretStash()
 app = Flask(APPLICATION_NAME)
 
 cnc_engine = ComplexNumberCalculator(stack_depth=8, clamp=1e-10)
@@ -54,6 +56,11 @@ def index():
                         stack=cnc_engine.stack,
                         appname=APPLICATION_NAME,
                         tape=cnc_engine.log))
+    cnc_stack_json = request.cookies.get('cnc_stack')
+    if cnc_stack_json is None:
+        resp.set_cookie('cnc_stack', cnc_engine.stack.stack_to_json())
+    else:
+        cnc_engine.stack.load_stack_from_json(cnc_stack_json)
     return resp
 
 @app.route("/", methods=["POST"])
@@ -63,19 +70,25 @@ def handle_post_form():
     (_rc, message) = cnc_engine.handle_string(text)
     if _rc == -1:
         flash('error: ' + message)
-    return redirect(url_for('index'))
+    resp = make_response(redirect(url_for('index')))
+    resp.set_cookie('cnc_stack', cnc_engine.stack.stack_to_json())
+    return resp
 
 @app.route("/button/<bname>")
 def button(bname):
     """ handle a button click """
     cnc_engine.handle_button_by_name(bname)
-    return redirect(url_for('index'))
+    resp = make_response(redirect(url_for('index')))
+    resp.set_cookie('cnc_stack', cnc_engine.stack.stack_to_json())
+    return resp
 
 @app.route("/digit/<dig>")
 def digit(dig):
     """ handle a digit button click """
     (_x, _num) = cnc_engine.digit(dig)
-    return redirect(url_for('index'))
+    resp = make_response(redirect(url_for('index')))
+    resp.set_cookie('cnc_stack', cnc_engine.stack.stack_to_json())
+    return resp
 
 
 @app.route("/status")
