@@ -17,10 +17,10 @@
     <table class=memory border="1px">
         <tr>
             <td width="25">M</td>
-            <td align="right" width="150" text-align: right>
+            <td align="right" width="180" text-align: right>
                 {{ stack.storcl.real }}
             </td>
-            <td align="right" width="150" text-align: right>
+            <td align="right" width="180" text-align: right>
                 {{ stack.storcl.imag }}
             </td>
         </tr>
@@ -29,8 +29,8 @@
         <caption style="font-family:Helvetica;color:white">Stack</caption>
         <tr style="font-family:Helvetica;color:white">
             <td width="25">&nbsp;</td>
-            <td align="center" width="150">real</td>
-            <td align="center" width="150">imag</td>
+            <td align="center" width="180">real</td>
+            <td align="center" width="180">imag</td>
         </tr>
         {% for index in range(stack.depth-1, -1, -1) %}
         <tr class="stack">
