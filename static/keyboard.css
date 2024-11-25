@@ -1,7 +1,6 @@
 body {
-    background: gray;
-    width: 600px;
-    color: white:
+    width: 450px;
+    background-color: ivory;
 }
 
 .abstract {
@@ -13,8 +12,8 @@ body {
 .calculator {
     background-color: gray;
     border: 2px solid white;
-    min-width: 300px;
-    width: 350px;
+    min-width: 475px;
+    width: 500px;
 }
 
 .tape {
@@ -28,7 +27,6 @@ body {
     background-color: white;
     color: black;
     border: 1px solid black;
-    width: 500px;
 }
 
 button {
@@ -52,7 +50,7 @@ button {
 
 .memory {
     background-color: black;
-    color: white;
+    color: red;
     font-family: Helvetica;
 }
 

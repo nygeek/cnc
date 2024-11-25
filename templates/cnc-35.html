@@ -6,7 +6,7 @@
     <h2>{{ appname }}</h2>
 <table>
     <tr>
-    <td colspan=2>
+    <td>
         <p>This calculator honors the late <a href="https://en.wikipedia.org/wiki/George_Stibitz">George Stibitz</a> of Bell Labs, creator in the 1930s of a <a href="https://www.computerhistory.org/revolution/birth-of-the-computer/4/85/342">complex number calculator</a> that was also one of the first demonstrations of telecomputing.
         
         <p>It also honors the <a href="https://en.wikipedia.org/wiki/HP-35">HP-35</a>, the first electronic scientific calculator.  The HP-35 was released commercially in 1972 and was sold until 1975.  The keyboard layout and color scheme is designed to evoke the HP-35, and its function replicates the RPN operating model of the HP-35.
@@ -17,10 +17,10 @@
     <table class=memory border="1px">
         <tr>
             <td width="25">M</td>
-            <td align="right" width="180" text-align: right>
+            <td align="right" width="225" text-align: right>
                 {{ stack.storcl.real }}
             </td>
-            <td align="right" width="180" text-align: right>
+            <td align="right" width="225" text-align: right>
                 {{ stack.storcl.imag }}
             </td>
         </tr>
@@ -29,8 +29,8 @@
         <caption style="font-family:Helvetica;color:white">Stack</caption>
         <tr style="font-family:Helvetica;color:white">
             <td width="25">&nbsp;</td>
-            <td align="center" width="180">real</td>
-            <td align="center" width="180">imag</td>
+            <td align="center" width="225">real</td>
+            <td align="center" width="225">imag</td>
         </tr>
         {% for index in range(stack.depth-1, -1, -1) %}
         <tr class="stack">

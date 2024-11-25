@@ -43,22 +43,19 @@ app = Flask(APPLICATION_NAME)
 app.secret_key = stash.get_secret()
 
 cnc_engine = ComplexNumberCalculator(stack_depth=8, clamp=1e-10)
-# cnc_stack_json = request.cookies.get('cnc_stack')
-# if cnc_stack_json is not None:
-#     cnc_engine.stack.load_stack_from_json(cnc_stack_json)
 
 @app.route("/")
 def index():
     """ display the calculator framework """
-    resp = make_response(render_template('cnc-35.html',
-            stack=cnc_engine.stack,
-            appname=APPLICATION_NAME,
-            tape=cnc_engine.log))
     cnc_stack_json = request.cookies.get('cnc_stack')
     if cnc_stack_json is None:
         resp.set_cookie('cnc_stack', cnc_engine.stack.stack_to_json())
     else:
         cnc_engine.stack.load_stack_from_json(cnc_stack_json)
+    resp = make_response(render_template('cnc-35.html',
+            stack=cnc_engine.stack,
+            appname=APPLICATION_NAME,
+            tape=cnc_engine.log))
     return resp
 
 
@@ -92,8 +89,8 @@ def digit(dig):
 @app.route("/status")
 def status():
     """ report the status of the appengine system """
-    cookie_value = request.cookies.get('xyzzy')
-    print(f"cookie_value: {cookie_value}")
+    cnc_stack_json = request.cookies.get('cnc_stack')
+    # print(f"cookie_value: {cnc_stack_json}")
     return render_template('status.html',
                            environ=os.environ,
-                           cookie=cookie_value)
+                           cookie=cnc_stack_json)
