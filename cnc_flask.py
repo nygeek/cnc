@@ -106,3 +106,6 @@ def status():
     return render_template('status.html',
                            environ=os.environ,
                            cnc_stack=cnc_stack_json)
+
+# [END gae_python3_app]
+# [END gae_python310_app]
