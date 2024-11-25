@@ -237,10 +237,7 @@ class ComplexNumberCalculator:
 
     def clr(self, _func):
         """ handle clr """
-        _zero = complex(0.0, 0.0)
-        for _ in range(0, self.stack.depth):
-            self.stack.push(_zero)
-        return _zero
+        self.stack.clear()
 
 
     def clx(self, _func):
