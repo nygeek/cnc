@@ -181,13 +181,14 @@
                 </a></td>
         </tr>
     </table>
+        <td style="vertical-align: top;"><div id="Tape" class="tape">
+            <p>Tape [{{ stack.count }}]</p>
+            <ol>
+            {% for entry in tape.log_list %}
+            <li>{{ entry }}
+            {% endfor %}
+            </ol>
         </div></td>
-        <td><div id="Tape" class="tape">
-                <p>Tape [{{ stack.count }}]</p>
-                <ol>
-                {% for entry in tape.log_list %}
-                <li>{{ entry }}
-                {% endfor %}
-                </ol>
-            </div></td>
+</table>
+
 {% endblock %}
