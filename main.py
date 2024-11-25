@@ -11,6 +11,8 @@ Started 2024-08-22 by Marc Donner
 
 Copyright (C) 2024 Marc Donner
 
+$Id$
+
 """
 
 # Started 2024-09-28 by Marc Donner
@@ -46,21 +48,22 @@ DEBUG = DebugTrace(False)
 stash = SecretStash()
 app = Flask(APPLICATION_NAME)
 
+app.secret_key = stash.get_secret()
+
 cnc_engine = ComplexNumberCalculator(stack_depth=8, clamp=1e-10)
-# cnc_engine.stack.push(complex(17))
 
 @app.route("/")
 def index():
     """ display the calculator framework """
-    resp = make_response(render_template('cnc-35.html',
-                        stack=cnc_engine.stack,
-                        appname=APPLICATION_NAME,
-                        tape=cnc_engine.log))
     cnc_stack_json = request.cookies.get('cnc_stack')
     if cnc_stack_json is None:
         resp.set_cookie('cnc_stack', cnc_engine.stack.stack_to_json())
     else:
         cnc_engine.stack.load_stack_from_json(cnc_stack_json)
+    resp = make_response(render_template('cnc-35.html',
+                        stack=cnc_engine.stack,
+                        appname=APPLICATION_NAME,
+                        tape=cnc_engine.log))
     return resp
 
 @app.route("/", methods=["POST"])
@@ -90,12 +93,14 @@ def digit(dig):
     resp.set_cookie('cnc_stack', cnc_engine.stack.stack_to_json())
     return resp
 
-
 @app.route("/status")
 def status():
     """ report the status of the appengine system """
-    return render_template('status.html', environ=os.environ)
-
+    cnc_stack_json = request.cookies.get('cnc_stack')
+    # print(f"cookie_value: {cnc_stack_json}")
+    return render_template('status.html',
+                           environ=os.environ,
+                           cookie=cnc_stack_json)
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=8080, debug=True)

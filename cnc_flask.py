@@ -1,6 +1,8 @@
-#!/usr/bin/python3
+""" 
 
-""" Implementation of the web UI for the CNC using:
+cnc_flask.py - root of flask cnc calculator.
+
+Implementation of the web UI for the CNC using:
     [1] ComplexNumberCalculator class in cnc.py,
     [2] HP35Stack class implemented in hp35stack.py
     [3] DebugTrace class implemented in trace_debug.py
@@ -12,6 +14,12 @@ Copyright (C) 2024 Marc Donner
 $Id$
 
 """
+
+# Started 2024-09-28 by Marc Donner
+# Contact: marc.donner@gmail.com
+
+# [START gae_python310_app]
+# [START gae_python3_app]
 
 # ----- Python Libraries ----- #
 
@@ -38,8 +46,8 @@ APPLICATION_NAME = 'CNC-Flask'
 DEBUG = DebugTrace(False)
 
 stash = SecretStash()
-
 app = Flask(APPLICATION_NAME)
+
 app.secret_key = stash.get_secret()
 
 cnc_engine = ComplexNumberCalculator(stack_depth=8, clamp=1e-10)
@@ -57,7 +65,6 @@ def index():
             appname=APPLICATION_NAME,
             tape=cnc_engine.log))
     return resp
-
 
 @app.route("/", methods=["POST"])
 def handle_post_form():
