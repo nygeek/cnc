@@ -61,20 +61,17 @@ button:hover {
 
 .trig {
     background-color: darkgray;
-    width: 60px;
 }
 
 .digit {
     background-color: white;
     border-color: black;
     color: black;
-    width: 60px;
 }
 
 .arithmetic {
     background-color: skyblue;
     color: white;
-    width: 60px;
 }
 
 .enter {
