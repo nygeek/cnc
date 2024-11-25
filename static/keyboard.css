@@ -76,3 +76,9 @@ button:hover {
     color: white;
     width: 60px;
 }
+
+.enter {
+    background-color: skyblue;
+    color: white;
+    width: 120px;
+}
