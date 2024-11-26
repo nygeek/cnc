@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% extends "layout.html" %}
+{% block body %}
+<link rel="icon" href="../static/cnc-favicon.png"/>
+<body>
+    <h2>{{ appname }}</h2>
+    <table class="status">
+        <caption>AppEngine Status</caption>
+        <tr><th>Attribute</th><th>Value</th></tr>
+        <tr><td>GAE_APPLICATION</td>
+            <td>{{ environ.get("GAE_APPLICATION") }}</td></tr>
+        <tr><td>GAE_DEPLOYMENT_ID</td>
+            <td>{{ environ.get("GAE_DEPLOYMENT_ID") }}</td></tr>
+        <tr><td>GAE_ENV</td>
+            <td>{{ environ.get("GAE_ENV") }}</td></tr>
+        <tr><td>GAE_INSTANCE</td>
+            <td>{{ environ.get("GAE_INSTANCE") }}</td></tr>
+        <tr><td>GAE_MEMORY_MB</td>
+            <td>{{ environ.get("GAE_MEMORY_MB") }}</td></tr>
+        <tr><td>GAE_RUNTIME</td>
+            <td>{{ environ.get("GAE_RUNTIME") }}</td></tr>
+        <tr><td>GAE_SERVICE</td>
+            <td>{{ environ.get("GAE_SERVICE") }}</td></tr>
+        <tr><td>GAE_VERSION</td>
+            <td>{{ environ.get("GAE_VERSION") }}</td></tr>
+        <tr><td>GOOGLE_CLOUD_PROJECT</td>
+            <td>{{ environ.get("GOOGLE_CLOUD_PROJECT") }}</td></tr>
+        <tr><td>PORT</td>
+            <td>{{ environ.get("PORT") }}</td></tr>
+    </table>
+    <table>
+        <caption>Cookies</caption>
+        <tr><th>Attribute</th><th>Value</th></tr>
+        <tr><td>cookie</td><td>{{ cookie }}</td></tr>
+        <table>
+</body>
+{% endblock %}
