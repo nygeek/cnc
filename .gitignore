@@ -13,3 +13,4 @@ build/
 .coverage
 cnc.sh
 version.txt
+*/.secret.json
