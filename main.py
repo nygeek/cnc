@@ -58,16 +58,16 @@ def index():
     cnc_stack_json = request.cookies.get('cnc_stack')
     if cnc_stack_json is None:
         resp = make_response(render_template('cnc-35.html',
-                        stack=cnc_engine.stack,
-                        appname=APPLICATION_NAME,
-                        tape=cnc_engine.log.log_list[-20:]))
+            stack=cnc_engine.stack,
+            appname=APPLICATION_NAME,
+            tape=cnc_engine.log.log_list[-20:]))
         resp.set_cookie('cnc_stack', cnc_engine.stack.stack_to_json())
     else:
         cnc_engine.stack.load_stack_from_json(cnc_stack_json)
     resp = make_response(render_template('cnc-35.html',
-                        stack=cnc_engine.stack,
-                        appname=APPLICATION_NAME,
-                        tape=cnc_engine.log.log_list[-20:]))
+        stack=cnc_engine.stack,
+        appname=APPLICATION_NAME,
+        tape=cnc_engine.log.log_list[-20:]))
     return resp
 
 @app.route("/", methods=["POST"])
