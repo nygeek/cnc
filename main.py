@@ -97,12 +97,12 @@ def digit(dig):
     resp.set_cookie('cnc_stack', cnc_engine.stack.stack_to_json())
     return resp
 
-@app.route("/status")
+@app.route("/info")
 def status():
     """ report the status of the appengine system """
     cnc_stack_json = request.cookies.get('cnc_stack')
     # print(f"cookie_value: {cnc_stack_json}")
-    return render_template('status.html',
+    return render_template('info.html',
                            environ=os.environ,
                            cnc_stack=cnc_stack_json)
 
