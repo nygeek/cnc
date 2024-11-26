@@ -47,7 +47,7 @@ SOURCE = \
 	static/cnc-favicon.png \
 	templates/cnc-35.html \
 	templates/layout.html \
-	templates/status.html 
+	templates/info.html 
 
 .PHONY: clean pylint listings test lint ci
 
