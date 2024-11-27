@@ -8,8 +8,6 @@ Started 2024-11-07 by Marc Donner
 
 Copyright (C) 2024 Marc Donner
 
-$Id$
-
 ToDo:
     [2024-11-10] Add a log of actions ('tape') that we can display
     or save.

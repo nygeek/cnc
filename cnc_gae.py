@@ -12,8 +12,6 @@ Started 2024-08-22 by Marc Donner
 
 Copyright (C) 2024 Marc Donner
 
-$Id$
-
 """
 
 # ----- Python Libraries ----- #

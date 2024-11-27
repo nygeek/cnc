@@ -11,8 +11,6 @@ Started 2024-08-22 by Marc Donner
 
 Copyright (C) 2024 Marc Donner
 
-$Id$
-
 """
 
 # Started 2024-09-28 by Marc Donner
