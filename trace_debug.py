@@ -4,8 +4,6 @@
 
     Copyright (C) 2024 Marc Donner
 
-    $Id$
-
 """
 
 # ----- Python Library ----- #

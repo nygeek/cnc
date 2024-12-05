@@ -8,8 +8,6 @@ Started 2024-08-30
 
 Copyright (C) 2024 Marc Donner
 
-$Id$
-
 ToDo:
     [2024-11-23] create a rendering of the stack that has [r, i]
     instead of complex.
