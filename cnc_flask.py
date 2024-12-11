@@ -55,6 +55,7 @@ def index():
     """ display the calculator framework """
     cnc_stack_json = request.cookies.get('cnc_stack')
     if cnc_stack_json is None:
+        flash('No cookie - starting empty.')
         resp = make_response(render_template('cnc-35.html',
             stack=cnc_engine.stack,
             appname=APPLICATION_NAME,
