@@ -18,10 +18,10 @@
         <tr>
             <td width="25">M</td>
             <td align="right" width="225" text-align: right>
-                {{ stack.storcl.real }}
+                {{ stack.storcl.real if stack.storcl.real != 0 else "" }}
             </td>
             <td align="right" width="225" text-align: right>
-                {{ stack.storcl.imag }}
+                {{ stack.storcl.imag if stack.storcl.imag != 0 else "" }}
             </td>
         </tr>
     </table>
@@ -35,8 +35,8 @@
         {% for index in range(stack.depth-1, -1, -1) %}
         <tr class="stack">
             <td align="center">{{ stack.labels[index] }}</td>
-            <td align="right">{{ stack.stack[index].real }}</td>
-            <td align="right">{{ stack.stack[index].imag }}</td>
+            <td align="right">{{ stack.stack[index].real if stack.stack[index].real != 0 else "" }}</td>
+            <td align="right">{{ stack.stack[index].imag if stack.stack[index].imag != 0 else "" }}</td>
         </tr>
         {% endfor %}
     </table>
