@@ -92,10 +92,8 @@ flask:
 	flask --app cnc_flask run
 
 listings:\
-	listing-trace_debug.pdf \
-	listing-hp35stack.pdf \
-	listing-Makefile.pdf \
-	listing-cnc_shell.pdf
+	listing-cnc_shell.pdf \
+	listing-cnc.pdf
 	mv $^ ~/tmp
 
 listing-%.ps: %.py
