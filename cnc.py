@@ -14,6 +14,8 @@ ToDo:
         [2024-11-12] Done
     [2024-11-10] Improve error / overflow handling
     [2024-11-10] Link user to session in GAE so that we do not restart.
+    [2025-11-18] Add an internal audit utility to itemize all of the loaded
+        libraries and identify their __version__ information.
 
 """
 
