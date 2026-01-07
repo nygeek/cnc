@@ -23,12 +23,11 @@ HERE := $(shell pwd)
 help:
 	cat Makefile
 	echo "OS: " ${OS}
+	echo "PYTHON: " ${PYTHON}
 	echo "DATE: " ${DATE}
 	echo "HERE: " ${HERE}
 
 PYTHON_SOURCE = \
-	trace_debug.py \
-	hp35stack.py \
 	cnc.py \
 	cnc_flask.py \
 	cnc_gae.py \
@@ -72,8 +71,6 @@ clean:
 	- rm *.ps *.pdf
 
 pylint:
-	- ${PYLINT} trace_debug.py
-	- ${PYLINT} hp35stack.py
 	- ${PYLINT} cnc_shell.py
 	- ${PYLINT} cnc.py
 	- ${PYLINT} cnc_flask.py

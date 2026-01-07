@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 """ Implementation of the interactive CNC Shell using the
-    ComplexNumberCalculator class in cnc.py, the HP35Stack9
+    ComplexNumberCalculator class in cnc.py, the HP35Stack
     class implemented in hp35stack.py and the DebugTrace
     class implemented in trace_debug.py
 

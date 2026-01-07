@@ -1,16 +1,3 @@
-RCS/
+# Created by venv; see https://docs.python.org/3/library/venv.html
+.hidden/
 .venv/
-__pycache__/
-stash/
-instance/
-.pytest_cache/
-htmlcov/
-dist/
-build/
-.htmlcov/
-*.egg-info/
-*.pyc
-.coverage
-cnc.sh
-version.txt
-*/.secret.json
