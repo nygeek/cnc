@@ -82,7 +82,7 @@ lint: pylint
 
 .PHONY: test
 test:
-	${PYTHON} cnc_shell.py
+	${PYTHON} ./cnc_shell.py
 
 .PHONY: flask
 flask:
