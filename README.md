@@ -161,7 +161,7 @@ Get the CMath10 and Math10 module:
 > git clone https://github.com/nygeek/cmath10.git
 ```
 
-""Of course, you may put the module anywhere you like.  I show it in ~/projects/c for ease in explaining.
+*Of course, you may put the module anywhere you like.  I show it in ~/projects/c for ease in explaining.*
 
 Get the HP35Stack module:
 ```
