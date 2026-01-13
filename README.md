@@ -155,7 +155,7 @@ the calculator back in the day.
 
 ### Installing
 
-Get the CMath10 and Math10 module:
+Get the CMath10 and Math10 modules:
 ```
 > cd ~/projects/c
 > git clone https://github.com/nygeek/cmath10.git
@@ -181,12 +181,12 @@ Get this module:
 1. ```> cd /cnc```
 1. ```> python -m venv .venv```
 1. ```> direnv allow```
+If you are not using [direnv](https://direnv.net/) you can skip step 5 (direnv allow) and instead run
+```> source .venv/bin/activate``` but you have to do it each time you cd into the directory.
 1. ```> pip install -e ~/projects/c/cmath10```
 1. ```> pip install -e ~/projects/h/hp35stack```
 1. ```> pip install -e ~/projects/t/tracedebug```
 
-If you are not using [direnv](https://direnv.net/) you can skip step 5 (direnv allow) and instead run
-```> source .venv/bin/activate```
 
 ### George Stibitz
 
