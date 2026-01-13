@@ -153,6 +153,41 @@ the calculator back in the day.
 1. xtoy
     * put x^y in x, removing both x and y
 
+### Installing
+
+Get the CMath10 and Math10 module:
+```
+> cd ~/projects/c
+> git clone https://github.com/nygeek/cmath10.git
+```
+
+Get the HP35Stack module:
+```
+> cd ~/projects/h
+> git clone https://github.com/nygeek/hp35stack.git
+```
+
+Get the DebugTrace module:
+```
+> cd ~/projects/t
+> git clone https://github.com/nygeek/tracedebug.git
+```
+
+Get this module:
+```
+1. > cd ~/projects/c
+1. > git clone https://github.com/nygeek/cnc.git
+1. > cd /cnc
+1. > python -m venv .venv
+1. > direnv allow
+1. > pip install -e ~/projects/c/cmath10
+1. > pip install -e ~/projects/h/hp35stack
+1. > pip install -e ~/projects/t/tracedebug
+```
+
+If you are not using direnv you can skip step 5 (direnv allow) and instead run
+```> source .venv/bin/activate```
+
 ### George Stibitz
 
 [George Stibitz](https://en.wikipedia.org/wiki/George_Stibitz/)
