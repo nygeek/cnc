@@ -185,7 +185,7 @@ Get this module:
 1. ```> pip install -e ~/projects/h/hp35stack```
 1. ```> pip install -e ~/projects/t/tracedebug```
 
-If you are not using direnv you can skip step 5 (direnv allow) and instead run
+If you are not using [https://direnv.net/ direnv] you can skip step 5 (direnv allow) and instead run
 ```> source .venv/bin/activate```
 
 ### George Stibitz
