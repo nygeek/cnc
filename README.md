@@ -52,7 +52,14 @@ be something like this:
 
    6.022 23 eex
 
-Because we enter and examine our numbers in decimal but do our
+### CNC characteristics
+
+This, the original CNC calculator, uses the math and cmath modules,
+which rely in turn on the underlying floating point hardware of your
+machine.  Modern machines almost always do their arithemtic using the
+[IEEE 754](https://en.wikipedia.org/wiki/IEEE_754) standard.
+
+Because we enter and display our numbers in decimal but do our
 calculations in binary, there are often small differences resulting
 from the conversion process.  To manage that we have added the
 "clamp" machinery.  When pushing a number onto the stack we check
@@ -62,6 +69,26 @@ the clamp value, which defaults to 1E-10, then we round that component
 to the closest integer.  You may examine the clamp value with the
 getclamp button and set it using the setclamp button.  Note that we
 do *not* clamp numbers to zero, just non-zero integers.
+
+### CNC10 characteristics
+
+This variant of cnc uses the long decimal arithmetic provided in
+the [decimal.py](https://docs.python.org/3/library/decimal.html) module.
+
+The decimal.py module handles arbitrary length numbers and does all
+of its operations in decimal.  However, decimal.py only offers a very
+limted number of mathematical functions.  In order to support the
+scientific calculator scope I have created a Math10.py module that
+augments decimal.py with most of the machinery offered in the base
+math.py module that comes with the base Python.  And in order to
+support the complex manipulations that were the original objective
+of creating this calculatory I created a CMath10.py module that
+implements most of the cmath.py functionality, but in arbitrary
+length decimal form.
+
+As of 2026-01-13 this is incomplete.  Worse yet, there are some
+tricky issues associated with the underlying mathematics that will
+need deeper study to make sure that I'm doing it right.
 
 ### Known bugs
 
