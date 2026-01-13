@@ -29,6 +29,7 @@ help:
 
 PYTHON_SOURCE = \
 	cnc.py \
+	cnc10.py \
 	cnc_flask.py \
 	cnc_gae.py \
 	cnc_shell.py \
