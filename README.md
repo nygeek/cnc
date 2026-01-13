@@ -181,8 +181,8 @@ Get this module:
 1. ```> cd /cnc```
 1. ```> python -m venv .venv```
 1. ```> direnv allow```  
-*If you are not using [direnv](https://direnv.net/) you can skip this step 5 and instead run
-```> source .venv/bin/activate``` but you have to do it each time you cd into the directory.*  
+*If you are not using [direnv](https://direnv.net/) you can skip this step and instead run
+```> source .venv/bin/activate``` each time you cd into the directory.*  
 1. ```> pip install -e ~/projects/c/cmath10```
 1. ```> pip install -e ~/projects/h/hp35stack```
 1. ```> pip install -e ~/projects/t/tracedebug```
