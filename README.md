@@ -82,7 +82,7 @@ scientific calculator scope I have created a Math10.py module that
 augments decimal.py with most of the machinery offered in the base
 math.py module that comes with the base Python.  And in order to
 support the complex manipulations that were the original objective
-of creating this calculatory I created a CMath10.py module that
+of creating this calculator I created a CMath10.py module that
 implements most of the cmath.py functionality, but in arbitrary
 length decimal form.
 
