@@ -176,16 +176,14 @@ Get the DebugTrace module:
 ```
 
 Get this module:
-```
-1. > cd ~/projects/c
-1. > git clone https://github.com/nygeek/cnc.git
-1. > cd /cnc
-1. > python -m venv .venv
-1. > direnv allow
-1. > pip install -e ~/projects/c/cmath10
-1. > pip install -e ~/projects/h/hp35stack
-1. > pip install -e ~/projects/t/tracedebug
-```
+1. ```> cd ~/projects/c```
+1. ```> git clone https://github.com/nygeek/cnc.git```
+1. ```> cd /cnc```
+1. ```> python -m venv .venv```
+1. ```> direnv allow```
+1. ```> pip install -e ~/projects/c/cmath10```
+1. ```> pip install -e ~/projects/h/hp35stack```
+1. ```> pip install -e ~/projects/t/tracedebug```
 
 If you are not using direnv you can skip step 5 (direnv allow) and instead run
 ```> source .venv/bin/activate```
