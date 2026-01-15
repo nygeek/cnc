@@ -33,6 +33,7 @@ PYTHON_SOURCE = \
 	cnc_flask.py \
 	cnc_gae.py \
 	cnc_shell.py \
+	cnc_shell10.py \
 	logcnc.py \
 	main.py
 
@@ -73,9 +74,9 @@ clean:
 
 pylint:
 	- ${PYLINT} cnc_shell.py
+	- ${PYLINT} cnc_shell10.py
 	- ${PYLINT} cnc.py
-	- ${PYLINT} cnc_flask.py
-	- ${PYLINT} cnc_gae.py
+	- ${PYLINT} cnc10.py
 	- ${PYLINT} logcnc.py
 	- ${PYLINT} main.py
 
@@ -83,7 +84,7 @@ lint: pylint
 
 .PHONY: test
 test:
-	${PYTHON} ./cnc_shell.py
+	${PYTHON} ./cnc_shell10.py
 
 .PHONY: flask
 flask:

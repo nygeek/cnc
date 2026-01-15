@@ -1,8 +1,12 @@
 #!/usr/bin/python3
 
-""" Implementation of the CNC calculator using the
+""" Implementation of the decimal CNC calculator using the
     HP35Stack class implemented in hp35stack.py and the Debug
     class implemented in trace_debug.py
+
+    If you are content with IEEE 754 floating point, you should
+    use cnc.py.  This module, cnc10.py, uses the decimal.py
+    library for arbitrary resolution decimal arithmetic.
 
 Started 2024-11-07 by Marc Donner
 
@@ -13,25 +17,25 @@ ToDo:
     or save.
         [2024-11-12] Done
     [2024-11-10] Improve error / overflow handling
-    [2024-11-10] Link user to session in GAE so that we do not restart.
-    [2025-11-18] Add an internal audit utility to itemize all of the loaded
-        libraries and identify their __version__ information.
 
 """
 
 # ----- Python Libraries ----- #
 import sys
 
-# ----- CNC libraries ----- #
-from hp35stack10 import HP35Stack10
-from trace_debug import DebugTrace
+# ----- Local libraries ----- #
 from logcnc import LogCNC
-from cmath10 import CMath10
-from math10 import Math10
+
+# ----- CNC libraries ----- #
+from hp35stack import HP35Stack
+from trace_debug import DebugTrace
+import cmath10
+import math10
 
 # ----- Variables ----- #
 
 DEBUG = DebugTrace(False)
+adapter = cmath10.StdLibAdapter
 
 # ----- Functions ----- #
 
@@ -57,11 +61,12 @@ def isa_number(text):
 #
 
 class ComplexNumberCalculator:
-    """ Class to implement the CNC-35 calculator """
+    """ Class to implement the decimal CNC-35 calculator """
 
-    def __init__(self, stack_depth=4):
+    def __init__(self, stack_depth=4, clamp=1e-10):
         """ Set up the structure of the calculator. """
-        self.stack = HP35Stack10(stack_depth)
+        self.stack = HP35Stack(stack_depth, math_mod=adapter)
+        self.clamp = clamp
         self.input_number = ""
         self.log = LogCNC()
 
