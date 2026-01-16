@@ -29,13 +29,13 @@ from logcnc import LogCNC
 # ----- CNC libraries ----- #
 from hp35stack import HP35Stack
 from trace_debug import DebugTrace
-import cmath10
+from cmath10 import StdLibAdapter
 import math10
 
 # ----- Variables ----- #
 
 DEBUG = DebugTrace(False)
-adapter = cmath10.StdLibAdapter
+adapter = StdLibAdapter
 
 # ----- Functions ----- #
 
@@ -65,7 +65,7 @@ class ComplexNumberCalculator:
 
     def __init__(self, stack_depth=4, clamp=1e-10):
         """ Set up the structure of the calculator. """
-        self.stack = HP35Stack(stack_depth, math_mod=adapter)
+        self.stack = HP35Stack(stack_depth, math_mod=StdLibAdapter)
         self.clamp = clamp
         self.input_number = ""
         self.log = LogCNC()
@@ -92,20 +92,20 @@ class ComplexNumberCalculator:
             "+": [self.binary, "add x and y",
                   lambda _x, _y: _x + _y],
             "arccos": [self.unary, "replace x with arccos(x)",
-                    CMath10.acos],
-                    # lambda _x: CMath10.acos(_x)],
+                    StdLibAdapter.acos],
+                    # lambda _x: StdLibAdapter.acos(_x)],
             "arcsin": [self.unary, "replace x with arcsin(x)",
-                    CMath10.asin],
+                    StdLibAdapter.asin],
             "arctan": [self.unary, "replace x with arctan(x)",
-                       CMath10.atan],
+                       StdLibAdapter.atan],
             "arg": [self.unary, "replace x with arg(x)",
-                    CMath10.phase],
+                    StdLibAdapter.phase],
             "chs": [self.unary, "reverse the sign of x",
-                    lambda _x: _x.mul(CMath10(-1,0))],
+                    lambda _x: _x.mul(StdLibAdapter(-1,0))],
             "clr": [self.clr, "clear the stack", self.no_op],
             "clx": [self.clx, "clear the x register", self.no_op],
             "cos": [self.unary, "replace x with cos(x)",
-                    CMath10.cos],
+                    StdLibAdapter.cos],
             "debug": [self.debug, "toggle the debug flag", self.no_op],
             "down": [self.down, "t to z, z to y, y to x, x to z",
                      self.no_op],
@@ -115,7 +115,7 @@ class ComplexNumberCalculator:
             "enter": [self.enter, "display the stack", self.no_op],
             "exch": [self.exch, "exchange x and y", self.no_op],
             "exp": [self.unary, "replace x with e^x",
-                    CMath10.exp],
+                    StdLibAdapter.exp],
             "help": [self.help, "display documentation", self.no_op],
             "i": [self.i, "push i on to the stack", self.no_op],
             "imag": [self.unary, "put imag(x) into x",
@@ -126,9 +126,9 @@ class ComplexNumberCalculator:
                      "render the stack as json.",
                      self.no_op],
             "log": [self.unary, "replace x with log(x) - log base 10",
-                    CMath10.log10],
+                    StdLibAdapter.log10],
             "ln": [self.unary, "replace x with ln(x) - natural log",
-                   CMath10.log],
+                   StdLibAdapter.log],
             "mod": [self.unary, "replace x with mod(x)",
                     abs],
             "pi": [self.pi, "push pi onto the stack", self.no_op],
@@ -140,17 +140,17 @@ class ComplexNumberCalculator:
             "rcl": [self.rcl, "replace x with the value in M",
                     self.no_op],
             "sin": [self.unary, "replace x with sin(x)",
-                    CMath10.sin],
+                    StdLibAdapter.sin],
             "sqrt": [self.unary, "replace x with sqrt(x)",
-                     CMath10.sqrt],
+                     StdLibAdapter.sqrt],
             "sto": [self.sto, "store x into M", self.no_op],
             "tan": [self.unary, "replace x with tan(x)",
-                    CMath10.tan],
+                    StdLibAdapter.tan],
             "tape": [self.handle_dump_log,
                      "dump the tape.",
                      self.no_op],
             "xtoy": [self.binary, "put x^y in x, removing both x and y",
-                     lambda _x, _y: CMath10.exp(CMath10.log(_x).mul(_y))],
+                     lambda _x, _y: StdLibAdapter.exp(StdLibAdapter.log(_x).mul(_y))],
             }
 
 
@@ -248,8 +248,8 @@ class ComplexNumberCalculator:
 
     def e(self, _func):
         """ put the constant e on the stack """
-        self.stack.push(CMath10.e)
-        return CMath10.e
+        self.stack.push(StdLibAdapter.e)
+        return StdLibAdapter.e
 
 
     def enter(self, _func):
@@ -300,7 +300,7 @@ class ComplexNumberCalculator:
 
     def pi(self, _func):
         """ handle the pi button """
-        _result = CMath10.pi
+        _result = StdLibAdapter.pi
         self.stack.push(_result)
         return _result
 
