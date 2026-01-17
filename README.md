@@ -190,12 +190,6 @@ Get the CMath10 and Math10 modules:
 
 *Of course, you may put the module anywhere you like.  I show it in ~/projects/c for ease in explaining.*
 
-Get the HP35Stack module:
-```
-> cd ~/projects/h
-> git clone https://github.com/nygeek/hp35stack.git
-```
-
 Get the DebugTrace module:
 ```
 > cd ~/projects/t
@@ -211,7 +205,6 @@ Get this module:
 *If you are not using [direnv](https://direnv.net/) you can skip this step and instead run
 ```> source .venv/bin/activate``` each time you cd into the directory.*  
 1. ```> pip install -e ~/projects/c/cmath10```
-1. ```> pip install -e ~/projects/h/hp35stack```
 1. ```> pip install -e ~/projects/t/tracedebug```
 
 
