@@ -18,6 +18,7 @@ import argparse
 
 # ----- Calculator libraries ----- #
 from cnc10 import ComplexNumberCalculator
+from cmath10 import StdLibAdapter
 from trace_debug import DebugTrace
 
 # ----- Variables ----- #
@@ -48,7 +49,7 @@ def cnc_shell(depth=8, clamp=1e-10):
 
                 # is it a number?
                 try:
-                    _number = complex(token)
+                    _number = StdLibAdapter.complex(token)
                     cnc.stack.increment_count()
                     cnc.number(_number)
                     continue

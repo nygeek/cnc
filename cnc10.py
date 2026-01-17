@@ -109,7 +109,8 @@ class ComplexNumberCalculator:
             "debug": [self.debug, "toggle the debug flag", self.no_op],
             "down": [self.down, "t to z, z to y, y to x, x to z",
                      self.no_op],
-            "e": [self.e, "push e onto the stack", self.no_op],
+            "e": [self.nullary, 
+                  "push e onto the stack", StdLibAdapter.e],
             "eex": [self.binary, "push y * (10^x) onto the stack",
                     lambda _x, _y: _y * (10 ** int(_x.real))],
             "enter": [self.enter, "display the stack", self.no_op],
@@ -122,6 +123,7 @@ class ComplexNumberCalculator:
                      lambda _x: _x.imag],
             "inv": [self.unary, "replace x with put 1/x",
                     lambda _x: 1 / _x if _x != 0 else _x],
+            "j": [self.i, "push i on to the stack", self.no_op],
             "json": [self.handle_render_stack,
                      "render the stack as json.",
                      self.no_op],
@@ -131,7 +133,8 @@ class ComplexNumberCalculator:
                    StdLibAdapter.log],
             "mod": [self.unary, "replace x with mod(x)",
                     abs],
-            "pi": [self.pi, "push pi onto the stack", self.no_op],
+            "pi": [self.nullary, 
+                   "push pi onto the stack", StdLibAdapter.pi],
             "push": [self.push, "push everything up the stack",
                      self.no_op],
             "quit": [self.quit, "exit the calculator", self.no_op],
@@ -150,7 +153,8 @@ class ComplexNumberCalculator:
                      "dump the tape.",
                      self.no_op],
             "xtoy": [self.binary, "put x^y in x, removing both x and y",
-                     lambda _x, _y: StdLibAdapter.exp(StdLibAdapter.log(_x).mul(_y))],
+                     lambda _x, _y: 
+                     StdLibAdapter.exp(StdLibAdapter.log(_x).mul(_y))],
             }
 
 
@@ -177,10 +181,10 @@ class ComplexNumberCalculator:
                 _result = (self.handle_button_by_name(token), "")
             elif isa_number(token):
                 # it is a number
-                _number = complex(token)
+                _number = StdLibAdapter.complex(token)
                 # self.stack.push(_number)
                 self.stack.increment_count()
-                # print(f"[number] token: {token}, _number: {_number}")
+                print(f"DEBUG handle_string [number] token: {token}, _number: {_number} type(_number): {type(number)}")
                 _result = (self.number(_number), "")
             else:
                 # it is an error
@@ -192,6 +196,8 @@ class ComplexNumberCalculator:
         """ handle binary operator """
         _x = self.stack.pop()
         _y = self.stack.pop()
+        print(f"DEBUG binary: _x={_x}, type={type(_x)}")
+        print(f"DEBUG binary: _y={_y}, type={type(_x)}")
         _result = _func(_x, _y)
         self.stack.push(_result)
         return _result
@@ -199,7 +205,7 @@ class ComplexNumberCalculator:
 
     def digit(self, _digit):
         """ handle a digit clicked on a 'keyboard' """
-        _zero = complex(0, 0)
+        _zero = StdLibAdapter.complex(0, 0)
         _x = self.stack.stack[0]
         if self.input_number == "":
             self.stack.push(_zero)
@@ -220,6 +226,13 @@ class ComplexNumberCalculator:
         return _result
 
 
+    def nullary(self, _func):
+        """ handle nullary operator """
+        _result = _func()
+        self.stack.push(_result)
+        return _result
+
+
 # From here on down the methods are listed in alphabetical order #
 
     def clr(self, _func):
@@ -229,7 +242,7 @@ class ComplexNumberCalculator:
 
     def clx(self, _func):
         """ handle clx """
-        _zero = complex(0.0, 0.0)
+        _zero = StdLibAdapter.complex(0.0, 0.0)
         self.stack.set_x(_zero)
         return _zero
 
@@ -286,7 +299,7 @@ class ComplexNumberCalculator:
 
     def i(self, _func):
         """ handle i (also handles j) """
-        _result = complex(0, 1)
+        _result = StdLibAdapter.complex(0, 1)
         self.stack.push(_result)
         return _result
 
