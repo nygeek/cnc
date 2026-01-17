@@ -34,6 +34,7 @@ PYTHON_SOURCE = \
 	cnc_gae.py \
 	cnc_shell.py \
 	cnc_shell10.py \
+	hp35stack.py \
 	logcnc.py \
 	main.py
 
