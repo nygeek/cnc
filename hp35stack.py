@@ -65,7 +65,6 @@ class HP35Stack:
         for j in range(self.depth - 1, 0, -1):
             self.stack[j] = self.stack[j-1]
         self.set_x(cn)
-        print(f"DEBUG push: cn: {cn}, type(cn): {type(cn)}")
         return cn
 
 

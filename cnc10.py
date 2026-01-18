@@ -21,6 +21,7 @@ ToDo:
 """
 
 # ----- Python Libraries ----- #
+import re
 import sys
 
 # ----- Local libraries ----- #
@@ -39,15 +40,33 @@ adapter = StdLibAdapter
 
 # ----- Functions ----- #
 
-def isa_number(text):
-    """ might be complex or float """
-    if not text.isnumeric():
-        try:
-            complex(text)
-            return True
-        except ValueError:
-            return False
-    return True
+TOKEN_PATTERNS = [
+    ('COMPLEX',   r'\([+-]?([0-9]+\.?[0-9]*|\.[0-9]+)([Ee][+-]?[0-9]+)?\s*,\s*[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)([Ee][+-]?[0-9]+)?\)'),
+    ('NUMBER',    r'[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)([Ee][+-]?[0-9]+)?'),
+    ('OPERATOR',  r'[+\-*/]'),
+    ('ALPHA',     r'[a-zA-Z_][a-zA-Z0-9_]*'),  # Identifiers
+]
+
+def tokenize(text):
+    """
+    Extract the first token from text.
+    Returns (token_type, value, suffix) or (None, None, '')
+    """
+    # skip leading white space
+    text = text.lstrip()
+    if not text:
+        return (None, None, '')
+
+    # Try each pattern
+    for token_type, pattern in TOKEN_PATTERNS:
+        match = re.match(pattern, text)
+        if match:
+            value = match.group(0)
+            suffix = text[match.end():]
+            return (token_type, value, suffix)
+
+    return ('INVALID', text, '')
+
 
 #
 # The two functions binary() and unary() are generic mechanisms for
@@ -93,6 +112,8 @@ class ComplexNumberCalculator:
                   lambda _x, _y: _x.mul(_y)],
             "+": [self.binary, "add x and y",
                   lambda _x, _y: _x + _y],
+            "abs": [self.unary, "replace x with mod(x) [absolute value]",
+                    abs],
             "arccos": [self.unary, "replace x with arccos(x)",
                     StdLibAdapter.acos],
                     # lambda _x: StdLibAdapter.acos(_x)],
@@ -104,6 +125,7 @@ class ComplexNumberCalculator:
                     StdLibAdapter.phase],
             "chs": [self.unary, "reverse the sign of x",
                     lambda _x: _x.mul(StdLibAdapter(-1,0))],
+            "clear": [self.clr, "clear the stack", self.no_op],
             "clr": [self.clr, "clear the stack", self.no_op],
             "clx": [self.clx, "clear the x register", self.no_op],
             "cos": [self.unary, "replace x with cos(x)",
@@ -133,7 +155,7 @@ class ComplexNumberCalculator:
                     StdLibAdapter.log10],
             "ln": [self.unary, "replace x with ln(x) - natural log",
                    StdLibAdapter.log],
-            "mod": [self.unary, "replace x with mod(x)",
+            "mod": [self.unary, "replace x with mod(x) [absolute value]",
                     abs],
             "pi": [self.nullary, 
                    "push pi onto the stack", StdLibAdapter.pi],
@@ -174,23 +196,27 @@ class ComplexNumberCalculator:
 
     def handle_string(self, text):
         """ handle a command string """
-        self.input_number = ""
-        tokens = text.split()
-        for token in tokens:
-            # is it a button?
-            if token in self.buttons:
-                # yes
-                _result = (self.handle_button_by_name(token), "")
-            elif isa_number(token):
-                # it is a number
-                _number = StdLibAdapter.complex(token)
-                # self.stack.push(_number)
+        while text:
+            (type, token, rest) = tokenize(text)
+            if (type == "ALPHA" or type == "OPERATOR") \
+                    and token in self.buttons:
+                # it is a button
+                _result = (self.handle_button_by_name(token), token)
+            elif type == "COMPLEX":
+                match = re.match(r'\(([^,]+),([^)]+)\)', token)
+                _real_str = match.group(1).strip()
+                _imag_str = match.group(2).strip()
+                _number = StdLibAdapter.complex(_real_str, _imag_str)
                 self.stack.increment_count()
-                print(f"DEBUG handle_string [number] token: {token}, _number: {_number} type(_number): {type(number)}")
+                _result = (self.number(_number), "")
+            elif type == "NUMBER":
+                _number = StdLibAdapter.complex(token)
+                self.stack.increment_count()
                 _result = (self.number(_number), "")
             else:
                 # it is an error
                 _result = (-1, "Unrecognized: '" + text + "'")
+            text = rest
         return _result
 
 
@@ -198,8 +224,6 @@ class ComplexNumberCalculator:
         """ handle binary operator """
         _x = self.stack.pop()
         _y = self.stack.pop()
-        print(f"DEBUG binary: _x={_x}, type={type(_x)}")
-        print(f"DEBUG binary: _y={_y}, type={type(_x)}")
         _result = _func(_x, _y)
         self.stack.push(_result)
         return _result
@@ -282,7 +306,7 @@ class ComplexNumberCalculator:
 
     def help(self, _func):
         """ handle help """
-        print("Complex Calculator")
+        print("Decimal Complex Calculator")
         print("")
         print("This calculator is constructed in honor of the late")
         print("George R Stibitz and 1972's HP35 scientific calculator.\n")

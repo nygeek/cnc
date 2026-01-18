@@ -27,11 +27,11 @@ Roll down, shown on the keyboard with the letter R and a down arrow,
 would move T to Z, Z to Y, Y to X, and X around to T.  We call this
 'down'.
 
-STO would take the value in save it in M.  RCL would replace the
-value in X with the value stored in M.
+STO would take the value in X and save it in M.  RCL would replace
+the value in X with the value from M.
 
-A unary function would replace the value of X with the result of
-the function.
+A unary function, say sqrt,  would replace the value of X with the
+result of the function.
 
 A binary function would operate on X and Y.  The result would be
 left in X and the values above in the stack would be pulled down:
@@ -53,6 +53,16 @@ be something like this:
    6.022 23 eex
 
 ### CNC characteristics
+
+Out-of-the box the CNC calculator creates an eight-element stack
+instead of the original HP-35's four.  The four extra elements
+are imaginatively numbered 4, 5, 6, and 7.  The idiosyncratic
+behavior of the original HP-35 T register (duplicating to the
+register below it on any operation consuming an element of the
+stack) is now that of element 7.
+
+An enterprising user may edit the source code of cnc and change the
+size of the stack to any particular value they like.  Best of luck.
 
 This, the original CNC calculator, uses the math and cmath modules,
 which rely in turn on the underlying floating point hardware of your

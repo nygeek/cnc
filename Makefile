@@ -32,8 +32,7 @@ PYTHON_SOURCE = \
 	cnc10.py \
 	cnc_flask.py \
 	cnc_gae.py \
-	cnc_shell.py \
-	cnc_shell10.py \
+	shell.py \
 	hp35stack.py \
 	logcnc.py \
 	main.py
@@ -83,9 +82,15 @@ pylint:
 
 lint: pylint
 
-.PHONY: test
+.PHONY: test decimal binary
 test:
-	${PYTHON} ./cnc_shell10.py
+	${PYTHON} ./shell.py
+
+decimal:
+	${PYTHON} ./shell.py --decimal
+
+binary:
+	${PYTHON} ./shell.py --binary
 
 .PHONY: flask
 flask:
