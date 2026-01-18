@@ -113,7 +113,9 @@ class ComplexNumberCalculator:
             "+": [self.binary, "add x and y",
                   lambda _x, _y: _x + _y],
             "abs": [self.unary, "replace x with mod(x) [absolute value]",
-                    abs],
+                    StdLibAdapter.abs],
+            "mod": [self.unary, "replace x with mod(x) [absolute value]",
+                    StdLibAdapter.abs],
             "arccos": [self.unary, "replace x with arccos(x)",
                     StdLibAdapter.acos],
                     # lambda _x: StdLibAdapter.acos(_x)],
@@ -155,8 +157,6 @@ class ComplexNumberCalculator:
                     StdLibAdapter.log10],
             "ln": [self.unary, "replace x with ln(x) - natural log",
                    StdLibAdapter.log],
-            "mod": [self.unary, "replace x with mod(x) [absolute value]",
-                    abs],
             "pi": [self.nullary, 
                    "push pi onto the stack", StdLibAdapter.pi],
             "push": [self.push, "push everything up the stack",
@@ -196,6 +196,7 @@ class ComplexNumberCalculator:
 
     def handle_string(self, text):
         """ handle a command string """
+        _result = -1
         while text:
             (type, token, rest) = tokenize(text)
             if (type == "ALPHA" or type == "OPERATOR") \
@@ -247,6 +248,7 @@ class ComplexNumberCalculator:
     def unary(self, _func):
         """ handle unary operator """
         _x = self.stack.pop()
+        print(f"DEBUG unary(self: {self}, _func: {_func}")
         _result = _func(_x)
         self.stack.push(_result)
         return _result
