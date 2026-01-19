@@ -77,10 +77,9 @@ def tokenize(text):
 class ComplexNumberCalculator:
     """ Class to implement the CNC-35 calculator """
 
-    def __init__(self, stack_depth=4, clamp=1e-10):
+    def __init__(self, stack_depth=4):
         """ Set up the structure of the calculator. """
-        self.stack = HP35Stack(stack_depth, rel_tol=clamp)
-        self.clamp = clamp
+        self.stack = HP35Stack(stack_depth)
         self.input_number = ""
         self.log = LogCNC()
 
@@ -132,8 +131,6 @@ class ComplexNumberCalculator:
             "exch": [self.exch, "exchange x and y", self.no_op],
             "exp": [self.unary, "replace x with e^x",
                     cmath.exp],
-            "getclamp": [self.get_clamp, "push the clamp value.",
-                         self.no_op],
             "help": [self.help, "display documentation", self.no_op],
             "i": [self.i, "push i on to the stack", self.no_op],
             "imag": [self.unary, "put imag(x) into x",
@@ -157,9 +154,6 @@ class ComplexNumberCalculator:
                      lambda _x: _x.real],
             "rcl": [self.rcl, "replace x with the value in M",
                     self.no_op],
-            "setclamp": [self.set_clamp,
-                         "set the clamp threshold.",
-                         self.no_op],
             "sin": [self.unary, "replace x with sin(x)",
                     cmath.sin],
             "sqrt": [self.unary, "replace x with sqrt(x)",
@@ -249,19 +243,6 @@ class ComplexNumberCalculator:
         self.stack.push(_result)
         return _result
 
-
-    def set_clamp(self, _func):
-        """ set the clamp value """
-        self.stack.rel_tol = self.stack.pop().real
-        return self.stack.rel_tol
-
-
-    def get_clamp(self, _func):
-        """ push the clamp value onto the stack """
-        self.stack.push(0+0j)
-        # this avoids applying clamp to the clamp threshold :-)
-        self.stack.set_x(self.stack.rel_tol)
-        # Do not say "hack!"
 
 # From here on down the methods are listed in alphabetical order #
 

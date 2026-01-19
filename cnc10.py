@@ -24,21 +24,20 @@ ToDo:
 import re
 import sys
 
-# ----- Local libraries ----- #
-from logcnc import LogCNC
-
 # ----- CNC libraries ----- #
 from hp35stack import HP35Stack
 from trace_debug import DebugTrace
-from cmath10 import StdLibAdapter
+from logcnc import LogCNC
+
 import math10
+from cmath10 import StdLibAdapter
 
 # ----- Variables ----- #
 
 DEBUG = DebugTrace(False)
 adapter = StdLibAdapter
 
-# ----- Functions ----- #
+# ----- Tokenizer ----- #
 
 TOKEN_PATTERNS = [
     ('COMPLEX',   r'\([+-]?([0-9]+\.?[0-9]*|\.[0-9]+)([Ee][+-]?[0-9]+)?\s*,\s*[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)([Ee][+-]?[0-9]+)?\)'),
@@ -76,16 +75,16 @@ def tokenize(text):
 #
 # As of 2024-11-06 six buttons are bound to binary
 # As of 2024-11-06 sixteen buttons are bound to unary
-# As of 2024-11-06 seventeen buttons are bound to sixteen unique handlers
+# As of 2024-11-06 seventeen buttons are bound to sixteen
+#                  unique handlers
 #
 
 class ComplexNumberCalculator:
     """ Class to implement the decimal CNC-35 calculator """
 
-    def __init__(self, stack_depth=4, clamp=1e-10):
+    def __init__(self, stack_depth=4):
         """ Set up the structure of the calculator. """
         self.stack = HP35Stack(stack_depth, math_mod=StdLibAdapter)
-        self.clamp = clamp
         self.input_number = ""
         self.log = LogCNC()
 

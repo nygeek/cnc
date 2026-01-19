@@ -1,7 +1,6 @@
 #
 # CNC project Makefile
 #
-# $Id$
 
 # Make us OS-independent ... at least for MacOS and Linux
 OS := $(shell uname -s)
@@ -58,10 +57,14 @@ FILES = \
 
 .PHONY: install
 install: 
-	echo 'python3' ${HERE}/cnc_shell.py '$$*' > cnc.sh
+	echo 'python3' ${HERE}/shell.py --binary '$$*' > cnc.sh
+	echo 'python3' ${HERE}/shell.py --decimal '$$*' > cnc10.sh
 	cp cnc.sh ${HOME}/bin/cnc
+	cp cnc10.sh ${HOME}/bin/cnc10
 	chmod +x ${HOME}/bin/cnc
+	chmod +x ${HOME}/bin/cnc10
 	- rm cnc.sh
+	- rm cnc10.sh
 
 .PHONY: gae_deploy
 gae_deploy:
@@ -96,15 +99,15 @@ binary:
 flask:
 	flask --app cnc_flask run
 
-listings:\
-	listing-cnc_shell.pdf \
-	listing-cnc.pdf
-	mv $^ ~/tmp
+LISTINGS = cnc.pdf cnc10.pdf hp35stack.pdf Makefile.pdf shell.pdf
 
-listing-%.ps: %.py
+listings: ${LISTINGS}
+	mv ${LISTINGS} ~/tmp
+
+%.ps: %.py
 	enscript -G $< -p $@
 
-listing-Makefile.ps: Makefile
+Makefile.ps: Makefile
 	enscript -G $< -p $@
 
 %.pdf: %.ps

@@ -1,13 +1,26 @@
 #!/usr/bin/python3
 
-""" Implementation of the interactive decimal CNC Shell using the
-    ComplexNumberCalculator class in cnc10.py, the CMath10 class
-    implemented in cmath10.py and math10.py based on decimal.py,
-    the HP35Stack class implemented in hp35stack.py and the DebugTrace
-    class implemented in trace_debug.py
+""" Implementation of the interactive CNC Shell.
+
+    The calculator is polymorphic:
+
+    With the --binary command-line argument it runs with a kernel
+    based on the native Python complex type and the cmath library.
+
+    With the --decimal command-line argument it runs with a kernel
+    based on the decimal.py module plus two math modules built
+    on top of that: math10, which augments the decimal module
+    with functions from the math module, and cmath10, which
+    adds decimal versions of the functions from cmath.
+
+    It uses the hp35stack module to implement the stack behavior
+    of the original HP-35 calculator from 1972.
+
+    It also incorporates the DebugTrace class implemented in
+    trace_debug.py
 
 Started 2024-08-22 by Marc Donner
-Forked from cnc_shell.py 2026-01-14 by Marc Donner
+Derived from cnc_shell.py 2026-01-14 by Marc Donner
 
 Copyright (C) 2026 Marc Donner
 
