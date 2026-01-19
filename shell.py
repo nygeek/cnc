@@ -14,7 +14,7 @@
     adds decimal versions of the functions from cmath.
 
     It uses the hp35stack module to implement the stack behavior
-    of the original HP-35 calculator from 1972.
+    of the original HP35 calculator from 1972.
 
     It also incorporates the DebugTrace class implemented in
     trace_debug.py

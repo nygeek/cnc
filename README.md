@@ -5,10 +5,6 @@ the 1972 HP35 scientific calculator.
 
 ## About
 
-The debug machinery is implemented using the Python trace hooks,
-thus triggering a callout to a trace function on each method entry
-and exit.
-
 The HP35 calculator had four primary registers arranged in a stack.
 The four registers were called X, Y, Z, and T.  In addition there
 was a memory register called M.  Our implementation of the HP35
@@ -55,9 +51,9 @@ be something like this:
 ### CNC characteristics
 
 Out-of-the box the CNC calculator creates an eight-element stack
-instead of the original HP-35's four.  The four extra elements
+instead of the original HP35's four.  The four extra elements
 are imaginatively numbered 4, 5, 6, and 7.  The idiosyncratic
-behavior of the original HP-35 T register (duplicating to the
+behavior of the original HP35 T register (duplicating to the
 register below it on any operation consuming an element of the
 stack) is now that of element 7.
 
@@ -99,6 +95,12 @@ length decimal form.
 As of 2026-01-13 this is incomplete.  Worse yet, there are some
 tricky issues associated with the underlying mathematics that will
 need deeper study to make sure that I'm doing it right.
+
+### Debug tracing
+
+The debug machinery is implemented using the Python trace hooks,
+thus triggering a callout to a trace function on each method entry
+and exit.
 
 ### Known bugs
 
