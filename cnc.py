@@ -191,14 +191,10 @@ class ComplexNumberCalculator:
                 # it is a button
                 _result = (self.handle_button_by_name(token), token)
             elif type == "COMPLEX":
-                print(f"DEBUG: handle_string: text: {text}")
                 match = re.match(r'\(([^,]+),([^)]+)\)', token)
                 _real_str = match.group(1).strip()
-                print(f"DEBUG: handle_string: _real_str: {_real_str}")
                 _imag_str = match.group(2).strip()
-                print(f"DEBUG: handle_string: _imag_str: {_imag_str}")
                 _number = complex(float(_real_str), float(_imag_str))
-                print(f"DEBUG: hanle_string: _number: {_number}")
                 self.stack.increment_count()
                 _result = (self.number(_number), "")
             elif type == "NUMBER":
