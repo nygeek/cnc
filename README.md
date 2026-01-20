@@ -5,6 +5,11 @@ the 1972 HP35 scientific calculator.
 
 ## About
 
+The HP35 calculator was introduced by Hewlett Packard in the fall
+of 1972.  It was the first scientific calculator in a pocket sized
+form factor.  While it was expensive, $395 in 1972, its price was
+only about five times that of a contemporary high-end slide rule.
+
 The HP35 calculator had four primary registers arranged in a stack.
 The four registers were called X, Y, Z, and T.  In addition there
 was a memory register called M.  Our implementation of the HP35
@@ -12,9 +17,9 @@ stack has eight elements rather than four.  The bottom four are
 shown as X, Y, Z, and T, but the rest are simply shown by their
 index.
 
-The bottom register, called X, was always displayed.  We display
-the entire stack and the M register every time the enter key is
-pressed.
+The bottom register, called X, was always displayed on the HP35.
+The CNC shell displays the entire stack and the M register every
+time the enter key is pressed.
 
 Pressing enter would push the number in X up to Y, Y up to Z, and
 Z up to T.  When this was done the value in T was lost.
@@ -36,10 +41,9 @@ operation the T and Z registers would hold the same value.
 
 The EEX (Enter Exponent) button on the original HP35 operated
 completely outside the stack logic of the calculator.  If you were
-in the midst of entering a number you could press EEX button and
-could type digits into the exponent of the scientific notation
-representation of the value being entered into X.  You could set
-the sign of the exponent if you chose.  Our EEX implementation,
+in the midst of entering a number digit-by-digit you could press
+the EEX button and could type digits into the exponent.  You could
+set the sign of the exponent if you chose.  Our EEX implementation,
 however, uses the integer part of the real number in X and creates
 a number 10^(int(X.real)) in X and then multiplies Y by that number.
 
