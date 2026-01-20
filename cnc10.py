@@ -41,7 +41,7 @@ adapter = StdLibAdapter
 
 # NUM is a regular expression that matches an arbitrary
 # number (integer, decimal, scientific notation)
-NUM ='[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)([Ee][+-]?[0-9]+)?'
+NUM =r'[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)([Ee][+-]?[0-9]+)?'
 
 TOKEN_PATTERNS = [
     ('COMPLEX',   rf'\({NUM}+\s*,\s*+{NUM}\)'),
@@ -129,7 +129,7 @@ class ComplexNumberCalculator:
             "arg": [self.unary, "replace x with arg(x)",
                     StdLibAdapter.phase],
             "chs": [self.unary, "reverse the sign of x",
-                    lambda _x: _x.mul(StdLibAdapter(-1,0))],
+                    lambda _x: _x.mul(StdLibAdapter.complex(-1,0))],
             "clear": [self.clr, "clear the stack", self.no_op],
             "clr": [self.clr, "clear the stack", self.no_op],
             "clx": [self.clx, "clear the x register", self.no_op],
@@ -151,11 +151,11 @@ class ComplexNumberCalculator:
             "imag": [self.unary, "put imag(x) into x",
                      lambda _x: _x.imag],
             "inv": [self.unary, "replace x with put 1/x",
-                    lambda _x: 1 / _x if _x != 0 else _x],
+                    lambda _x: StdLibAdapter.complex(1,0).div(_x) if _x != 0 else _x],
             "j": [self.i, "push i on to the stack", self.no_op],
-            "json": [self.handle_render_stack,
-                     "render the stack as json.",
-                     self.no_op],
+            # "json": [self.handle_render_stack,
+            #          "render the stack as json.",
+            #          self.no_op],
             "log": [self.unary, "replace x with log(x) - log base 10",
                     StdLibAdapter.log10],
             "ln": [self.unary, "replace x with ln(x) - natural log",
