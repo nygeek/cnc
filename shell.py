@@ -31,6 +31,8 @@ import argparse
 
 # ----- Calculator libraries ----- #
 from trace_debug import DebugTrace
+from cnc import ComplexNumberCalculator
+from cnc10 import ComplexNumberCalculator as ComplexNumberCalculator10
 
 # ----- Variables ----- #
 
@@ -39,7 +41,6 @@ DEBUG = DebugTrace(False)
 
 def main():
     """ Handle command line arguments and then call the shell. """
-    mode = "Decimal"
     parser = argparse.ArgumentParser(
             description='Decimal CNC complex number calculator.')
     parser.add_argument('-d', '--debug', dest='debug',
@@ -60,15 +61,13 @@ def main():
     if args.depth is not None and args.depth >= 4:
         depth = args.depth
     if args.mode == 'decimal':
-        print(f"Using decimal kernel.")
+        print("Using decimal kernel.")
         application_name = "cnc10"
-        from cnc10 import ComplexNumberCalculator
+        cnc_shell(ComplexNumberCalculator10, depth, name=application_name)
     else:
-        print(f"Using binary kernel.")
+        print("Using binary kernel.")
         application_name = "cnc"
-        from cnc import ComplexNumberCalculator
-
-    cnc_shell(ComplexNumberCalculator, depth, name=application_name)
+        cnc_shell(ComplexNumberCalculator, depth, name=application_name)
 
 
 def cnc_shell(kernel, depth=8, name=">"):

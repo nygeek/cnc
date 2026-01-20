@@ -57,8 +57,8 @@ FILES = \
 
 .PHONY: install
 install: 
-	echo 'python3' ${HERE}/shell.py --binary '$$*' > cnc.sh
-	echo 'python3' ${HERE}/shell.py --decimal '$$*' > cnc10.sh
+	echo ${HERE}/.venv/bin/python ${HERE}/shell.py --binary '$$*' > cnc.sh
+	echo ${HERE}/.venv/bin/python ${HERE}/shell.py --decimal '$$*' > cnc10.sh
 	cp cnc.sh ${HOME}/bin/cnc
 	cp cnc10.sh ${HOME}/bin/cnc10
 	chmod +x ${HOME}/bin/cnc

@@ -33,13 +33,14 @@ from logcnc import LogCNC
 
 DEBUG = DebugTrace(False)
 
-# ----- Functions ----- #
+# ----- Tokenizer ----- #
 
+NUM ='[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)([Ee][+-]?[0-9]+)?'
 TOKEN_PATTERNS = [
-    ('COMPLEX',   r'\([+-]?([0-9]+\.?[0-9]*|\.[0-9]+)([Ee][+-]?[0-9]+)?\s*,\s*[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)([Ee][+-]?[0-9]+)?\)'),
-    ('NUMBER',    r'[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)([Ee][+-]?[0-9]+)?'),
+    ('COMPLEX',   rf'\({NUM}+\s*,\s*+{NUM}\)'),
+    ('NUMBER',    rf'{NUM}'),
     ('OPERATOR',  r'[+\-*/]'),
-    ('ALPHA',     r'[a-zA-Z_][a-zA-Z0-9_]*'),  # Identifiers
+    ('ALPHA',     r'[a-zA-Z_][a-zA-Z0-9_]*'),
 ]
 
 def tokenize(text):

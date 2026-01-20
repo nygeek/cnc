@@ -20,6 +20,8 @@ ToDo:
 
 import json
 from trace_debug import DebugTrace
+# import cmath
+from cmath10 import StdLibAdapter
 
 # ----- Variables ----- #
 
@@ -30,7 +32,7 @@ DEBUG = DebugTrace(False)
 class HP35Stack:
     """ Class to implement the HP35 Stack and sto/rcl register """
 
-    def __init__(self, depth=4, rel_tol=1e-10, math_mod=None):
+    def __init__(self, depth=4, math_mod=None):
         if math_mod is None:
             # Use Python's built-in
             self.make_complex = complex
@@ -40,7 +42,6 @@ class HP35Stack:
         _zero = self.make_complex(0.0, 0.0)
         self.stack = [_zero] * depth
         self.depth = depth
-        self.rel_tol = rel_tol
         self.labels = ['0'] * depth
         for j in range(4, depth):
             self.labels[j] = str(j)
@@ -134,7 +135,6 @@ class HP35Stack:
             stack[i] = [self.stack[i].real, self.stack[i].imag]
         result['stack'] = stack
         result['storcl'] = [self.storcl.real, self.storcl.imag]
-        result['rel_tol'] = self.rel_tol
         result['depth'] = self.depth
         result['count'] = self.count
         return json.dumps(result)
@@ -145,8 +145,6 @@ class HP35Stack:
         new = json.loads(stack_as_json)
         if 'depth' in new:
             self.depth = new['depth']
-        if 'rel_tol' in new:
-            self.rel_tol = new['rel_tol']
         if 'count' in new:
             self.count = new['count']
         if 'stack' in new:
@@ -159,7 +157,6 @@ class HP35Stack:
 def main():
     """ Simple unit tests. """
 
-    import cmath
     stack = HP35Stack(8)
     print(f"Stack:\n{stack}")
     _three = complex(3, 3)
@@ -191,9 +188,8 @@ def main():
     print(f"Stack:\n{stack}")
 
 
-    print(f"\nNow trying with CMath10")
-    from cmath10 import StdLibAdapter
-    DEBUG = DebugTrace(False)
+    print("\nNow trying with CMath10")
+    # DEBUG = DebugTrace(False)
     stack10 = HP35Stack(8, math_mod=StdLibAdapter)
     print(f"Stack:\n{stack10}")
     _three = StdLibAdapter.complex(3, 3)
