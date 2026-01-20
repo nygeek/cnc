@@ -25,8 +25,9 @@ import re
 import sys
 
 # ----- CNC libraries ----- #
-from hp35stack import HP35Stack
 from trace_debug import DebugTrace
+
+from hp35stack import HP35Stack
 from logcnc import LogCNC
 
 # ----- Variables ----- #
@@ -35,7 +36,7 @@ DEBUG = DebugTrace(False)
 
 # ----- Tokenizer ----- #
 
-NUM ='[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)([Ee][+-]?[0-9]+)?'
+NUM =r'[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)([Ee][+-]?[0-9]+)?'
 TOKEN_PATTERNS = [
     ('COMPLEX',   rf'\({NUM}+\s*,\s*+{NUM}\)'),
     ('NUMBER',    rf'{NUM}'),
@@ -186,19 +187,18 @@ class ComplexNumberCalculator:
         """ handle a command string """
         _result = -1
         while text:
-            (type, token, rest) = tokenize(text)
-            if (type == "ALPHA" or type == "OPERATOR") \
-                    and token in self.buttons:
+            (ttype, token, rest) = tokenize(text)
+            if ttype in ("ALPHA", "OPERATOR") and token in self.buttons:
                 # it is a button
                 _result = (self.handle_button_by_name(token), token)
-            elif type == "COMPLEX":
+            elif ttype == "COMPLEX":
                 match = re.match(r'\(([^,]+),([^)]+)\)', token)
                 _real_str = match.group(1).strip()
                 _imag_str = match.group(2).strip()
                 _number = complex(float(_real_str), float(_imag_str))
                 self.stack.increment_count()
                 _result = (self.number(_number), "")
-            elif type == "NUMBER":
+            elif ttype == "NUMBER":
                 _number = float(token)
                 self.stack.increment_count()
                 _result = (self.number(_number), "")

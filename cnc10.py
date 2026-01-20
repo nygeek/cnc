@@ -25,17 +25,17 @@ import re
 import sys
 
 # ----- CNC libraries ----- #
-from hp35stack import HP35Stack
 from trace_debug import DebugTrace
+# import math10
+from cmath10 import StdLibAdapter
+
+from hp35stack import HP35Stack
 from logcnc import LogCNC
 
-import math10
-from cmath10 import StdLibAdapter
 
 # ----- Variables ----- #
 
 DEBUG = DebugTrace(False)
-adapter = StdLibAdapter
 
 # ----- Tokenizer ----- #
 
@@ -180,7 +180,7 @@ class ComplexNumberCalculator:
                      "dump the tape.",
                      self.no_op],
             "xtoy": [self.binary, "put x^y in x, removing both x and y",
-                     lambda _x, _y: 
+                     lambda _x, _y:
                      StdLibAdapter.exp(StdLibAdapter.log(_x).mul(_y))],
             }
 
@@ -201,19 +201,18 @@ class ComplexNumberCalculator:
         """ handle a command string """
         _result = -1
         while text:
-            (type, token, rest) = tokenize(text)
-            if (type == "ALPHA" or type == "OPERATOR") \
-                    and token in self.buttons:
+            (ttype, token, rest) = tokenize(text)
+            if ttype in ("ALPHA", "OPERATOR") and token in self.buttons:
                 # it is a button
                 _result = (self.handle_button_by_name(token), token)
-            elif type == "COMPLEX":
+            elif ttype == "COMPLEX":
                 match = re.match(r'\(([^,]+),([^)]+)\)', token)
                 _real_str = match.group(1).strip()
                 _imag_str = match.group(2).strip()
                 _number = StdLibAdapter.complex(_real_str, _imag_str)
                 self.stack.increment_count()
                 _result = (self.number(_number), "")
-            elif type == "NUMBER":
+            elif ttype == "NUMBER":
                 _number = StdLibAdapter.complex(token)
                 self.stack.increment_count()
                 _result = (self.number(_number), "")
