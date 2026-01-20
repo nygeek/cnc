@@ -251,7 +251,7 @@ class ComplexNumberCalculator:
     def unary(self, _func):
         """ handle unary operator """
         _x = self.stack.pop()
-        print(f"DEBUG unary(self: {self}, _func: {_func}")
+        # print(f"DEBUG unary(self: {self}, _func: {_func}")
         _result = _func(_x)
         self.stack.push(_result)
         return _result
