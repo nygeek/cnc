@@ -80,7 +80,7 @@ def cnc_shell(kernel, depth=8, name=">"):
     running = True
     while running:
         try:
-            line = input(f"{name}[{cnc.stack.get_count()}]> ").lower()
+            line = input(f"{name}[{cnc.stack.get_count()}]: ").lower()
             _rc = cnc.handle_string(line)
             # Nothing left
             print(cnc.stack)
