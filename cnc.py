@@ -26,7 +26,6 @@ import sys
 
 # ----- CNC libraries ----- #
 from trace_debug import DebugTrace
-
 from hp35stack import HP35Stack
 from logcnc import LogCNC
 

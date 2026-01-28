@@ -76,12 +76,10 @@ clean:
 	- rm *.ps *.pdf
 
 pylint:
-	- ${PYLINT} cnc_shell.py
-	- ${PYLINT} cnc_shell10.py
+	- ${PYLINT} shell.py
 	- ${PYLINT} cnc.py
 	- ${PYLINT} cnc10.py
 	- ${PYLINT} logcnc.py
-	- ${PYLINT} main.py
 
 lint: pylint
 
