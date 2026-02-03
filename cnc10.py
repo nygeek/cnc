@@ -10,7 +10,8 @@
 
 Started 2024-11-07 by Marc Donner
 
-Copyright (C) 2024 Marc Donner
+SPDX-License-Identifier: MIT
+Copyright (C) 2026 NYGeek LLC
 
 ToDo:
     [2024-11-10] Add a log of actions ('tape') that we can display

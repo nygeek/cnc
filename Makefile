@@ -1,6 +1,9 @@
 #
 # CNC project Makefile
 #
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 NYGeek LLC
+#
 
 # Make us OS-independent ... at least for MacOS and Linux
 OS := $(shell uname -s)
@@ -40,6 +43,7 @@ SOURCE = \
 	${PYTHON_SOURCE} \
 	app.yaml \
 	.gitignore \
+	LICENSE \
 	Makefile \
 	README.md \
 	requirements.txt \

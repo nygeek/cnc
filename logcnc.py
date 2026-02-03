@@ -5,7 +5,9 @@ LogCNC class implementation
 This module implements a log or "tape" for the ComplexNumberCalculator.
 
 Started 2024-11-12 by Marc Donner
-Copyright (c) 2024 Marc Donner
+
+SPDX-License-Identifier: MIT
+Copyright (c) 2024 NYGeek LLC
 
 """
 

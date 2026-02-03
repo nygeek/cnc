@@ -10,7 +10,8 @@
 
 Started 2024-08-22 by Marc Donner
 
-Copyright (C) 2024 Marc Donner
+SPDX-License-Identifier: MIT
+Copyright (C) 2026 NYGeek LLC
 
 """
 
