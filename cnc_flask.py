@@ -15,7 +15,7 @@ Copyright (C) 2026 NYGeek LLC
 """
 
 # Started 2024-09-28 by Marc Donner
-# Contact: marc.donner@gmail.com
+# Contact: marc@nygeek.net
 
 # [START gae_python310_app]
 # [START gae_python3_app]
