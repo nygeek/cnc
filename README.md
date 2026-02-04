@@ -77,24 +77,13 @@ behavior of the original HP35 T register (duplicating to the
 register below it on any operation consuming an element of the
 stack) is now that of element 7.
 
-An enterprising user may edit the source code of cnc and change the
-size of the stack to any particular value they like.  Best of luck.
+*Aside: there is a command line argument that lets you set the stack
+depth.*
 
 This, the original CNC calculator, uses the math and cmath modules,
 which rely in turn on the underlying floating point hardware of your
 machine.  Modern machines almost always do their arithemtic using the
 [IEEE 754](https://en.wikipedia.org/wiki/IEEE_754) standard.
-
-Because we enter and display our numbers in decimal but do our
-calculations in binary, there are often small differences resulting
-from the conversion process.  To manage that we have added the
-"clamp" machinery.  When pushing a number onto the stack we check
-the real and imaginary parts against the closest integer.  If the
-difference between a component and a nearby integer is smaller than
-the clamp value, which defaults to 1E-10, then we round that component
-to the closest integer.  You may examine the clamp value with the
-getclamp button and set it using the setclamp button.  Note that we
-do *not* clamp numbers to zero, just non-zero integers.
 
 ### CNC10 characteristics
 
@@ -105,11 +94,11 @@ The decimal.py module handles arbitrary length numbers and does all
 of its operations in decimal.  However, decimal.py only offers a very
 limted number of mathematical functions.  In order to support the
 scientific calculator scope I have created a Math10.py module that
-augments decimal.py with most of the machinery offered in the base
+augments decimal.py with much of the machinery offered in the base
 math.py module that comes with the base Python.  And in order to
 support the complex manipulations that were the original objective
 of creating this calculator I created a CMath10.py module that
-implements most of the cmath.py functionality, but in arbitrary
+implements much of the cmath.py functionality, but in arbitrary
 length decimal form.
 
 As of 2026-01-13 this is incomplete.  Worse yet, there are some
@@ -135,82 +124,53 @@ the calculator back in the day.
 
 ### CNC functions
 
-1. "?"
-    * display this documentation
-1. "-"
-    * subtract x from y
-1. "/"
-    * divide y by x
-1. "*"
-    * multiply y by x
-1. "+"
-    * add x and y
-1. arccos
-    * replace x with arccos(x)
-1. arcsin
-    * replace x with arcsin(x)
-1. arctan
-    * replace x with arctan(x)
-1. arg
-    * replace x with arg(x)
-1. chs
-    * reverse the sign of x
-1. clr
-    * clear the stack
-1. clx
-    * clear the x register
-1. cos
-    * replace x with cos(x)
-1. debug
-    * toggle the debug flag
-1. e
-    * push e onto the stack
-1. eex
-    * push 10^x * y onto the stack (Enter Exponent)
-1. enter
-    * display the stack
-1. exch
-    * exchange x and y
-1. exp
-    * replace x with e^x
-1. down
-    * t to z, z to y, y to x, x to z
-1. getclamp
-    * push the clamp threshold onto the stack
-1. help
-    * display documentation
-1. i
-    * push i on to the stack
-1. imag
-    * push the imaginary part of x onto the stack
-1. inv
-    * replace x with put 1/x
-1. ln
-    * replace x with ln(x)
-1. mod
-    * replace x with mod(x)
-1. pi
-    * push pi onto the stack
-1. push
-    * push everything up the stack
-1. quit
-    * exit the calculator
-1. real
-    * push the real part of x onto the stack
-1. rcl
-    * replace x with the value in M
-1. setclamp
-    * set the clamp threshold to the value in x
-1. sin
-    * replace x with sin(x)
-1. sqrt
-    * replace x with sqrt(x)
-1. sto
-    * store x into M
-1. tan
-    * replace x with tan(x)
-1. xtoy
-    * put x^y in x, removing both x and y
+1. '?' - 'display documentation'
+1. '-' - 'subtract x from y'
+1. '/' - 'divide y by x'
+1. 'div' - 'divide y by x'
+1. '*' - 'multiply y by x'
+1. 'mul' - 'multiply y by x'
+1. '+' - 'add x and y'
+1. 'abs' - 'replace x with mod(x) [absolute value]'
+1. 'mod' - 'replace x with mod(x) [absolute value]'
+1. 'acos' - 'replace x with acos(x)'
+1. 'acosh' - 'replace x with acosh(x)'
+1. 'asin' - 'replace x with asin(x)'
+1. 'asinh' - 'replace x with asinh(x)'
+1. 'atan' - 'replace x with atan(x)'
+1. 'atanh' - 'replace x with atanh(x)'
+1. 'arg' - 'replace x with arg(x)'
+1. 'chs' - 'reverse the sign of x'
+1. 'clear' - 'clear the stack'
+1. 'clr' - 'clear the stack'
+1. 'clx' - 'clear the x register'
+1. 'cos' - 'replace x with cos(x)'
+1. 'cosh' - 'replace x with cosh(x)'
+1. 'debug' - 'toggle the debug flag'
+1. 'down' - 't to z, z to y, y to x, x to z'
+1. 'e' - 'push e onto the stack'
+1. 'eex' - 'push y * (10^x) onto the stack'
+1. 'enter' - 'display the stack'
+1. 'exch' - 'exchange x and y'
+1. 'exp' - 'replace x with e^x'
+1. 'help' - 'display documentation'
+1. 'i' - 'push i on to the stack'
+1. 'imag' - 'put imag(x) into x'
+1. 'inv' - 'replace x with put 1/x'
+1. 'j' - 'push i on to the stack'
+1. 'log' - 'replace x with log(x) - log base 10'
+1. 'ln' - 'replace x with ln(x) - natural log'
+1. 'pi' - 'push pi onto the stack'
+1. 'push' - 'push everything up the stack'
+1. 'quit' - 'exit the calculator'
+1. 'real' - 'put real(x) into x'
+1. 'rcl' - 'replace x with the value in M'
+1. 'sin' - 'replace x with sin(x)'
+1. 'sqrt' - 'replace x with sqrt(x)'
+1. 'sto' - 'store x into M'
+1. 'tan' - 'replace x with tan(x)'
+1. 'tape' - 'dump the tape.'
+1. 'xtoy' - 'put x^y in x, removing both x and y'
 
 ### Installing
 
