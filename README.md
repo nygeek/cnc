@@ -52,6 +52,14 @@ be something like this:
 
    6.022 23 eex
 
+### George Stibitz
+
+[George Stibitz](https://en.wikipedia.org/wiki/George_Stibitz)
+built a complex number calculator at Bell Labs (CNC) in 1939.  He
+used a modified teletype to send commands over telegraph lines to
+the CNC in New York for a demonstration at Dartmouth College in
+1940.  This was the first telecomputing application.
+
 ### CNC characteristics
 
 Out-of-the box the CNC calculator creates an eight-element stack
@@ -223,16 +231,6 @@ Get this module:
 1. ```> pip install -e ~/projects/c/cmath10```
 1. ```> pip install -e ~/projects/t/tracedebug```
 
-
-### George Stibitz
-
-[George Stibitz](https://en.wikipedia.org/wiki/George_Stibitz)
-built a complex number calculator at Bell Labs (CNC) in 1939.  He
-used a modified teletype to send commands over telegraph lines to
-the CNC in New York for a demonstration at Dartmouth College in
-1940.  This was the first telecomputing application.
-
----
 ## Metadata
 
 Memo to: File
