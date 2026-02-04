@@ -5,10 +5,22 @@ the 1972 HP35 scientific calculator.
 
 ## About
 
+### HP 35 Calculator 
+
 The HP35 calculator was introduced by Hewlett Packard in the fall
 of 1972.  It was the first scientific calculator in a pocket sized
 form factor.  While it was expensive, $395 in 1972, its price was
 only about five times that of a contemporary high-end slide rule.
+
+### George Stibitz
+
+[George Stibitz](https://en.wikipedia.org/wiki/George_Stibitz)
+built a complex number calculator at Bell Labs (CNC) in 1939.  He
+used a modified teletype to send commands over telegraph lines to
+the CNC in New York for a demonstration at Dartmouth College in
+1940.  This was the first telecomputing application.
+
+### Calculator operations
 
 The HP35 calculator had four primary registers arranged in a stack.
 The four registers were called X, Y, Z, and T.  In addition there
@@ -28,8 +40,8 @@ Roll down, shown on the keyboard with the letter R and a down arrow,
 would move T to Z, Z to Y, Y to X, and X around to T.  We call this
 'down'.
 
-STO would take the value in X and save it in M.  RCL would replace
-the value in X with the value from M.
+STO would take the value in X and save it in M.  RCL would push
+the value from M onto the stack.
 
 A unary function, say sqrt,  would replace the value of X with the
 result of the function.
@@ -50,15 +62,11 @@ a number 10^(int(X.real)) in X and then multiplies Y by that number.
 So, entering a number in scientific notation, say 6.022E23 would
 be something like this:
 
-   6.022 23 eex
+   ```6.022 eex 23```
 
-### George Stibitz
+Whereas on this CNC it would be more like this:
 
-[George Stibitz](https://en.wikipedia.org/wiki/George_Stibitz)
-built a complex number calculator at Bell Labs (CNC) in 1939.  He
-used a modified teletype to send commands over telegraph lines to
-the CNC in New York for a demonstration at Dartmouth College in
-1940.  This was the first telecomputing application.
+   ```6.022 23 eex```
 
 ### CNC characteristics
 
