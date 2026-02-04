@@ -215,7 +215,7 @@ Get the DebugTrace module:
 Get this module:
 1. ```> cd ~/projects/c```
 1. ```> git clone https://github.com/nygeek/cnc.git```
-1. ```> cd /cnc```
+1. ```> cd ./cnc```
 1. ```> python -m venv .venv```
 1. ```> direnv allow```  
 *If you are not using [direnv](https://direnv.net/) you can skip this step and instead run
