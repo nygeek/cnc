@@ -128,31 +128,31 @@ class HP35Stack:
         self.storcl = _zero
 
 
-    def stack_to_json(self):
-        """ a json representation of the stack """
-        stack = [[0, 0]] * self.depth
-        result = {}
-        for i in range(0, self.depth):
-            stack[i] = [self.stack[i].real, self.stack[i].imag]
-        result['stack'] = stack
-        result['storcl'] = [self.storcl.real, self.storcl.imag]
-        result['depth'] = self.depth
-        result['count'] = self.count
-        return json.dumps(result)
-
-
-    def load_stack_from_json(self, stack_as_json):
-        """ given a json string, reconstitute the stack """
-        new = json.loads(stack_as_json)
-        if 'depth' in new:
-            self.depth = new['depth']
-        if 'count' in new:
-            self.count = new['count']
-        if 'stack' in new:
-            for j in range(0, self.depth):
-                self.stack[j] = self.make_complex(new['stack'][j][0], new['stack'][j][1])
-        if 'storcl' in new:
-            self.storcl = self.make_complex(new['storcl'][0], new['storcl'][1])
+#    def stack_to_json(self):
+#        """ a json representation of the stack """
+#        stack = [[0, 0]] * self.depth
+#        result = {}
+#        for i in range(0, self.depth):
+#            stack[i] = [self.stack[i].real, self.stack[i].imag]
+#        result['stack'] = stack
+#        result['storcl'] = [self.storcl.real, self.storcl.imag]
+#        result['depth'] = self.depth
+#        result['count'] = self.count
+#        return json.dumps(result)
+#
+#    @classmethod
+#    def load_stack_from_json(cls, stack_as_json):
+#        """ given a json string, reconstitute the stack """
+#        new = json.loads(stack_as_json)
+#        if 'depth' in new:
+#            self.depth = new['depth']
+#        if 'count' in new:
+#            self.count = new['count']
+#        if 'stack' in new:
+#            for j in range(0, self.depth):
+#                self.stack[j] = self.make_complex(new['stack'][j][0], new['stack'][j][1])
+#        if 'storcl' in new:
+#            self.storcl = self.make_complex(new['storcl'][0], new['storcl'][1])
 
 
 def main():
@@ -179,14 +179,6 @@ def main():
     stack.sto()
     stack.exch()
     stack.rcl()
-    json_stash = stack.stack_to_json()
-    print(f"json_stash: {json_stash}")
-    # now let's clear the stack
-    stack.clear()
-    print(f"Stack:\n{stack}")
-    # now reconstitute the stack ...
-    stack.load_stack_from_json(json_stash)
-    print(f"Stack:\n{stack}")
 
 
     print("\nNow trying with CMath10")
@@ -195,7 +187,6 @@ def main():
     print(f"Stack:\n{stack10}")
     _three = StdLibAdapter.complex(3, 3)
     stack10.push(_three)
-    print(f"Stack:\n{stack10}")
 
 
 if __name__ == '__main__':
