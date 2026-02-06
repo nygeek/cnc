@@ -161,9 +161,9 @@ class ComplexNumberCalculator:
             "inv": [self.unary, "replace x with put 1/x",
                     lambda _x: StdLibAdapter.complex(1,0).div(_x) if _x != 0 else _x],
             "j": [self.i, "push i on to the stack", self.no_op],
-            # "json": [self.handle_render_stack,
-            #          "render the stack as json.",
-            #          self.no_op],
+#           "json": [self.handle_render_stack,
+#                    "render the stack as json.",
+#                    self.no_op],
             "log": [self.unary, "replace x with log(x) - log base 10",
                     StdLibAdapter.log10],
             "ln": [self.unary, "replace x with ln(x) - natural log",
@@ -393,9 +393,9 @@ class ComplexNumberCalculator:
         return _x
 
 
-    def handle_render_stack(self, _func):
-        """ Render the stack as JSON """
-        print(self.stack.stack_to_json())
+#    def handle_render_stack(self, _func):
+#        """ Render the stack as JSON """
+#        print(self.stack.stack_to_json())
 
 
     def handle_dump_log(self, _func):
