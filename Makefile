@@ -60,12 +60,6 @@ install:
 	- rm cnc.sh
 	- rm cnc10.sh
 
-.PHONY: gae_deploy
-gae_deploy:
-	gcloud storage rsync ./static gs://complex-35.appspot.com/static
-	gcloud storage rsync ./templates gs://complex-35.appspot.com/templates
-	gcloud app deploy
-
 clean:
 	- rm *.ps *.pdf
 
@@ -86,10 +80,6 @@ decimal:
 
 binary:
 	${PYTHON} ./shell.py --binary
-
-.PHONY: flask
-flask:
-	flask --app cnc_flask run
 
 LISTINGS = cnc.pdf cnc10.pdf hp35stack.pdf Makefile.pdf shell.pdf
 
