@@ -32,26 +32,16 @@ help:
 PYTHON_SOURCE = \
 	cnc.py \
 	cnc10.py \
-	cnc_flask.py \
-	cnc_gae.py \
 	shell.py \
 	hp35stack.py \
 	logcnc.py \
-	main.py
 
 SOURCE = \
 	${PYTHON_SOURCE} \
-	app.yaml \
 	.gitignore \
 	LICENSE \
 	Makefile \
-	README.md \
-	requirements.txt \
-	static/keyboard.css \
-	static/cnc-favicon.png \
-	templates/cnc-35.html \
-	templates/layout.html \
-	templates/info.html 
+	README.md
 
 .PHONY: clean pylint listings test lint ci
 
