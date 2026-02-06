@@ -68,8 +68,8 @@ set the sign of the exponent if you chose.  Our EEX implementation,
 however, uses the integer part of the real number in X and creates
 a number 10^(int(X.real)) in X and then multiplies Y by that number.
 
-So, entering a number in scientific notation, say 6.022E23 would
-be something like this:
+On the HP35 entering a number in scientific notation, say 6.022E23
+would be something like this:
 
    ```6.022 eex 23```
 
@@ -79,7 +79,7 @@ Whereas on this CNC it would be more like this:
 
 ### CNC CLI characteristics
 
-Out-of-the box the CNC calculator creates an eight-element stack
+Out-of-the box this CNC calculator creates an eight-element stack
 instead of the original HP35's four.  The four extra elements
 are imaginatively numbered 4, 5, 6, and 7.  The idiosyncratic
 behavior of the original HP35 T register (duplicating to the
@@ -96,7 +96,7 @@ machine.  Modern machines almost always do their arithemtic using the
 
 ### CNC10 CLI characteristics
 
-This variant of cnc uses the long decimal arithmetic provided in
+This variant of CNC uses the long decimal arithmetic provided in
 the [decimal.py](https://docs.python.org/3/library/decimal.html) module.
 
 The decimal.py module handles arbitrary length numbers and does all
