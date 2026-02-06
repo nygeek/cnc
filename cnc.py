@@ -315,13 +315,10 @@ class ComplexNumberCalculator:
             print(f"{button_number}: '{_button}' - '{_info[1]}'")
             button_number += 1
         print("")
-        print("You may enter a complex number directly by:")
-        print("   1 - open paren '('")
-        print("   2 - real part")
-        print("   3 - comma ','")
-        print("   4 - imaginary part")
-        print("   5 - close paren ')'")
-        print(" e.g. (1,1) produces 1+1i")
+        print("You may enter a complex number directly by")
+        print("surrounding the components with parentheses and")
+        print("separating the real and imaginary parts with a comma.")
+        print("e.g. (1,1) produces 1+1i")
         return 100
 
 

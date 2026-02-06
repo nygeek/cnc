@@ -25,9 +25,18 @@ the CNC in New York for a demonstration at Dartmouth College in
 The HP35 calculator had four primary registers arranged in a stack.
 The four registers were called X, Y, Z, and T.  In addition there
 was a memory register called M.  Our implementation of the HP35
-stack has eight elements rather than four.  The bottom four are
-shown as X, Y, Z, and T, but the rest are simply shown by their
-index.
+stack has eight elements rather than four.  (There is a command
+line option for the CLI that lets you change the size of the stack.)
+The bottom four are shown as X, Y, Z, and T, but the rest are simply
+shown by their index.
+
+The HP35 operated on a system referred to as
+[RPN](https://en.wikipedia.org/wiki/Reverse_Polish_notation) for
+Reverse Polish Notation in which operands were pushed onto a
+stack and then operated on by an operator identified after.
+RPN lost out in the marketplace to
+[AES](https://en.wikipedia.org/wiki/Calculator_input_methods) but
+retains the affections of a portion of the technical community.
 
 The bottom register, called X, was always displayed on the HP35.
 The CNC shell displays the entire stack and the M register every
@@ -68,14 +77,14 @@ Whereas on this CNC it would be more like this:
 
    ```6.022 23 eex```
 
-### CNC characteristics
+### CNC CLI characteristics
 
 Out-of-the box the CNC calculator creates an eight-element stack
 instead of the original HP35's four.  The four extra elements
 are imaginatively numbered 4, 5, 6, and 7.  The idiosyncratic
 behavior of the original HP35 T register (duplicating to the
 register below it on any operation consuming an element of the
-stack) is now that of element 7.
+stack) is now that of the top element, now element 7.
 
 *Aside: there is a command line argument that lets you set the stack
 depth.*
@@ -85,7 +94,7 @@ which rely in turn on the underlying floating point hardware of your
 machine.  Modern machines almost always do their arithemtic using the
 [IEEE 754](https://en.wikipedia.org/wiki/IEEE_754) standard.
 
-### CNC10 characteristics
+### CNC10 CLI characteristics
 
 This variant of cnc uses the long decimal arithmetic provided in
 the [decimal.py](https://docs.python.org/3/library/decimal.html) module.
