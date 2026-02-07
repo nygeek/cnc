@@ -10,7 +10,7 @@ description = "CNC - complex number calculator"
 authors = [
     { name = "Marc Donner", email = "marc@nygeek.net" },
     ]
-requires-python = ">=3.9"
+requires-python = ">=3.5"
 
 [tool.setuptools]
 py-modules = ["cnc", "cnc10", "hp35stack"]
