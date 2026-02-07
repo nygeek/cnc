@@ -1,7 +1,8 @@
 # CNC
 
-Complex Number Calculator in honor of the late George Stibitz and
-the 1972 HP35 scientific calculator.
+Complex Number Calculator in honor of the late [George
+Stibitz](https://en.wikipedia.org/wiki/George_Stibitz) and the 1972
+HP35 scientific calculator.
 
 ## About
 
@@ -39,7 +40,7 @@ The bottom four are shown as X, Y, Z, and T, but the rest are simply
 shown by their index.
 
 The bottom register, called X, was always displayed on the HP35.
-The CNC cli displays the entire stack as well as the M register
+The CLI displays the entire stack as well as the M register
 every time the enter key is pressed.
 
 Pressing enter on the HP35 would push the number in X up to Y, Y
@@ -47,7 +48,7 @@ up to Z, and Z up to T.  When this was done the value in T was lost.
 
 Roll down, shown on the HP35 keyboard with the letter R and a down
 arrow, would move T to Z, Z to Y, Y to X, and X around to T.  We
-call this 'down' in the cli.
+call this 'down' in the CLI.
 
 STO would take the value in X and save it in M.  RCL would push
 the value from M onto the stack.
@@ -77,30 +78,30 @@ Whereas on this CNC it would be more like this:
 
    ```6.022 23 eex```
 
-### CNC CLI characteristics
+### Binary CLI characteristics
 
 Out-of-the box this CNC calculator creates an eight-element stack
 instead of the original HP35's four.  The four extra elements
 are imaginatively numbered 4, 5, 6, and 7.  The idiosyncratic
 behavior of the original HP35 T register (duplicating to the
 register below it on any operation consuming an element of the
-stack) is that of the top element, now element 7, in the cli.
+stack) is that of the top element, now element 7, in the CLI.
 
 *Aside: there is a command line argument that lets you set the stack
 depth.*
 
-There are two variants of the CNC command line interface or cli in
+There are two variants of the CNC command line interface or CLI in
 this package.  One uses the math and cmath modules, which rely in
 turn on the underlying floating point hardware of your machine.
 Modern machines almost always do their arithemtic using the [IEEE
 754](https://en.wikipedia.org/wiki/IEEE_754) standard.  The other
 uses the arbitrary resolution decimal arithmetic package decimal.py.
-The stack module and the cli module are both polymorphic and are used
-in both varints of the cli.  Only the calculator kernel and associated
-mathematics libraries vary.  The cli selects the appropriate kernel
+The stack module and the CLI module are both polymorphic and are used
+in both varints of the CLI.  Only the calculator kernel and associated
+mathematics libraries vary.  The CLI selects the appropriate kernel
 based on command line flags.
 
-### CNC10 CLI characteristics
+### Decimal CLI characteristics
 
 This variant of CNC uses the long decimal arithmetic provided in
 the [decimal.py](https://docs.python.org/3/library/decimal.html) module.
