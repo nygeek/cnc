@@ -20,6 +20,9 @@ jobs:
         pip install pylint
         pip install git+https://github.com/nygeek/tracedebug.git
         pip install git+https://github.com/nygeek/cmath10.git
-    - name: Analysing the code with pylint
+    - name: Run pylint on main codebase
       run: |
-        pylint $(git ls-files '*.py')
+        pylint $(git ls-files '*.py') --ignore cnc.py
+    - name: Run pylint on cnc.py
+      run: |
+        pylint cnc.py
