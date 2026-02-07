@@ -30,7 +30,7 @@ help:
 	echo "HERE: " ${HERE}
 
 PYTHON_SOURCE = \
-	cli-cnc.py \
+	cli_cnc.py \
 	cnc.py \
 	cnc10.py \
 	hp35stack.py \
@@ -51,8 +51,8 @@ FILES = \
 
 .PHONY: install
 install: 
-	echo ${HERE}/.venv/bin/python ${HERE}/cli-cnc.py --binary '$$*' > cnc.sh
-	echo ${HERE}/.venv/bin/python ${HERE}/cli-cnc.py --decimal '$$*' > cnc10.sh
+	echo ${HERE}/.venv/bin/python ${HERE}/cli_cnc.py --binary '$$*' > cnc.sh
+	echo ${HERE}/.venv/bin/python ${HERE}/cli_cnc.py --decimal '$$*' > cnc10.sh
 	cp cnc.sh ${HOME}/bin/cnc
 	cp cnc10.sh ${HOME}/bin/cnc10
 	chmod +x ${HOME}/bin/cnc
@@ -64,7 +64,7 @@ clean:
 	- rm *.ps *.pdf
 
 pylint:
-	- ${PYLINT} cli-cnc.py
+	- ${PYLINT} cli_cnc.py
 	- ${PYLINT} cnc.py
 	- ${PYLINT} cnc10.py
 	- ${PYLINT} logcnc.py
@@ -73,15 +73,15 @@ lint: pylint
 
 .PHONY: test decimal binary
 test:
-	${PYTHON} ./cli-cnc.py
+	${PYTHON} ./cli_cnc.py
 
 decimal:
-	${PYTHON} ./cli-cnc.py --decimal
+	${PYTHON} ./cli_cnc.py --decimal
 
 binary:
-	${PYTHON} ./cli-cnc.py --binary
+	${PYTHON} ./cli_cnc.py --binary
 
-LISTINGS = cnc.pdf cnc10.pdf hp35stack.pdf Makefile.pdf cli-cnc.pdf
+LISTINGS = cnc.pdf cnc10.pdf hp35stack.pdf Makefile.pdf cli_cnc.pdf
 
 listings: ${LISTINGS}
 	mv ${LISTINGS} ~/tmp
