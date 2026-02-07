@@ -2,28 +2,30 @@
 
 Complex Number Calculator in honor of the late [George
 Stibitz](https://en.wikipedia.org/wiki/George_Stibitz) and the 1972
-HP35 scientific calculator.
+[HP-35](https://en.wikipedia.org/wiki/HP-35) scientific calculator.
 
 ## About
 
 ### HP 35 Calculator 
 
-The HP35 calculator was introduced by Hewlett Packard in the fall
+The HP-35 calculator was introduced by Hewlett Packard in the fall
 of 1972.  It was the first scientific calculator in a pocket sized
 form factor.  While it was expensive, $395 in 1972, its price was
 only about five times that of a contemporary high-end slide rule.
+The introduction of the HP-35 followed by progressive reductions
+in price for successor calculators led to the disappearance of slide
+rules from engineering practice and marketplace by the 1980s.
 
 ### George Stibitz
 
-[George Stibitz](https://en.wikipedia.org/wiki/George_Stibitz)
-built a complex number calculator at Bell Labs (CNC) in 1939.  He
-used a modified teletype to send commands over telegraph lines to
-the CNC in New York for a demonstration at Dartmouth College in
-1940.  This was the first telecomputing application.
+George Stibitz built a complex number calculator at Bell Labs (CNC)
+in 1939.  He used a modified teletype to send commands over telegraph
+lines to the CNC in New York for a demonstration at Dartmouth College
+in 1940.  This was the first telecomputing application on record.
 
 ### Calculator operations
 
-The HP35 operated on a system referred to as
+The HP-35 operated on a system referred to as
 [RPN](https://en.wikipedia.org/wiki/Reverse_Polish_notation) for
 Reverse Polish Notation in which operands were pushed onto a
 stack and then operated on by an operator identified after.
@@ -31,22 +33,22 @@ RPN lost out in the marketplace to
 
 [AES](https://en.wikipedia.org/wiki/Calculator_input_methods) but
 retains the affections of a portion of the technical community.
-The HP35 calculator had four primary registers arranged in a stack.
+The HP-35 calculator had four primary registers arranged in a stack.
 The four registers were called X, Y, Z, and T.  In addition there
-was a memory register called M.  Our implementation of the HP35
+was a memory register called M.  Our implementation of the HP-35
 stack has eight elements rather than four.  (There is a command
 line option for the CLI that lets you change the size of the stack.)
 The bottom four are shown as X, Y, Z, and T, but the rest are simply
 shown by their index.
 
-The bottom register, called X, was always displayed on the HP35.
-The CLI displays the entire stack as well as the M register
+The bottom register, called X, was always displayed on the HP-35.
+This CLI displays the entire stack as well as the M register
 every time the enter key is pressed.
 
-Pressing enter on the HP35 would push the number in X up to Y, Y
+Pressing enter on the HP-35 would push the number in X up to Y, Y
 up to Z, and Z up to T.  When this was done the value in T was lost.
 
-Roll down, shown on the HP35 keyboard with the letter R and a down
+Roll down, shown on the HP-35 keyboard with the letter R and a down
 arrow, would move T to Z, Z to Y, Y to X, and X around to T.  We
 call this 'down' in the CLI.
 
@@ -61,7 +63,7 @@ left in X and the values above in the stack would be pulled down:
 Z to Y, T to Z.  The value in T would remain, so after any binary
 operation the T and Z registers would hold the same value.
 
-The EEX (Enter Exponent) button on the original HP35 operated
+The EEX (Enter Exponent) button on the original HP-35 operated
 completely outside the stack logic of the calculator.  If you were
 in the midst of entering a number digit-by-digit you could press
 the EEX button and could type digits into the exponent.  You could
@@ -69,7 +71,7 @@ set the sign of the exponent if you chose.  Our EEX implementation,
 however, uses the integer part of the real number in X and creates
 a number 10^(int(X.real)) in X and then multiplies Y by that number.
 
-On the HP35 entering a number in scientific notation, say 6.022E23
+On the HP-35 entering a number in scientific notation, say 6.022E23
 would be something like this:
 
    ```6.022 eex 23```
@@ -81,9 +83,9 @@ Whereas on this CNC it would be more like this:
 ### Binary CLI characteristics
 
 Out-of-the box this CNC calculator creates an eight-element stack
-instead of the original HP35's four.  The four extra elements
+instead of the original HP-35's four.  The four extra elements
 are imaginatively numbered 4, 5, 6, and 7.  The idiosyncratic
-behavior of the original HP35 T register (duplicating to the
+behavior of the original HP-35 T register (duplicating to the
 register below it on any operation consuming an element of the
 stack) is that of the top element, now element 7, in the CLI.
 
@@ -129,7 +131,7 @@ and exit.
 
 ### Known bugs
 
-The original HP35 did all of its work in decimal.  The largest
+The original HP-35 did all of its work in decimal.  The largest
 number it could represent was 9.999999999E99, or 10 to the 100.
 This calculator does whatever the underlying Python engine supports,
 presumably the IEEE 754 standard that most CPUs provide these days.
