@@ -14,30 +14,32 @@ form factor.  While it was expensive, $395 in 1972, its price was
 only about five times that of a contemporary high-end slide rule.
 The introduction of the HP-35 followed by progressive reductions
 in price for successor calculators led to the disappearance of slide
-rules from engineering practice and marketplace by the 1980s.
+rules from engineering practice by the 1980s.
 
 ### George Stibitz
 
-George Stibitz built a complex number calculator at Bell Labs (CNC)
-in 1939.  He used a modified teletype to send commands over telegraph
-lines to the CNC in New York for a demonstration at Dartmouth College
-in 1940.  This was the first telecomputing application on record.
+George Stibitz built a complex number calculator (CNC) at Bell Labs
+in 1939.  It was constructed of the electromechanical relays that
+were standard for the Bell telephone system at the time.  Stibitz
+used a modified teletype to send commands over telegraph lines to
+the CNC in New York for a demonstration at Dartmouth College in
+1940.  This was the first telecomputing application on record.
 
 ### Calculator operations
 
 The HP-35 operated on a system referred to as
 [RPN](https://en.wikipedia.org/wiki/Reverse_Polish_notation) for
-Reverse Polish Notation in which operands were pushed onto a
-stack and then operated on by an operator identified after.
-RPN lost out in the marketplace to
-
+Reverse Polish Notation in which operands were pushed onto a stack
+and then operated on by an operator identified after.  RPN lost out
+in the marketplace to
 [AES](https://en.wikipedia.org/wiki/Calculator_input_methods) but
 retains the affections of a portion of the technical community.
+
 The HP-35 calculator had four primary registers arranged in a stack.
 The four registers were called X, Y, Z, and T.  In addition there
 was a memory register called M.  Our implementation of the HP-35
 stack has eight elements rather than four.  (There is a command
-line option for the CLI that lets you change the size of the stack.)
+line option for the CLI that lets you set the size of the stack.)
 The bottom four are shown as X, Y, Z, and T, but the rest are simply
 shown by their index.
 
@@ -111,17 +113,17 @@ the [decimal.py](https://docs.python.org/3/library/decimal.html) module.
 The decimal.py module handles arbitrary length numbers and does all
 of its operations in decimal.  However, decimal.py only offers a very
 limted number of mathematical functions.  In order to support the
-scientific calculator scope I have created a Math10.py module that
+scientific calculator scope we have a Math10.py module that
 augments decimal.py with much of the machinery offered in the base
 math.py module that comes with the base Python.  And in order to
 support the complex manipulations that were the original objective
-of creating this calculator I created a CMath10.py module that
+of creating this calculator we have a CMath10.py module that
 implements much of the cmath.py functionality, but in arbitrary
-length decimal form.
+length decimal form provided by decimal.py and Math10.py.
 
 As of 2026-01-13 this is incomplete.  Worse yet, there are some
 tricky issues associated with the underlying mathematics that will
-need deeper study to make sure that I'm doing it right.
+need deeper study to make sure that it is done correctly.
 
 ### Debug tracing
 
@@ -143,11 +145,11 @@ the calculator back in the day.
 ### CLI command line arguments
 
 ```options:```
-*  -h, --help      show this help message and exit
-*  -d, --debug     Turn on debugging.
-*  --depth DEPTH   Set stack depth.
-*  -10, --decimal  Use the decimal kernel.
-*  -2, --binary    Use the binary kernel.
+*  ```-h, --help      show this help message and exit```
+*  ```-d, --debug     Turn on debugging.```
+*  ```--depth DEPTH   Set stack depth.```
+*  ```-10, --decimal  Use the decimal kernel.```
+*  ```-2, --binary    Use the binary kernel.```
 
 ### CLI functions
 
@@ -221,21 +223,17 @@ Get this module:
 1. ```> cd ./cnc```
 1. ```> python -m venv .venv```
 1. ```> direnv allow```  
-*If you are not using [direnv](https://direnv.net/) you can skip this step and instead run
-```> source .venv/bin/activate``` each time you cd into the directory.*  
+*If you are not using [direnv](https://direnv.net/) you can skip
+this step and instead run ```> source .venv/bin/activate``` each
+time you cd into the directory.*
 1. ```> pip install -e ~/projects/c/cmath10```
 1. ```> pip install -e ~/projects/t/tracedebug```
 
 ## Metadata
 
-Memo to: File
-
-From: **Marc Donner**
-
-Contact: **marc@nygeek.net**
-
-Subject: **Complex Calculator**
-
-Start Date: **2024-08-17**
-
-Status: **WORKING**
+* Memo to: File
+* From: **Marc Donner**
+* Contact: **marc@nygeek.net**
+* Subject: **Complex Number Calculator (CNC)**
+* Start Date: **2024-08-17**
+* Status: **WORKING**
