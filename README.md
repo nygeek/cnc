@@ -22,6 +22,14 @@ the CNC in New York for a demonstration at Dartmouth College in
 
 ### Calculator operations
 
+The HP35 operated on a system referred to as
+[RPN](https://en.wikipedia.org/wiki/Reverse_Polish_notation) for
+Reverse Polish Notation in which operands were pushed onto a
+stack and then operated on by an operator identified after.
+RPN lost out in the marketplace to
+
+[AES](https://en.wikipedia.org/wiki/Calculator_input_methods) but
+retains the affections of a portion of the technical community.
 The HP35 calculator had four primary registers arranged in a stack.
 The four registers were called X, Y, Z, and T.  In addition there
 was a memory register called M.  Our implementation of the HP35
@@ -30,24 +38,16 @@ line option for the CLI that lets you change the size of the stack.)
 The bottom four are shown as X, Y, Z, and T, but the rest are simply
 shown by their index.
 
-The HP35 operated on a system referred to as
-[RPN](https://en.wikipedia.org/wiki/Reverse_Polish_notation) for
-Reverse Polish Notation in which operands were pushed onto a
-stack and then operated on by an operator identified after.
-RPN lost out in the marketplace to
-[AES](https://en.wikipedia.org/wiki/Calculator_input_methods) but
-retains the affections of a portion of the technical community.
-
 The bottom register, called X, was always displayed on the HP35.
-The CNC shell displays the entire stack and the M register every
-time the enter key is pressed.
+The CNC cli displays the entire stack as well as the M register
+every time the enter key is pressed.
 
-Pressing enter would push the number in X up to Y, Y up to Z, and
-Z up to T.  When this was done the value in T was lost.
+Pressing enter on the HP35 would push the number in X up to Y, Y
+up to Z, and Z up to T.  When this was done the value in T was lost.
 
-Roll down, shown on the keyboard with the letter R and a down arrow,
-would move T to Z, Z to Y, Y to X, and X around to T.  We call this
-'down'.
+Roll down, shown on the HP35 keyboard with the letter R and a down
+arrow, would move T to Z, Z to Y, Y to X, and X around to T.  We
+call this 'down' in the cli.
 
 STO would take the value in X and save it in M.  RCL would push
 the value from M onto the stack.
@@ -84,15 +84,21 @@ instead of the original HP35's four.  The four extra elements
 are imaginatively numbered 4, 5, 6, and 7.  The idiosyncratic
 behavior of the original HP35 T register (duplicating to the
 register below it on any operation consuming an element of the
-stack) is now that of the top element, now element 7.
+stack) is that of the top element, now element 7, in the cli.
 
 *Aside: there is a command line argument that lets you set the stack
 depth.*
 
-This, the original CNC calculator, uses the math and cmath modules,
-which rely in turn on the underlying floating point hardware of your
-machine.  Modern machines almost always do their arithemtic using the
-[IEEE 754](https://en.wikipedia.org/wiki/IEEE_754) standard.
+There are two variants of the CNC command line interface or cli in
+this package.  One uses the math and cmath modules, which rely in
+turn on the underlying floating point hardware of your machine.
+Modern machines almost always do their arithemtic using the [IEEE
+754](https://en.wikipedia.org/wiki/IEEE_754) standard.  The other
+uses the arbitrary resolution decimal arithmetic package decimal.py.
+The stack module and the cli module are both polymorphic and are used
+in both varints of the cli.  Only the calculator kernel and associated
+mathematics libraries vary.  The cli selects the appropriate kernel
+based on command line flags.
 
 ### CNC10 CLI characteristics
 
@@ -131,7 +137,16 @@ As a consequence the base ten logarithm of the overflow value was
 100, a behavior that enabled a number of entertaining tricks with
 the calculator back in the day.
 
-### CNC functions
+### CLI command line arguments
+
+```options:```
+*  -h, --help      show this help message and exit
+*  -d, --debug     Turn on debugging.
+*  --depth DEPTH   Set stack depth.
+*  -10, --decimal  Use the decimal kernel.
+*  -2, --binary    Use the binary kernel.
+
+### CLI functions
 
 1. '?' - 'display documentation'
 1. '-' - 'subtract x from y'
