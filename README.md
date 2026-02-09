@@ -1,6 +1,8 @@
 # CNC
 
-Complex Number Calculator in honor of the late [George
+Hypercomplex Number Calculator supporting complex numbers, quaternions, and octonions.
+
+Created in honor of the late [George
 Stibitz](https://en.wikipedia.org/wiki/George_Stibitz) and the 1972
 [HP-35](https://en.wikipedia.org/wiki/HP-35) scientific calculator.
 
@@ -24,6 +26,26 @@ were standard for the Bell telephone system at the time.  Stibitz
 used a modified teletype to send commands over telegraph lines to
 the CNC in New York for a demonstration at Dartmouth College in
 1940.  This was the first telecomputing application on record.
+
+### Hypercomplex Numbers
+
+This calculator extends complex number arithmetic to higher dimensions:
+
+**Quaternions** (discovered by William Rowan Hamilton in 1843) are
+4-dimensional hypercomplex numbers of the form `w + xi + yj + zk`.
+They are widely used in computer graphics, robotics, and physics for
+representing 3D rotations. Quaternion multiplication is non-commutative:
+`ij = k` but `ji = -k`.
+
+**Octonions** (discovered by John T. Graves in 1843) are 8-dimensional
+hypercomplex numbers. They extend quaternions but lose associativity:
+`(ab)c ≠ a(bc)` in general. Octonions are the largest normed division
+algebra and appear in exceptional structures and string theory.
+
+The calculator uses a **unified stack** architecture - complex numbers,
+quaternions, and octonions can coexist on the same stack. Operations
+work polymorphically based on the types of the operands. This allows
+you to freely mix different number types in calculations.
 
 ### Calculator operations
 
@@ -186,7 +208,8 @@ the calculator back in the day.
 1. 'i' - 'push i on to the stack'
 1. 'imag' - 'put imag(x) into x'
 1. 'inv' - 'replace x with put 1/x'
-1. 'j' - 'push i on to the stack'
+1. 'j' - 'push quaternion j basis element' or 'push i' (alias for complex i)
+1. 'k' - 'push quaternion k basis element'
 1. 'log' - 'replace x with log(x) - log base 10'
 1. 'ln' - 'replace x with ln(x) - natural log'
 1. 'pi' - 'push pi onto the stack'
@@ -200,6 +223,19 @@ the calculator back in the day.
 1. 'tan' - 'replace x with tan(x)'
 1. 'tape' - 'dump the tape.'
 1. 'xtoy' - 'put x^y in x, removing both x and y'
+1. 'conj' - 'conjugate (works for complex, quaternion, octonion)'
+1. 'e0' through 'e7' - 'push octonion basis elements e0-e7'
+
+### Input Formats
+
+**Complex numbers** (2 components): `(real, imag)`
+- Example: `(3, 4)` represents 3+4i
+
+**Quaternions** (4 components): `(w, x, y, z)`
+- Example: `(1, 2, 3, 4)` represents 1+2i+3j+4k
+
+**Octonions** (8 components): `(e0, e1, e2, e3, e4, e5, e6, e7)`
+- Example: `(1, 1, 0, 0, 0, 0, 0, 0)` represents 1+1e1
 
 ### Installing
 

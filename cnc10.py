@@ -32,6 +32,8 @@ from cmath10 import StdLibAdapter
 
 from hp35stack import HP35Stack
 from logcnc import LogCNC
+from quaternion import Quaternion
+from octonion import Octonion
 
 
 # ----- Variables ----- #
@@ -45,7 +47,10 @@ DEBUG = DebugTrace(False)
 NUM =r'[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)([Ee][+-]?[0-9]+)?'
 
 TOKEN_PATTERNS = [
-    ('COMPLEX',   rf'\({NUM}+\s*,\s*+{NUM}\)'),
+    # Order matters: try longest patterns first
+    ('OCTONION',  rf'\({NUM}\s*,\s*{NUM}\s*,\s*{NUM}\s*,\s*{NUM}\s*,\s*{NUM}\s*,\s*{NUM}\s*,\s*{NUM}\s*,\s*{NUM}\)'),
+    ('QUATERNION',rf'\({NUM}\s*,\s*{NUM}\s*,\s*{NUM}\s*,\s*{NUM}\)'),
+    ('COMPLEX',   rf'\({NUM}\s*,\s*{NUM}\)'),
     ('NUMBER',    rf'{NUM}'),
     ('OPERATOR',  r'[+\-*/]'),
     ('ALPHA',     r'[a-zA-Z_][a-zA-Z0-9_]*'),
@@ -190,6 +195,20 @@ class ComplexNumberCalculator:
             "xtoy": [self.binary, "put x^y in x, removing both x and y",
                      lambda _x, _y:
                      StdLibAdapter.exp(StdLibAdapter.log(_x).mul(_y))],
+            # ----- Quaternion basis elements ----- #
+            "j": [self.j_basis, "push quaternion j basis element", self.no_op],
+            "k": [self.k_basis, "push quaternion k basis element", self.no_op],
+            # ----- Octonion basis elements ----- #
+            "e0": [self.e_basis, "push octonion e0 basis element", lambda: 0],
+            "e1": [self.e_basis, "push octonion e1 basis element", lambda: 1],
+            "e2": [self.e_basis, "push octonion e2 basis element", lambda: 2],
+            "e3": [self.e_basis, "push octonion e3 basis element", lambda: 3],
+            "e4": [self.e_basis, "push octonion e4 basis element", lambda: 4],
+            "e5": [self.e_basis, "push octonion e5 basis element", lambda: 5],
+            "e6": [self.e_basis, "push octonion e6 basis element", lambda: 6],
+            "e7": [self.e_basis, "push octonion e7 basis element", lambda: 7],
+            # ----- Conjugate ----- #
+            "conj": [self.conj, "conjugate (works for complex/quat/oct)", self.no_op],
             }
 
 
@@ -213,6 +232,23 @@ class ComplexNumberCalculator:
             if ttype in ("ALPHA", "OPERATOR") and token in self.buttons:
                 # it is a button
                 _result = (self.handle_button_by_name(token), token)
+            elif ttype == "OCTONION":
+                # Parse 8 comma-separated values
+                match = re.match(r'\(([^,]+),([^,]+),([^,]+),([^,]+),([^,]+),([^,]+),([^,]+),([^)]+)\)', token)
+                components = [match.group(i).strip() for i in range(1, 9)]
+                _number = Octonion(*components, backend='decimal')
+                self.stack.increment_count()
+                _result = (self.number(_number), "")
+            elif ttype == "QUATERNION":
+                # Parse 4 comma-separated values
+                match = re.match(r'\(([^,]+),([^,]+),([^,]+),([^)]+)\)', token)
+                w = match.group(1).strip()
+                x = match.group(2).strip()
+                y = match.group(3).strip()
+                z = match.group(4).strip()
+                _number = Quaternion(w, x, y, z, backend='decimal')
+                self.stack.increment_count()
+                _result = (self.number(_number), "")
             elif ttype == "COMPLEX":
                 match = re.match(r'\(([^,]+),([^)]+)\)', token)
                 _real_str = match.group(1).strip()
@@ -258,7 +294,6 @@ class ComplexNumberCalculator:
     def unary(self, _func):
         """ handle unary operator """
         _x = self.stack.pop()
-        # print(f"DEBUG unary(self: {self}, _func: {_func}")
         _result = _func(_x)
         self.stack.push(_result)
         return _result
@@ -305,8 +340,6 @@ class ComplexNumberCalculator:
 
     def enter(self, _func):
         """ handle enter """
-        print("enter()")
-        # print(self.stack)
         return self.stack.stack[0]
 
 
@@ -401,3 +434,41 @@ class ComplexNumberCalculator:
     def handle_dump_log(self, _func):
         """ dump the 'tape' """
         print(f"Tape: {self.log}")
+
+
+    def j_basis(self, _func):
+        """ Push quaternion j basis element onto stack """
+        _result = Quaternion(0, 0, 1, 0, backend='decimal')
+        self.stack.push(_result)
+        return _result
+
+
+    def k_basis(self, _func):
+        """ Push quaternion k basis element onto stack """
+        _result = Quaternion(0, 0, 0, 1, backend='decimal')
+        self.stack.push(_result)
+        return _result
+
+
+    def e_basis(self, _func):
+        """ Push octonion basis element onto stack """
+        # _func is a lambda that returns the index (0-7)
+        index = _func()
+        components = [0] * 8
+        components[index] = 1
+        _result = Octonion(*components, backend='decimal')
+        self.stack.push(_result)
+        return _result
+
+
+    def conj(self, _func):
+        """ Conjugate - works for complex, quaternion, and octonion """
+        _x = self.stack.pop()
+        if isinstance(_x, (Quaternion, Octonion)):
+            _result = _x.conjugate()
+        elif hasattr(_x, 'conjugate'):
+            _result = _x.conjugate()
+        else:
+            _result = _x
+        self.stack.push(_result)
+        return _result
