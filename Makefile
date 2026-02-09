@@ -21,13 +21,49 @@ PYLINT := pylint
 
 HERE := $(shell pwd)
 
-.PHONY: help
+.PHONY: help setup
 help:
 	cat Makefile
 	echo "OS: " ${OS}
 	echo "PYTHON: " ${PYTHON}
 	echo "DATE: " ${DATE}
 	echo "HERE: " ${HERE}
+
+setup:
+	@echo "=== SDL2 Setup Instructions for ${OS} ==="
+	@echo ""
+ifeq (Darwin, ${OS})
+	@echo "On macOS, install SDL2 using Homebrew:"
+	@echo ""
+	@echo "  brew install sdl2 sdl2_gfx sdl2_ttf"
+	@echo ""
+	@echo "Then install PySDL2:"
+	@echo ""
+	@echo "  pip install pysdl2"
+	@echo ""
+else ifeq (Linux, ${OS})
+	@echo "On Linux (Ubuntu/Debian), install SDL2 using apt:"
+	@echo ""
+	@echo "  sudo apt-get update"
+	@echo "  sudo apt-get install libsdl2-dev libsdl2-gfx-dev libsdl2-ttf-dev"
+	@echo ""
+	@echo "On Linux (Fedora/RHEL), install SDL2 using dnf/yum:"
+	@echo ""
+	@echo "  sudo dnf install SDL2-devel SDL2_gfx-devel SDL2_ttf-devel"
+	@echo ""
+	@echo "Then install PySDL2:"
+	@echo ""
+	@echo "  pip install pysdl2"
+	@echo ""
+else
+	@echo "Unsupported OS: ${OS}"
+	@echo "Please install SDL2, SDL2_gfx, and SDL2_ttf manually for your system."
+	@echo "Then install PySDL2: pip install pysdl2"
+endif
+	@echo "After installation, you can run the GUI calculator with:"
+	@echo ""
+	@echo "  python3 cnc_gui.py"
+	@echo ""
 
 PYTHON_SOURCE = \
 	cli_cnc.py \
@@ -43,7 +79,7 @@ SOURCE = \
 	Makefile \
 	README.md
 
-.PHONY: clean pylint listings test lint ci
+.PHONY: build install clean pylint listings test lint ci gui
 
 FILES = \
 	${SOURCE} \
@@ -80,6 +116,9 @@ decimal:
 
 binary:
 	${PYTHON} ./cli_cnc.py --binary
+
+gui:
+	${PYTHON} ./cnc_gui.py
 
 LISTINGS = cnc.pdf cnc10.pdf hp35stack.pdf Makefile.pdf cli_cnc.pdf
 
