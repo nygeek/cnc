@@ -43,14 +43,23 @@ SOURCE = \
 	Makefile \
 	README.md
 
-.PHONY: clean pylint listings test lint ci
+.PHONY: build install clean pylint listings test lint ci
 
 FILES = \
 	${SOURCE} \
 	pylintrc
 
-.PHONY: install
-install: 
+# Virtual environment setup and build
+build:
+	@if [ ! -d .venv ]; then \
+		echo "Creating virtual environment..."; \
+		${PYTHON} -m venv .venv; \
+	fi
+	@echo "Installing project dependencies..."
+	.venv/bin/pip install --upgrade pip
+	.venv/bin/pip install -e .
+
+install: build 
 	echo ${HERE}/.venv/bin/python ${HERE}/cli_cnc.py --binary '$$*' > cnc.sh
 	echo ${HERE}/.venv/bin/python ${HERE}/cli_cnc.py --decimal '$$*' > cnc10.sh
 	cp cnc.sh ${HOME}/bin/cnc
@@ -61,7 +70,9 @@ install:
 	- rm cnc10.sh
 
 clean:
-	- rm *.ps *.pdf
+	- rm -f *.ps *.pdf
+	- rm -rf .venv
+	- rm -f ${HOME}/bin/cnc ${HOME}/bin/cnc10
 
 pylint:
 	- ${PYLINT} cli_cnc.py
