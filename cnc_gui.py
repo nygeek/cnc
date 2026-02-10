@@ -37,7 +37,7 @@ from cnc import ComplexNumberCalculator
 # ===== Constants ===== #
 
 WINDOW_WIDTH = 380
-WINDOW_HEIGHT = 819  # Authentic HP-35 proportions matching reference aspect ratio
+WINDOW_HEIGHT = 823  # Authentic HP-35 proportions matching reference aspect ratio
 
 # Color palette - Based on authentic HP-35 reference photo
 COLORS = {
