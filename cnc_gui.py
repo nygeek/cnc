@@ -42,7 +42,7 @@ WINDOW_HEIGHT = 815  # Authentic HP-35 proportions matching reference aspect rat
 # Color palette - Based on authentic HP-35 reference photo
 COLORS = {
     # Case and background
-    'CASE_BLACK':       (85, 82, 78),  # Medium gray-brown metal case
+    'CASE_BLACK':       (90, 87, 82),  # Medium gray-brown metal case
     'DISPLAY_BG':       (15, 5, 5),    # Very dark red-tinted background
 
     # LED colors - Classic red LEDs
