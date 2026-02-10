@@ -36,8 +36,8 @@ from cnc import ComplexNumberCalculator
 
 # ===== Constants ===== #
 
-WINDOW_WIDTH = 480
-WINDOW_HEIGHT = 680  # Authentic HP-35 (35 buttons, no extensions)
+WINDOW_WIDTH = 380
+WINDOW_HEIGHT = 790  # Authentic HP-35 proportions matching reference aspect ratio
 
 # Color palette - Based on authentic HP-35 reference photo
 COLORS = {
@@ -66,10 +66,10 @@ COLORS = {
 
 # Display dimensions from design.md Section 3.1
 DISPLAY_AREA = {
-    'x': 40,
+    'x': 25,
     'y': 30,
-    'width': 400,
-    'height': 140,
+    'width': 330,
+    'height': 170,
 }
 
 # Display bezel (frame around display)
@@ -374,11 +374,11 @@ class ButtonGrid:
         Construct all 47 buttons with exact positions from design.md Section 1.4-1.5.
         """
         # Compact button dimensions matching authentic HP-35
-        btn_w = 60   # Button width
-        btn_h = 50   # Button height
-        gap = 10     # Gap between buttons
-        x_start = 70   # Left margin (centered)
-        y_start = 210  # Top margin (below display, room for silk-screen labels)
+        btn_w = 58   # Button width (narrower for narrower window)
+        btn_h = 55   # Button height (taller)
+        gap = 7      # Gap between buttons (very tight)
+        x_start = 28   # Left margin (very narrow window)
+        y_start = 240  # Top margin (below display)
 
         # Calculate column positions
         x0 = x_start
