@@ -67,17 +67,17 @@ COLORS = {
 # Display dimensions from design.md Section 3.1
 DISPLAY_AREA = {
     'x': 25,
-    'y': 30,
+    'y': 28,
     'width': 330,
-    'height': 170,
+    'height': 172,
 }
 
 # Display bezel (frame around display)
 DISPLAY_BEZEL = {
     'x': 20,
-    'y': 20,
+    'y': 18,
     'width': 340,
-    'height': 180,
+    'height': 184,
     'border_width': 3,
 }
 
