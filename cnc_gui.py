@@ -597,9 +597,9 @@ class ButtonGrid:
             return
 
         # Silk-screen labels are rendered ABOVE the button, not on it
-        # Use larger, more visible text to match HP-35 reference
-        pixel_size = 2  # Larger for better visibility
-        label_color = (220, 220, 180)  # Cream/beige text to match HP-35 silk-screen
+        # Balance visibility with accuracy
+        pixel_size = 1  # Smaller for better reference matching
+        label_color = (200, 195, 180)  # Muted cream text
 
         # Handle special multi-character labels
         if label in ('sqrt', 'arcsin', 'arccos', 'arctan', 'x^y', 'e^x', '1/x'):
