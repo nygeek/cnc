@@ -109,9 +109,17 @@ install: build
 	- rm cnc10.sh
 
 clean:
+	@echo "Cleaning build artifacts and temporary files..."
 	- rm -f *.ps *.pdf
+	- rm -rf _build
 	- rm -rf .venv
+	- rm -rf __pycache__
+	- find . -type d -name "*.egg-info" -exec rm -rf {} +
+	- find . -type d -name "__pycache__" -exec rm -rf {} +
+	- find . -type f -name "*.pyc" -delete
+	- find . -type f -name "*.pyo" -delete
 	- rm -f ${HOME}/bin/cnc ${HOME}/bin/cnc10
+	@echo "Clean complete. Project ready for fresh build."
 
 pylint:
 	- ${PYLINT} cli_cnc.py
