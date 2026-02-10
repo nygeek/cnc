@@ -42,7 +42,7 @@ WINDOW_HEIGHT = 680  # Authentic HP-35 (35 buttons, no extensions)
 # Color palette - Based on authentic HP-35 reference photo
 COLORS = {
     # Case and background
-    'CASE_BLACK':       (95, 85, 75),  # Tan/beige metal case from HP-35 photo
+    'CASE_BLACK':       (75, 72, 68),  # Dark gray-brown metal case matching HP-35 reference
     'DISPLAY_BG':       (15, 5, 5),    # Very dark red-tinted background
 
     # LED colors - Classic red LEDs
@@ -515,12 +515,12 @@ class ButtonGrid:
                                            button.width, int(button.height * 0.3),
                                            6, highlight_color, 1)
 
-            # Draw border (darker)
-            border_color = tuple(max(0, c - 60) for c in color)
+            # Draw border (much darker and thicker for prominence)
+            border_color = tuple(max(0, c - 80) for c in color)
             self._draw_rounded_rect_outline(renderer,
                                            button.x, button.y,
                                            button.width, button.height,
-                                           6, border_color, 2)
+                                           6, border_color, 3)
 
             # Draw text label (centered)
             self._render_button_label(renderer, button)
