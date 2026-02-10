@@ -4,7 +4,7 @@
 HP-35 GUI Calculator Implementation using PySDL2
 
 This module implements a faithful pixel-perfect GUI replica of the 1972 HP-35
-calculator with extended functionality for quaternions and octonions.
+calculator.
 
 SPDX-License-Identifier: MIT
 Copyright (C) 2026 NYGeek LLC
@@ -12,7 +12,7 @@ Copyright (C) 2026 NYGeek LLC
 Requirements:
     - Python 3.5+
     - PySDL2
-    - SDL2 libraries (libSDL2, libSDL2_gfx, libSDL2_ttf)
+    - SDL2 libraries (libSDL2, libSDL2_gfx)
 
 Usage:
     python3 cnc_gui.py
@@ -21,7 +21,7 @@ Usage:
 import sys
 import math
 import ctypes
-from ctypes import c_int, c_uint8, POINTER
+from ctypes import c_int, c_short, c_uint8, POINTER
 
 try:
     import sdl2
@@ -32,34 +32,28 @@ except ImportError:
     sys.exit(1)
 
 from cnc import ComplexNumberCalculator
-from quaternion import Quaternion
-from octonion import Octonion
 
 
 # ===== Constants ===== #
 
-WINDOW_WIDTH = 600
-WINDOW_HEIGHT = 1080
+WINDOW_WIDTH = 480
+WINDOW_HEIGHT = 680  # Authentic HP-35 (35 buttons, no extensions)
 
-# Color palette - exact RGB values from design.md Section 5.1
+# Color palette - Based on authentic HP-35 reference photo
 COLORS = {
     # Case and background
-    'CASE_BLACK':       (20, 20, 20),
+    'CASE_BLACK':       (60, 60, 60),
     'DISPLAY_BG':       (10, 10, 10),
 
-    # LED colors
-    'LED_ON':           (255, 0, 0),
-    'LED_DIM':          (32, 0, 0),
-    'LED_GLOW':         (255, 80, 80),
+    # LED colors - Classic red LEDs
+    'LED_ON':           (255, 60, 40),
+    'LED_DIM':          (40, 10, 8),
+    'LED_GLOW':         (255, 100, 80),
 
-    # Button colors - Original HP-35
-    'TAN':              (210, 180, 140),
-    'BLUE':             (50, 100, 200),
-    'BLACK_KEY':        (30, 30, 30),
-
-    # Button colors - Extended
-    'PURPLE':           (150, 50, 200),
-    'ORANGE':           (255, 140, 0),
+    # Button colors - Original HP-35 (from reference photo)
+    'TAN':              (235, 230, 215),   # Off-white/cream digit buttons
+    'BLUE':             (100, 180, 220),   # Light cyan operator buttons
+    'BLACK_KEY':        (45, 45, 45),      # Dark gray function buttons
 
     # Text colors
     'WHITE_TEXT':       (255, 255, 255),
@@ -72,10 +66,19 @@ COLORS = {
 
 # Display dimensions from design.md Section 3.1
 DISPLAY_AREA = {
-    'x': 20,
+    'x': 40,
+    'y': 30,
+    'width': 400,
+    'height': 140,
+}
+
+# Display bezel (frame around display)
+DISPLAY_BEZEL = {
+    'x': 30,
     'y': 20,
-    'width': 560,
+    'width': 420,
     'height': 160,
+    'border_width': 3,
 }
 
 # Seven-segment digit dimensions from design.md Section 2.1
@@ -139,23 +142,6 @@ BUTTON_COMMANDS = {
     '•':      '.',
     'Σ+':     '+',
     '+':      '+',
-
-    # Row 8 - Quaternion
-    'j':      'j',
-    'k':      'k',
-    'e0':     'e0',
-    'e1':     'e1',
-    'e2':     'e2',
-
-    # Row 9 - Octonion
-    'e3':     'e3',
-    'e4':     'e4',
-    'e5':     'e5',
-    'e6':     'e6',
-    'e7':     'e7',
-
-    # Row 10
-    'conj':   'conj',
 }
 
 # Character to seven-segment mapping from design.md Section 2.2
@@ -181,6 +167,62 @@ SEGMENT_MAP = {
     '.': [],
 }
 
+# Simple 5x7 bitmap font for button labels
+CHAR_PATTERNS = {
+    '0': [[0,1,1,1,0], [1,0,0,0,1], [1,0,0,0,1], [1,0,0,0,1], [1,0,0,0,1], [1,0,0,0,1], [0,1,1,1,0]],
+    '1': [[0,0,1,0,0], [0,1,1,0,0], [0,0,1,0,0], [0,0,1,0,0], [0,0,1,0,0], [0,0,1,0,0], [0,1,1,1,0]],
+    '2': [[0,1,1,1,0], [1,0,0,0,1], [0,0,0,0,1], [0,0,1,1,0], [0,1,0,0,0], [1,0,0,0,0], [1,1,1,1,1]],
+    '3': [[1,1,1,1,0], [0,0,0,0,1], [0,0,0,1,0], [0,0,1,1,0], [0,0,0,0,1], [1,0,0,0,1], [0,1,1,1,0]],
+    '4': [[0,0,0,1,0], [0,0,1,1,0], [0,1,0,1,0], [1,0,0,1,0], [1,1,1,1,1], [0,0,0,1,0], [0,0,0,1,0]],
+    '5': [[1,1,1,1,1], [1,0,0,0,0], [1,1,1,1,0], [0,0,0,0,1], [0,0,0,0,1], [1,0,0,0,1], [0,1,1,1,0]],
+    '6': [[0,0,1,1,0], [0,1,0,0,0], [1,0,0,0,0], [1,1,1,1,0], [1,0,0,0,1], [1,0,0,0,1], [0,1,1,1,0]],
+    '7': [[1,1,1,1,1], [0,0,0,0,1], [0,0,0,1,0], [0,0,1,0,0], [0,1,0,0,0], [0,1,0,0,0], [0,1,0,0,0]],
+    '8': [[0,1,1,1,0], [1,0,0,0,1], [1,0,0,0,1], [0,1,1,1,0], [1,0,0,0,1], [1,0,0,0,1], [0,1,1,1,0]],
+    '9': [[0,1,1,1,0], [1,0,0,0,1], [1,0,0,0,1], [0,1,1,1,1], [0,0,0,0,1], [0,0,0,1,0], [0,1,1,0,0]],
+    'A': [[0,0,1,0,0], [0,1,0,1,0], [1,0,0,0,1], [1,0,0,0,1], [1,1,1,1,1], [1,0,0,0,1], [1,0,0,0,1]],
+    'C': [[0,1,1,1,0], [1,0,0,0,1], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,1], [0,1,1,1,0]],
+    'D': [[1,1,1,1,0], [1,0,0,0,1], [1,0,0,0,1], [1,0,0,0,1], [1,0,0,0,1], [1,0,0,0,1], [1,1,1,1,0]],
+    'E': [[1,1,1,1,1], [1,0,0,0,0], [1,0,0,0,0], [1,1,1,1,0], [1,0,0,0,0], [1,0,0,0,0], [1,1,1,1,1]],
+    'H': [[1,0,0,0,1], [1,0,0,0,1], [1,0,0,0,1], [1,1,1,1,1], [1,0,0,0,1], [1,0,0,0,1], [1,0,0,0,1]],
+    'I': [[1,1,1,1,1], [0,0,1,0,0], [0,0,1,0,0], [0,0,1,0,0], [0,0,1,0,0], [0,0,1,0,0], [1,1,1,1,1]],
+    'L': [[1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,1,1,1,1]],
+    'N': [[1,0,0,0,1], [1,1,0,0,1], [1,0,1,0,1], [1,0,0,1,1], [1,0,0,0,1], [1,0,0,0,1], [1,0,0,0,1]],
+    'O': [[0,1,1,1,0], [1,0,0,0,1], [1,0,0,0,1], [1,0,0,0,1], [1,0,0,0,1], [1,0,0,0,1], [0,1,1,1,0]],
+    'R': [[1,1,1,1,0], [1,0,0,0,1], [1,0,0,0,1], [1,1,1,1,0], [1,0,1,0,0], [1,0,0,1,0], [1,0,0,0,1]],
+    'S': [[0,1,1,1,1], [1,0,0,0,0], [1,0,0,0,0], [0,1,1,1,0], [0,0,0,0,1], [0,0,0,0,1], [1,1,1,1,0]],
+    'T': [[1,1,1,1,1], [0,0,1,0,0], [0,0,1,0,0], [0,0,1,0,0], [0,0,1,0,0], [0,0,1,0,0], [0,0,1,0,0]],
+    'X': [[1,0,0,0,1], [1,0,0,0,1], [0,1,0,1,0], [0,0,1,0,0], [0,1,0,1,0], [1,0,0,0,1], [1,0,0,0,1]],
+    'a': [[0,0,0,0,0], [0,0,0,0,0], [0,1,1,1,0], [0,0,0,0,1], [0,1,1,1,1], [1,0,0,0,1], [0,1,1,1,1]],
+    'c': [[0,0,0,0,0], [0,0,0,0,0], [0,1,1,1,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,1], [0,1,1,1,0]],
+    'd': [[0,0,0,0,1], [0,0,0,0,1], [0,1,1,0,1], [1,0,0,1,1], [1,0,0,0,1], [1,0,0,0,1], [0,1,1,1,1]],
+    'e': [[0,0,0,0,0], [0,0,0,0,0], [0,1,1,1,0], [1,0,0,0,1], [1,1,1,1,1], [1,0,0,0,0], [0,1,1,1,0]],
+    'g': [[0,0,0,0,0], [0,1,1,1,1], [1,0,0,0,1], [1,0,0,0,1], [0,1,1,1,1], [0,0,0,0,1], [0,1,1,1,0]],
+    'i': [[0,0,1,0,0], [0,0,0,0,0], [0,1,1,0,0], [0,0,1,0,0], [0,0,1,0,0], [0,0,1,0,0], [0,1,1,1,0]],
+    'j': [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,1,0], [0,0,0,0,0], [0,0,0,1,0], [1,0,0,1,0], [0,1,1,0,0]],
+    'k': [[1,0,0,0,0], [1,0,0,0,0], [1,0,0,1,0], [1,0,1,0,0], [1,1,0,0,0], [1,0,1,0,0], [1,0,0,1,0]],
+    'l': [[0,1,1,0,0], [0,0,1,0,0], [0,0,1,0,0], [0,0,1,0,0], [0,0,1,0,0], [0,0,1,0,0], [0,1,1,1,0]],
+    'n': [[0,0,0,0,0], [0,0,0,0,0], [1,0,1,1,0], [1,1,0,0,1], [1,0,0,0,1], [1,0,0,0,1], [1,0,0,0,1]],
+    'o': [[0,0,0,0,0], [0,0,0,0,0], [0,1,1,1,0], [1,0,0,0,1], [1,0,0,0,1], [1,0,0,0,1], [0,1,1,1,0]],
+    'r': [[0,0,0,0,0], [0,0,0,0,0], [1,0,1,1,0], [1,1,0,0,1], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0]],
+    's': [[0,0,0,0,0], [0,0,0,0,0], [0,1,1,1,0], [1,0,0,0,0], [0,1,1,1,0], [0,0,0,0,1], [1,1,1,1,0]],
+    't': [[0,1,0,0,0], [0,1,0,0,0], [1,1,1,0,0], [0,1,0,0,0], [0,1,0,0,0], [0,1,0,0,0], [0,0,1,1,0]],
+    'x': [[0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,1], [0,1,0,1,0], [0,0,1,0,0], [0,1,0,1,0], [1,0,0,0,1]],
+    'y': [[0,0,0,0,0], [0,0,0,0,0], [1,0,0,0,1], [1,0,0,0,1], [0,1,1,1,1], [0,0,0,0,1], [0,1,1,1,0]],
+    '/': [[0,0,0,0,1], [0,0,0,1,0], [0,0,0,1,0], [0,0,1,0,0], [0,1,0,0,0], [0,1,0,0,0], [1,0,0,0,0]],
+    '+': [[0,0,0,0,0], [0,0,1,0,0], [0,0,1,0,0], [1,1,1,1,1], [0,0,1,0,0], [0,0,1,0,0], [0,0,0,0,0]],
+    '−': [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [1,1,1,1,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]],
+    '×': [[0,0,0,0,0], [1,0,0,0,1], [0,1,0,1,0], [0,0,1,0,0], [0,1,0,1,0], [1,0,0,0,1], [0,0,0,0,0]],
+    '÷': [[0,0,0,0,0], [0,0,1,0,0], [0,0,0,0,0], [1,1,1,1,1], [0,0,0,0,0], [0,0,1,0,0], [0,0,0,0,0]],
+    '•': [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,1,1,0,0], [0,1,1,0,0]],
+    'π': [[0,0,0,0,0], [1,1,1,1,1], [0,1,0,1,0], [0,1,0,1,0], [0,1,0,1,0], [0,1,0,1,0], [0,1,0,1,0]],
+    '^': [[0,0,1,0,0], [0,1,0,1,0], [1,0,0,0,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]],
+    '↓': [[0,0,1,0,0], [0,0,1,0,0], [0,0,1,0,0], [1,0,1,0,1], [0,1,1,1,0], [0,0,1,0,0], [0,0,0,0,0]],
+    '↔': [[0,0,0,0,0], [0,1,0,1,0], [1,1,1,1,1], [0,1,0,1,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]],
+    'Σ': [[1,1,1,1,1], [0,0,0,1,0], [0,0,1,0,0], [0,1,0,0,0], [0,0,1,0,0], [0,0,0,1,0], [1,1,1,1,1]],
+    '√': [[0,0,0,0,1], [0,0,0,0,1], [1,0,0,0,1], [1,0,0,1,0], [0,1,1,0,0], [0,0,0,0,0], [0,0,0,0,0]],
+    ' ': [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]],
+}
+
 
 # ===== Helper Functions ===== #
 
@@ -203,7 +245,7 @@ def get_text_color(button_color):
 
 def format_number_for_display(value):
     """
-    Format number for LED display (handles complex, quaternion, octonion).
+    Format number for LED display (handles complex numbers).
 
     Args:
         value: Number to format
@@ -211,13 +253,7 @@ def format_number_for_display(value):
     Returns:
         String formatted for LED display (up to 15 characters)
     """
-    if isinstance(value, Octonion):
-        # Show first component with 'o' suffix
-        return format_scientific(value.components[0])[:13] + " o"
-    elif isinstance(value, Quaternion):
-        # Show w component with 'q' suffix
-        return format_scientific(value.w)[:13] + " q"
-    elif isinstance(value, complex):
+    if isinstance(value, complex):
         if value.imag == 0:
             # Real number
             return format_scientific(value.real)
@@ -337,98 +373,100 @@ class ButtonGrid:
         """
         Construct all 47 buttons with exact positions from design.md Section 1.4-1.5.
         """
-        # Row 0 (Y=220)
+        # Compact button dimensions matching authentic HP-35
+        btn_w = 60   # Button width
+        btn_h = 50   # Button height
+        gap = 10     # Gap between buttons
+        x_start = 70   # Left margin (centered)
+        y_start = 210  # Top margin (below display, room for silk-screen labels)
+
+        # Calculate column positions
+        x0 = x_start
+        x1 = x0 + btn_w + gap
+        x2 = x1 + btn_w + gap
+        x3 = x2 + btn_w + gap
+        x4 = x3 + btn_w + gap
+
+        # Calculate row positions
+        y0 = y_start
+        y1 = y0 + btn_h + gap
+        y2 = y1 + btn_h + gap
+        y3 = y2 + btn_h + gap
+        y4 = y3 + btn_h + gap
+        y5 = y4 + btn_h + gap
+        y6 = y5 + btn_h + gap
+        y7 = y6 + btn_h + gap
+
+        # Row 0 - Top function row (authentic HP-35 layout)
         self.buttons.extend([
-            Button(40,  220, 90, 70, 'sqrt',   'sqrt',   COLORS['BLACK_KEY']),
-            Button(140, 220, 90, 70, 'arcsin', 'asin',   COLORS['BLACK_KEY']),
-            Button(240, 220, 90, 70, 'arccos', 'acos',   COLORS['BLACK_KEY']),
-            Button(340, 220, 90, 70, 'arctan', 'atan',   COLORS['BLACK_KEY']),
-            Button(440, 220, 90, 70, '1/x',    'inv',    COLORS['BLACK_KEY']),
+            Button(x0, y0, btn_w, btn_h, 'x^y',    'xtoy',   COLORS['BLACK_KEY']),
+            Button(x1, y0, btn_w, btn_h, 'log',    'log',    COLORS['BLACK_KEY']),
+            Button(x2, y0, btn_w, btn_h, 'ln',     'ln',     COLORS['BLACK_KEY']),
+            Button(x3, y0, btn_w, btn_h, 'e^x',    'exp',    COLORS['BLACK_KEY']),
+            Button(x4, y0, btn_w, btn_h, 'CLR',    'clr',    COLORS['BLUE']),
         ])
 
-        # Row 1 (Y=300)
+        # Row 1 - Second function row (trig functions)
         self.buttons.extend([
-            Button(40,  300, 90, 70, 'x^y',    'xtoy',   COLORS['BLACK_KEY']),
-            Button(140, 300, 90, 70, 'ln',     'ln',     COLORS['BLACK_KEY']),
-            Button(240, 300, 90, 70, 'log',    'log',    COLORS['BLACK_KEY']),
-            Button(340, 300, 90, 70, 'e^x',    'exp',    COLORS['BLACK_KEY']),
-            Button(440, 300, 90, 70, 'CLR',    'clr',    COLORS['BLUE']),
+            Button(x0, y1, btn_w, btn_h, 'sqrt',   'sqrt',   COLORS['BLACK_KEY']),
+            Button(x1, y1, btn_w, btn_h, 'arc',    'asin',   COLORS['BLACK_KEY']),  # arc is inverse trig
+            Button(x2, y1, btn_w, btn_h, 'sin',    'sin',    COLORS['BLACK_KEY']),
+            Button(x3, y1, btn_w, btn_h, 'cos',    'cos',    COLORS['BLACK_KEY']),
+            Button(x4, y1, btn_w, btn_h, 'tan',    'tan',    COLORS['BLACK_KEY']),
         ])
 
-        # Row 2 (Y=380)
+        # Row 2 - Third function row (STO/RCL row)
         self.buttons.extend([
-            Button(40,  380, 90, 70, 'STO',    'sto',    COLORS['BLACK_KEY']),
-            Button(140, 380, 90, 70, 'RCL',    'rcl',    COLORS['BLACK_KEY']),
-            Button(240, 380, 90, 70, 'R↓',     'down',   COLORS['BLACK_KEY']),
-            Button(340, 380, 90, 70, 'x↔y',    'exch',   COLORS['BLACK_KEY']),
-            Button(440, 380, 90, 70, 'CLx',    'clx',    COLORS['BLUE']),
+            Button(x0, y2, btn_w, btn_h, 'x↔y',    'exch',   COLORS['BLACK_KEY']),
+            Button(x1, y2, btn_w, btn_h, 'R↓',     'down',   COLORS['BLACK_KEY']),
+            Button(x2, y2, btn_w, btn_h, 'STO',    'sto',    COLORS['BLACK_KEY']),
+            Button(x3, y2, btn_w, btn_h, 'RCL',    'rcl',    COLORS['BLACK_KEY']),
+            Button(x4, y2, btn_w, btn_h, 'CLx',    'clx',    COLORS['BLUE']),
         ])
 
-        # Row 3 (Y=460) - Note: ENTER is wide (190 pixels)
+        # Row 3 - ENTER is double-wide
+        enter_w = btn_w * 2 + gap
         self.buttons.extend([
-            Button(40,  460, 190, 70, 'ENTER', 'enter',  COLORS['BLUE']),
-            Button(240, 460, 90,  70, 'CHS',   'chs',    COLORS['BLACK_KEY']),
-            Button(340, 460, 90,  70, 'EEX',   'eex',    COLORS['BLACK_KEY']),
-            Button(440, 460, 90,  70, 'CLR',   'clr',    COLORS['BLUE']),
+            Button(x0, y3, enter_w, btn_h, 'ENTER', 'enter',  COLORS['BLUE']),
+            Button(x2, y3, btn_w,   btn_h, 'CHS',   'chs',    COLORS['BLACK_KEY']),
+            Button(x3, y3, btn_w,   btn_h, 'EEX',   'eex',    COLORS['BLACK_KEY']),
+            Button(x4, y3, btn_w,   btn_h, 'CLR',   'clr',    COLORS['BLUE']),
         ])
 
-        # Row 4 (Y=540)
+        # Row 4 - Number pad (authentic HP-35: operators on left and right)
         self.buttons.extend([
-            Button(40,  540, 90, 70, 'sin',    'sin',    COLORS['BLACK_KEY']),
-            Button(140, 540, 90, 70, '7',      '7',      COLORS['TAN']),
-            Button(240, 540, 90, 70, '8',      '8',      COLORS['TAN']),
-            Button(340, 540, 90, 70, '9',      '9',      COLORS['TAN']),
-            Button(440, 540, 90, 70, '÷',      '/',      COLORS['BLUE']),
+            Button(x0, y4, btn_w, btn_h, '−',      '-',      COLORS['BLUE']),
+            Button(x1, y4, btn_w, btn_h, '7',      '7',      COLORS['TAN']),
+            Button(x2, y4, btn_w, btn_h, '8',      '8',      COLORS['TAN']),
+            Button(x3, y4, btn_w, btn_h, '9',      '9',      COLORS['TAN']),
+            Button(x4, y4, btn_w, btn_h, '÷',      '/',      COLORS['BLUE']),
         ])
 
-        # Row 5 (Y=620)
+        # Row 5
         self.buttons.extend([
-            Button(40,  620, 90, 70, 'cos',    'cos',    COLORS['BLACK_KEY']),
-            Button(140, 620, 90, 70, '4',      '4',      COLORS['TAN']),
-            Button(240, 620, 90, 70, '5',      '5',      COLORS['TAN']),
-            Button(340, 620, 90, 70, '6',      '6',      COLORS['TAN']),
-            Button(440, 620, 90, 70, '×',      '*',      COLORS['BLUE']),
+            Button(x0, y5, btn_w, btn_h, '+',      '+',      COLORS['BLUE']),
+            Button(x1, y5, btn_w, btn_h, '4',      '4',      COLORS['TAN']),
+            Button(x2, y5, btn_w, btn_h, '5',      '5',      COLORS['TAN']),
+            Button(x3, y5, btn_w, btn_h, '6',      '6',      COLORS['TAN']),
+            Button(x4, y5, btn_w, btn_h, '×',      '*',      COLORS['BLUE']),
         ])
 
-        # Row 6 (Y=700)
+        # Row 6
         self.buttons.extend([
-            Button(40,  700, 90, 70, 'tan',    'tan',    COLORS['BLACK_KEY']),
-            Button(140, 700, 90, 70, '1',      '1',      COLORS['TAN']),
-            Button(240, 700, 90, 70, '2',      '2',      COLORS['TAN']),
-            Button(340, 700, 90, 70, '3',      '3',      COLORS['TAN']),
-            Button(440, 700, 90, 70, '−',      '-',      COLORS['BLUE']),
+            Button(x0, y6, btn_w, btn_h, '×',      '*',      COLORS['BLUE']),
+            Button(x1, y6, btn_w, btn_h, '1',      '1',      COLORS['TAN']),
+            Button(x2, y6, btn_w, btn_h, '2',      '2',      COLORS['TAN']),
+            Button(x3, y6, btn_w, btn_h, '3',      '3',      COLORS['TAN']),
+            Button(x4, y6, btn_w, btn_h, '−',      '-',      COLORS['BLUE']),
         ])
 
-        # Row 7 (Y=780)
+        # Row 7
         self.buttons.extend([
-            Button(40,  780, 90, 70, 'π',      'pi',     COLORS['TAN']),
-            Button(140, 780, 90, 70, '0',      '0',      COLORS['TAN']),
-            Button(240, 780, 90, 70, '•',      '.',      COLORS['TAN']),
-            Button(340, 780, 90, 70, 'Σ+',     '+',      COLORS['BLACK_KEY']),
-            Button(440, 780, 90, 70, '+',      '+',      COLORS['BLUE']),
-        ])
-
-        # Row 8 (Y=870) - Extended quaternion/octonion buttons
-        self.buttons.extend([
-            Button(40,  870, 90, 70, 'j',      'j',      COLORS['PURPLE']),
-            Button(140, 870, 90, 70, 'k',      'k',      COLORS['PURPLE']),
-            Button(240, 870, 90, 70, 'e0',     'e0',     COLORS['ORANGE']),
-            Button(340, 870, 90, 70, 'e1',     'e1',     COLORS['ORANGE']),
-            Button(440, 870, 90, 70, 'e2',     'e2',     COLORS['ORANGE']),
-        ])
-
-        # Row 9 (Y=950)
-        self.buttons.extend([
-            Button(40,  950, 90, 70, 'e3',     'e3',     COLORS['ORANGE']),
-            Button(140, 950, 90, 70, 'e4',     'e4',     COLORS['ORANGE']),
-            Button(240, 950, 90, 70, 'e5',     'e5',     COLORS['ORANGE']),
-            Button(340, 950, 90, 70, 'e6',     'e6',     COLORS['ORANGE']),
-            Button(440, 950, 90, 70, 'e7',     'e7',     COLORS['ORANGE']),
-        ])
-
-        # Row 10 (Y=1030) - Conjugate button
-        self.buttons.extend([
-            Button(240, 1030, 90, 70, 'conj',  'conj',   COLORS['PURPLE']),
+            Button(x0, y7, btn_w, btn_h, '÷',      '/',      COLORS['BLUE']),
+            Button(x1, y7, btn_w, btn_h, '0',      '0',      COLORS['TAN']),
+            Button(x2, y7, btn_w, btn_h, '•',      '.',      COLORS['TAN']),
+            Button(x3, y7, btn_w, btn_h, 'π',      'pi',     COLORS['TAN']),
+            Button(x4, y7, btn_w, btn_h, '+',      '+',      COLORS['BLUE']),
         ])
 
     def get_button_at(self, x, y):
@@ -472,15 +510,190 @@ class ButtonGrid:
 
     def _render_button_label(self, renderer, button):
         """
-        Render text label centered on button.
+        Render silk-screen label ABOVE button (authentic HP-35 style).
 
         Args:
             renderer: SDL renderer
             button: Button object
         """
-        # For now, use simple text rendering
-        # In a full implementation, would use SDL_ttf for better text
+        label = button.label
+        if not label:
+            return
+
+        # Silk-screen labels are rendered ABOVE the button, not on it
+        # Use smaller text and light color for authenticity
+        pixel_size = 1  # Smaller for silk-screen labels
+        label_color = (180, 180, 180)  # Light gray silk-screen text
+
+        # Handle special multi-character labels
+        if label in ('sqrt', 'arcsin', 'arccos', 'arctan', 'x^y', 'e^x', '1/x'):
+            self._render_silkscreen_special(renderer, button, label, pixel_size, label_color)
+            return
+
+        # Calculate text dimensions
+        char_width = 5 * pixel_size
+        char_height = 7 * pixel_size
+        char_spacing = pixel_size
+
+        # Total width of the label
+        total_width = len(label) * char_width + (len(label) - 1) * char_spacing
+
+        # Position label ABOVE the button (silk-screen style)
+        start_x = button.x + (button.width - total_width) // 2
+        start_y = button.y - char_height - 4  # 4 pixels above button
+
+        # Render each character
+        current_x = start_x
+        for char in label:
+            self._render_char(renderer, char, current_x, start_y, pixel_size, label_color)
+            current_x += char_width + char_spacing
+
+    def _render_char(self, renderer, char, x, y, pixel_size, color):
+        """
+        Render a single character using its bitmap pattern.
+
+        Args:
+            renderer: SDL renderer
+            char: Character to render
+            x, y: Top-left position
+            pixel_size: Size of each pixel in the pattern
+            color: RGB tuple for character color
+        """
+        pattern = CHAR_PATTERNS.get(char)
+        if not pattern:
+            return
+
+        sdl2.SDL_SetRenderDrawColor(renderer, *color, 255)
+
+        for row_idx, row in enumerate(pattern):
+            for col_idx, pixel in enumerate(row):
+                if pixel:
+                    px = x + col_idx * pixel_size
+                    py = y + row_idx * pixel_size
+                    rect = sdl2.SDL_Rect(px, py, pixel_size, pixel_size)
+                    sdl2.SDL_RenderFillRect(renderer, rect)
+
+    def _render_silkscreen_special(self, renderer, button, label, pixel_size, color):
+        """
+        Render special silk-screen labels above buttons.
+
+        Args:
+            renderer: SDL renderer
+            button: Button object
+            label: Label string
+            pixel_size: Size multiplier
+            color: RGB tuple for text color
+        """
+        char_width = 5 * pixel_size
+        char_height = 7 * pixel_size
+
+        if label == 'sqrt':
+            # Render "√x" above button
+            text = '√x'
+            total_width = len(text) * char_width
+            start_x = button.x + (button.width - total_width) // 2
+            start_y = button.y - char_height - 4
+
+            current_x = start_x
+            for char in text:
+                self._render_char(renderer, char, current_x, start_y, pixel_size, color)
+                current_x += char_width + pixel_size
+
+        elif label in ('x^y', 'e^x'):
+            # Render with superscript above button
+            base = label[0]
+            superscript = label[2]
+
+            start_x = button.x + button.width // 2 - char_width
+            start_y = button.y - char_height - 4
+
+            self._render_char(renderer, base, start_x, start_y, pixel_size, color)
+            self._render_char(renderer, superscript, start_x + char_width, start_y - 2, pixel_size, color)
+
+        elif label == '1/x':
+            # Render fraction above button
+            text = '1/x'
+            total_width = len(text) * char_width
+            start_x = button.x + (button.width - total_width) // 2
+            start_y = button.y - char_height - 4
+
+            current_x = start_x
+            for char in text:
+                self._render_char(renderer, char, current_x, start_y, pixel_size, color)
+                current_x += char_width + pixel_size
+
+    def _render_special_label(self, renderer, button, label):
+        """
+        Render special multi-line or complex labels (legacy - now uses silk-screen).
+
+        Args:
+            renderer: SDL renderer
+            button: Button object
+            label: Label string
+        """
+        # This is now handled by _render_silkscreen_special
         pass
+
+    def _render_superscript(self, renderer, button, base, superscript, pixel_size):
+        """Render text with superscript."""
+        char_width = 5 * pixel_size
+        char_height = 7 * pixel_size
+        super_size = 1  # Smaller size for superscript
+
+        # Center position
+        center_x = button.x + button.width // 2
+        center_y = button.y + button.height // 2
+
+        # Render base character
+        base_x = center_x - char_width // 2
+        base_y = center_y - char_height // 4
+        self._render_char(renderer, base, base_x, base_y, pixel_size, button.text_color)
+
+        # Render superscript (smaller, raised)
+        super_x = base_x + char_width
+        super_y = base_y - char_height // 4
+        self._render_char(renderer, superscript, super_x, super_y, super_size, button.text_color)
+
+    def _render_two_line_label(self, renderer, button, line1, line2, pixel_size):
+        """Render two-line label."""
+        char_width = 5 * pixel_size
+        char_height = 7 * pixel_size
+        char_spacing = pixel_size
+
+        # Line 1 (top)
+        total_width1 = len(line1) * char_width + (len(line1) - 1) * char_spacing
+        start_x1 = button.x + (button.width - total_width1) // 2
+        start_y1 = button.y + (button.height - char_height * 2) // 2
+
+        current_x = start_x1
+        for char in line1:
+            self._render_char(renderer, char, current_x, start_y1, pixel_size, button.text_color)
+            current_x += char_width + char_spacing
+
+        # Line 2 (bottom)
+        total_width2 = len(line2) * char_width + (len(line2) - 1) * char_spacing
+        start_x2 = button.x + (button.width - total_width2) // 2
+        start_y2 = start_y1 + char_height + pixel_size
+
+        current_x = start_x2
+        for char in line2:
+            self._render_char(renderer, char, current_x, start_y2, pixel_size, button.text_color)
+            current_x += char_width + char_spacing
+
+    def _render_simple_text(self, renderer, button, text, pixel_size):
+        """Render simple centered text."""
+        char_width = 5 * pixel_size
+        char_height = 7 * pixel_size
+        char_spacing = pixel_size
+
+        total_width = len(text) * char_width + (len(text) - 1) * char_spacing
+        start_x = button.x + (button.width - total_width) // 2
+        start_y = button.y + (button.height - char_height) // 2
+
+        current_x = start_x
+        for char in text:
+            self._render_char(renderer, char, current_x, start_y, pixel_size, button.text_color)
+            current_x += char_width + char_spacing
 
 
 # ===== LEDDisplay Class ===== #
@@ -528,8 +741,8 @@ class LEDDisplay:
         sdl2.SDL_RenderFillRect(renderer, rect)
 
         # Render main X register (large LED digits)
-        x_display_x = self.x + 100
-        x_display_y = self.y + 120
+        x_display_x = self.x + 20
+        x_display_y = self.y + 100
         self._render_led_string(renderer, x_display_x, x_display_y, self.display_string)
 
     def _render_led_string(self, renderer, x, y, text):
@@ -631,8 +844,8 @@ class LEDDisplay:
             return
 
         # Extract x and y coordinates
-        vx = (c_int * len(points))(*[p[0] for p in points])
-        vy = (c_int * len(points))(*[p[1] for p in points])
+        vx = (c_short * len(points))(*[p[0] for p in points])
+        vy = (c_short * len(points))(*[p[1] for p in points])
 
         # Draw filled polygon
         sdl2.sdlgfx.filledPolygonRGBA(
@@ -757,18 +970,19 @@ class HP35Window:
     Main window class integrating all components.
     """
 
-    def __init__(self, width=WINDOW_WIDTH, height=WINDOW_HEIGHT):
+    def __init__(self, width=WINDOW_WIDTH, height=WINDOW_HEIGHT, screenshot_mode=False):
         """
         Initialize SDL window and all components.
 
         Args:
             width, height: Window dimensions in pixels
+            screenshot_mode: If True, create hidden window for screenshots
         """
         # Initialize SDL
         if sdl2.SDL_Init(sdl2.SDL_INIT_VIDEO) != 0:
             raise RuntimeError(f"SDL initialization failed: {sdl2.SDL_GetError()}")
 
-        # Create window
+        # Create window (always shown - hiding prevents proper rendering on some platforms)
         self.window = sdl2.SDL_CreateWindow(
             b"CNC - HP-35 Calculator",
             sdl2.SDL_WINDOWPOS_CENTERED,
@@ -780,10 +994,15 @@ class HP35Window:
         if not self.window:
             raise RuntimeError(f"Window creation failed: {sdl2.SDL_GetError()}")
 
-        # Create renderer
+        # Create renderer (use software rendering in screenshot mode for reliable pixel reading)
+        if screenshot_mode:
+            renderer_flags = sdl2.SDL_RENDERER_SOFTWARE
+        else:
+            renderer_flags = sdl2.SDL_RENDERER_ACCELERATED | sdl2.SDL_RENDERER_PRESENTVSYNC
+
         self.renderer = sdl2.SDL_CreateRenderer(
             self.window, -1,
-            sdl2.SDL_RENDERER_ACCELERATED | sdl2.SDL_RENDERER_PRESENTVSYNC
+            renderer_flags
         )
 
         if not self.renderer:
@@ -807,6 +1026,10 @@ class HP35Window:
 
         # Initial display update
         self.led_display.update(self.calculator.stack)
+
+        # Screenshot mode flag
+        self.screenshot_mode = screenshot_mode
+        self.screenshot_file = None
 
     def _setup_button_callbacks(self):
         """Connect each button to calculator command."""
@@ -842,6 +1065,7 @@ class HP35Window:
     def run(self):
         """Main event loop."""
         running = True
+        frame_count = 0
 
         while running:
             # Process all pending events
@@ -854,14 +1078,36 @@ class HP35Window:
             # Render frame
             self.render()
 
+            # Screenshot mode: capture after first frame and exit
+            if self.screenshot_mode and frame_count == 0 and self.screenshot_file:
+                # Small delay to ensure render completes
+                sdl2.SDL_Delay(100)
+                try:
+                    self.save_screenshot(self.screenshot_file)
+                    print(f"Screenshot saved to: {self.screenshot_file}")
+                except Exception as e:
+                    print(f"Screenshot failed: {e}", file=sys.stderr)
+                    import traceback
+                    traceback.print_exc()
+                running = False
+
+            frame_count += 1
+
             # Frame rate limiting (60 FPS)
-            sdl2.SDL_Delay(16)
+            if not self.screenshot_mode:
+                sdl2.SDL_Delay(16)
+            elif frame_count > 0:
+                # Exit after first frame in screenshot mode
+                running = False
 
     def render(self):
         """Orchestrate rendering of all components."""
         # Clear screen with case color
         sdl2.SDL_SetRenderDrawColor(self.renderer, *COLORS['CASE_BLACK'], 255)
         sdl2.SDL_RenderClear(self.renderer)
+
+        # Render display bezel (raised frame around display)
+        self._render_display_bezel()
 
         # Render LED display
         self.led_display.render(self.renderer)
@@ -871,6 +1117,74 @@ class HP35Window:
 
         # Present frame
         sdl2.SDL_RenderPresent(self.renderer)
+
+    def _render_display_bezel(self):
+        """Render the frame around the LED display."""
+        bezel = DISPLAY_BEZEL
+
+        # Outer bezel (darker)
+        outer_color = (40, 40, 40)
+        sdl2.SDL_SetRenderDrawColor(self.renderer, *outer_color, 255)
+        outer_rect = sdl2.SDL_Rect(
+            bezel['x'], bezel['y'],
+            bezel['width'], bezel['height']
+        )
+        sdl2.SDL_RenderFillRect(self.renderer, outer_rect)
+
+        # Inner frame (lighter edge for depth effect)
+        inner_color = (80, 80, 80)
+        sdl2.SDL_SetRenderDrawColor(self.renderer, *inner_color, 255)
+        for i in range(bezel['border_width']):
+            frame_rect = sdl2.SDL_Rect(
+                bezel['x'] + i,
+                bezel['y'] + i,
+                bezel['width'] - i * 2,
+                bezel['height'] - i * 2
+            )
+            sdl2.SDL_RenderDrawRect(self.renderer, frame_rect)
+
+    def save_screenshot(self, filename):
+        """
+        Save a screenshot of the current renderer to a file.
+
+        Note: Requires software renderer for reliable pixel reading.
+
+        Args:
+            filename: Output file path (PNG format)
+        """
+        from PIL import Image
+        import numpy as np
+
+        # Get window dimensions
+        w, h = c_int(), c_int()
+        sdl2.SDL_GetRendererOutputSize(self.renderer, ctypes.byref(w), ctypes.byref(h))
+        width, height = w.value, h.value
+
+        # Create buffer for pixels (RGBA format, 4 bytes per pixel)
+        pitch = width * 4
+        pixels = (ctypes.c_uint8 * (pitch * height))()
+
+        # Read pixels from renderer
+        result = sdl2.SDL_RenderReadPixels(
+            self.renderer,
+            None,
+            sdl2.SDL_PIXELFORMAT_RGBA8888,
+            pixels,
+            pitch
+        )
+
+        if result != 0:
+            raise RuntimeError(f"Could not read pixels: {sdl2.SDL_GetError()}")
+
+        # Convert to numpy array
+        arr = np.frombuffer(pixels, dtype=np.uint8).reshape((height, width, 4))
+
+        # Extract RGB channels (drop alpha)
+        rgb_arr = arr[:, :, :3]
+
+        # Create PIL image and save
+        img = Image.fromarray(rgb_arr, 'RGB')
+        img.save(filename, 'PNG')
 
     def cleanup(self):
         """Clean up SDL resources."""
@@ -887,10 +1201,23 @@ def main():
     """
     Main entry point for the HP-35 GUI calculator.
     """
+    import argparse
+
+    parser = argparse.ArgumentParser(description="HP-35 GUI Calculator")
+    parser.add_argument('--screenshot', metavar='FILE',
+                       help='Take a screenshot and save to FILE (PNG format), then exit')
+    args = parser.parse_args()
+
     window = None
     try:
-        # Create and run window
-        window = HP35Window()
+        # Create window with appropriate mode
+        if args.screenshot:
+            window = HP35Window(screenshot_mode=True)
+            window.screenshot_file = args.screenshot
+        else:
+            window = HP35Window(screenshot_mode=False)
+
+        # Run event loop (will exit after one frame in screenshot mode)
         window.run()
 
     except Exception as e:

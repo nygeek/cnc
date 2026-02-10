@@ -11,6 +11,16 @@ authors = [
     { name = "Marc Donner", email = "marc@nygeek.net" },
     ]
 requires-python = ">=3.5"
+dependencies = [
+    "PySDL2>=0.9.16",
+    "tracedebug @ git+https://github.com/nygeek/tracedebug.git",
+    "cmath10 @ git+https://github.com/nygeek/cmath10.git",
+]
+
+[project.optional-dependencies]
+gui = [
+    "PySDL2>=0.9.16",
+]
 
 [tool.setuptools]
 py-modules = ["cnc", "cnc10", "hp35stack"]
