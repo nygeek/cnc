@@ -486,7 +486,7 @@ class ButtonGrid:
 
     def render(self, renderer):
         """
-        Render all buttons to SDL renderer with rounded corners and 3D effect.
+        Render all buttons to SDL renderer.
 
         Args:
             renderer: SDL renderer
@@ -495,32 +495,15 @@ class ButtonGrid:
             # Get color based on state
             color = button.get_render_color()
 
-            # Draw shadow first (offset down and right)
-            shadow_color = (40, 40, 40)  # Dark shadow
-            self._draw_rounded_rect(renderer,
-                                   button.x + 2, button.y + 3,
-                                   button.width, button.height,
-                                   6, shadow_color)
+            # Draw simple rectangle button
+            sdl2.SDL_SetRenderDrawColor(renderer, *color, 255)
+            rect = sdl2.SDL_Rect(button.x, button.y, button.width, button.height)
+            sdl2.SDL_RenderFillRect(renderer, rect)
 
-            # Draw button with rounded corners
-            self._draw_rounded_rect(renderer,
-                                   button.x, button.y,
-                                   button.width, button.height,
-                                   6, color)
-
-            # Draw highlight on top edge for 3D effect
-            highlight_color = tuple(min(255, c + 40) for c in color)
-            self._draw_rounded_rect_outline(renderer,
-                                           button.x, button.y,
-                                           button.width, int(button.height * 0.3),
-                                           6, highlight_color, 1)
-
-            # Draw border (much darker and thicker for prominence)
-            border_color = tuple(max(0, c - 80) for c in color)
-            self._draw_rounded_rect_outline(renderer,
-                                           button.x, button.y,
-                                           button.width, button.height,
-                                           6, border_color, 3)
+            # Draw border (darker)
+            border_color = tuple(max(0, c - 60) for c in color)
+            sdl2.SDL_SetRenderDrawColor(renderer, *border_color, 255)
+            sdl2.SDL_RenderDrawRect(renderer, rect)
 
             # Draw text label (centered)
             self._render_button_label(renderer, button)
