@@ -42,8 +42,8 @@ WINDOW_HEIGHT = 680  # Authentic HP-35 (35 buttons, no extensions)
 # Color palette - Based on authentic HP-35 reference photo
 COLORS = {
     # Case and background
-    'CASE_BLACK':       (60, 60, 60),
-    'DISPLAY_BG':       (10, 10, 10),
+    'CASE_BLACK':       (95, 85, 75),  # Tan/beige metal case from HP-35 photo
+    'DISPLAY_BG':       (15, 5, 5),    # Very dark red-tinted background
 
     # LED colors - Classic red LEDs
     'LED_ON':           (255, 60, 40),
@@ -1122,8 +1122,8 @@ class HP35Window:
         """Render the frame around the LED display."""
         bezel = DISPLAY_BEZEL
 
-        # Outer bezel (darker)
-        outer_color = (40, 40, 40)
+        # Outer bezel (dark metallic frame)
+        outer_color = (60, 55, 50)
         sdl2.SDL_SetRenderDrawColor(self.renderer, *outer_color, 255)
         outer_rect = sdl2.SDL_Rect(
             bezel['x'], bezel['y'],
@@ -1131,8 +1131,8 @@ class HP35Window:
         )
         sdl2.SDL_RenderFillRect(self.renderer, outer_rect)
 
-        # Inner frame (lighter edge for depth effect)
-        inner_color = (80, 80, 80)
+        # Inner frame (subtle metallic highlight)
+        inner_color = (90, 85, 80)
         sdl2.SDL_SetRenderDrawColor(self.renderer, *inner_color, 255)
         for i in range(bezel['border_width']):
             frame_rect = sdl2.SDL_Rect(
