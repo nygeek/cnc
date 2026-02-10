@@ -1164,11 +1164,11 @@ class HP35Window:
         pitch = width * 4
         pixels = (ctypes.c_uint8 * (pitch * height))()
 
-        # Read pixels from renderer
+        # Read pixels from renderer (use ABGR8888 for correct colors on macOS software renderer)
         result = sdl2.SDL_RenderReadPixels(
             self.renderer,
             None,
-            sdl2.SDL_PIXELFORMAT_RGBA8888,
+            sdl2.SDL_PIXELFORMAT_ABGR8888,
             pixels,
             pitch
         )
