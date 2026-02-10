@@ -486,7 +486,7 @@ class ButtonGrid:
 
     def render(self, renderer):
         """
-        Render all buttons to SDL renderer.
+        Render all buttons to SDL renderer with rounded corners and 3D effect.
 
         Args:
             renderer: SDL renderer
@@ -495,18 +495,111 @@ class ButtonGrid:
             # Get color based on state
             color = button.get_render_color()
 
-            # Draw button rectangle
-            sdl2.SDL_SetRenderDrawColor(renderer, *color, 255)
-            rect = sdl2.SDL_Rect(button.x, button.y, button.width, button.height)
-            sdl2.SDL_RenderFillRect(renderer, rect)
+            # Draw shadow first (offset down and right)
+            shadow_color = (40, 40, 40)  # Dark shadow
+            self._draw_rounded_rect(renderer,
+                                   button.x + 2, button.y + 3,
+                                   button.width, button.height,
+                                   6, shadow_color)
 
-            # Draw button border (darker)
-            border_color = tuple(max(0, c - 40) for c in color)
-            sdl2.SDL_SetRenderDrawColor(renderer, *border_color, 255)
-            sdl2.SDL_RenderDrawRect(renderer, rect)
+            # Draw button with rounded corners
+            self._draw_rounded_rect(renderer,
+                                   button.x, button.y,
+                                   button.width, button.height,
+                                   6, color)
+
+            # Draw highlight on top edge for 3D effect
+            highlight_color = tuple(min(255, c + 40) for c in color)
+            self._draw_rounded_rect_outline(renderer,
+                                           button.x, button.y,
+                                           button.width, int(button.height * 0.3),
+                                           6, highlight_color, 1)
+
+            # Draw border (darker)
+            border_color = tuple(max(0, c - 60) for c in color)
+            self._draw_rounded_rect_outline(renderer,
+                                           button.x, button.y,
+                                           button.width, button.height,
+                                           6, border_color, 2)
 
             # Draw text label (centered)
             self._render_button_label(renderer, button)
+
+    def _draw_rounded_rect(self, renderer, x, y, width, height, radius, color):
+        """
+        Draw a filled rounded rectangle.
+
+        Args:
+            renderer: SDL renderer
+            x, y: Top-left position
+            width, height: Dimensions
+            radius: Corner radius
+            color: RGB tuple
+        """
+        # Draw main rectangle body
+        sdl2.SDL_SetRenderDrawColor(renderer, *color, 255)
+
+        # Top and bottom rectangles (full width minus corners)
+        top_rect = sdl2.SDL_Rect(x + radius, y, width - 2 * radius, radius)
+        middle_rect = sdl2.SDL_Rect(x, y + radius, width, height - 2 * radius)
+        bottom_rect = sdl2.SDL_Rect(x + radius, y + height - radius, width - 2 * radius, radius)
+
+        sdl2.SDL_RenderFillRect(renderer, top_rect)
+        sdl2.SDL_RenderFillRect(renderer, middle_rect)
+        sdl2.SDL_RenderFillRect(renderer, bottom_rect)
+
+        # Draw corner circles
+        self._draw_filled_circle(renderer, x + radius, y + radius, radius, color)  # Top-left
+        self._draw_filled_circle(renderer, x + width - radius, y + radius, radius, color)  # Top-right
+        self._draw_filled_circle(renderer, x + radius, y + height - radius, radius, color)  # Bottom-left
+        self._draw_filled_circle(renderer, x + width - radius, y + height - radius, radius, color)  # Bottom-right
+
+    def _draw_rounded_rect_outline(self, renderer, x, y, width, height, radius, color, thickness):
+        """
+        Draw a rounded rectangle outline.
+
+        Args:
+            renderer: SDL renderer
+            x, y: Top-left position
+            width, height: Dimensions
+            radius: Corner radius
+            color: RGB tuple
+            thickness: Line thickness in pixels
+        """
+        sdl2.SDL_SetRenderDrawColor(renderer, *color, 255)
+
+        for t in range(thickness):
+            offset = t
+            # Draw four straight edges
+            # Top edge
+            for px in range(x + radius, x + width - radius):
+                sdl2.SDL_RenderDrawPoint(renderer, px, y + offset)
+            # Bottom edge
+            for px in range(x + radius, x + width - radius):
+                sdl2.SDL_RenderDrawPoint(renderer, px, y + height - 1 - offset)
+            # Left edge
+            for py in range(y + radius, y + height - radius):
+                sdl2.SDL_RenderDrawPoint(renderer, x + offset, py)
+            # Right edge
+            for py in range(y + radius, y + height - radius):
+                sdl2.SDL_RenderDrawPoint(renderer, x + width - 1 - offset, py)
+
+    def _draw_filled_circle(self, renderer, cx, cy, radius, color):
+        """
+        Draw a filled circle using midpoint circle algorithm.
+
+        Args:
+            renderer: SDL renderer
+            cx, cy: Center position
+            radius: Circle radius
+            color: RGB tuple
+        """
+        sdl2.SDL_SetRenderDrawColor(renderer, *color, 255)
+
+        for y in range(-radius, radius + 1):
+            for x in range(-radius, radius + 1):
+                if x * x + y * y <= radius * radius:
+                    sdl2.SDL_RenderDrawPoint(renderer, cx + x, cy + y)
 
     def _render_button_label(self, renderer, button):
         """
@@ -521,9 +614,9 @@ class ButtonGrid:
             return
 
         # Silk-screen labels are rendered ABOVE the button, not on it
-        # Use smaller text and light color for authenticity
-        pixel_size = 1  # Smaller for silk-screen labels
-        label_color = (180, 180, 180)  # Light gray silk-screen text
+        # Use larger, more visible text to match HP-35 reference
+        pixel_size = 2  # Larger for better visibility
+        label_color = (220, 220, 180)  # Cream/beige text to match HP-35 silk-screen
 
         # Handle special multi-character labels
         if label in ('sqrt', 'arcsin', 'arccos', 'arctan', 'x^y', 'e^x', '1/x'):
