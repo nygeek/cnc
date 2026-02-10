@@ -42,7 +42,7 @@ WINDOW_HEIGHT = 680  # Authentic HP-35 (35 buttons, no extensions)
 # Color palette - Based on authentic HP-35 reference photo
 COLORS = {
     # Case and background
-    'CASE_BLACK':       (75, 72, 68),  # Dark gray-brown metal case matching HP-35 reference
+    'CASE_BLACK':       (85, 82, 78),  # Medium gray-brown metal case
     'DISPLAY_BG':       (15, 5, 5),    # Very dark red-tinted background
 
     # LED colors - Classic red LEDs
@@ -51,9 +51,9 @@ COLORS = {
     'LED_GLOW':         (255, 100, 80),
 
     # Button colors - Original HP-35 (from reference photo)
-    'TAN':              (235, 230, 215),   # Off-white/cream digit buttons
-    'BLUE':             (100, 180, 220),   # Light cyan operator buttons
-    'BLACK_KEY':        (45, 45, 45),      # Dark gray function buttons
+    'TAN':              (240, 235, 220),   # Off-white/cream digit buttons (slightly lighter)
+    'BLUE':             (90, 170, 210),    # Light cyan operator buttons (slightly darker)
+    'BLACK_KEY':        (60, 58, 56),      # Dark charcoal function buttons (lighter than before)
 
     # Text colors
     'WHITE_TEXT':       (255, 255, 255),
