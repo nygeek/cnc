@@ -375,10 +375,10 @@ class ButtonGrid:
         """
         # Compact button dimensions matching authentic HP-35
         btn_w = 58   # Button width (narrower for narrower window)
-        btn_h = 55   # Button height (taller)
+        btn_h = 54   # Button height
         gap = 7      # Gap between buttons (very tight)
         x_start = 28   # Left margin (very narrow window)
-        y_start = 240  # Top margin (below display)
+        y_start = 245  # Top margin (below display, room for labels)
 
         # Calculate column positions
         x0 = x_start
