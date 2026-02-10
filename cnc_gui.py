@@ -74,10 +74,10 @@ DISPLAY_AREA = {
 
 # Display bezel (frame around display)
 DISPLAY_BEZEL = {
-    'x': 30,
+    'x': 20,
     'y': 20,
-    'width': 420,
-    'height': 160,
+    'width': 340,
+    'height': 180,
     'border_width': 3,
 }
 
