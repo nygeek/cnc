@@ -377,7 +377,7 @@ class ButtonGrid:
         btn_w = 59   # Button width
         btn_h = 54   # Button height
         gap = 7      # Gap between buttons (very tight)
-        x_start = 27   # Left margin (adjusted for wider buttons)
+        x_start = 28   # Left margin (adjusted for wider buttons)
         y_start = 243  # Top margin (adjusted with new display position)
 
         # Calculate column positions
