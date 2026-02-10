@@ -135,14 +135,16 @@ gui: build
 	.venv/bin/python ./cnc_gui.py
 
 screenshot: build
-	.venv/bin/python ./cnc_gui.py --screenshot hp35_latest.png
-	@echo "Screenshot saved to hp35_latest.png"
+	@mkdir -p _build
+	.venv/bin/python ./cnc_gui.py --screenshot _build/hp35_latest.png
+	@echo "Screenshot saved to _build/hp35_latest.png"
 
 compare: screenshot
-	.venv/bin/python ./compare_renders.py hp35_reference_cropped.jpg hp35_latest.png hp35_diff_latest.png
+	@mkdir -p _build
+	.venv/bin/python ./tests/compare_renders.py images/hp35_reference_cropped.jpg _build/hp35_latest.png _build/hp35_diff_latest.png
 
 test-gui: compare
-	@echo "GUI screenshot comparison complete. Check hp35_diff_latest.png for visual differences."
+	@echo "GUI screenshot comparison complete. Check _build/hp35_diff_latest.png for visual differences."
 
 LISTINGS = cnc.pdf cnc10.pdf hp35stack.pdf Makefile.pdf cli_cnc.pdf
 

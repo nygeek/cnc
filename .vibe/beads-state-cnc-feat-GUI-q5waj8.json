@@ -1,0 +1,39 @@
+{
+  "conversationId": "cnc-feat-GUI-q5waj8",
+  "projectPath": "/Users/jordanh/Src/cnc",
+  "epicId": "cnc-3",
+  "phaseTasks": [
+    {
+      "phaseId": "requirements",
+      "phaseName": "Requirements",
+      "taskId": "cnc-3.1"
+    },
+    {
+      "phaseId": "design",
+      "phaseName": "Design",
+      "taskId": "cnc-3.2"
+    },
+    {
+      "phaseId": "implementation",
+      "phaseName": "Implementation",
+      "taskId": "cnc-3.3"
+    },
+    {
+      "phaseId": "qa",
+      "phaseName": "Qa",
+      "taskId": "cnc-3.4"
+    },
+    {
+      "phaseId": "testing",
+      "phaseName": "Testing",
+      "taskId": "cnc-3.5"
+    },
+    {
+      "phaseId": "finalize",
+      "phaseName": "Finalize",
+      "taskId": "cnc-3.6"
+    }
+  ],
+  "createdAt": "2026-02-09T21:32:51.695Z",
+  "updatedAt": "2026-02-09T21:32:51.695Z"
+}

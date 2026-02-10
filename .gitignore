@@ -2,3 +2,7 @@
 .hidden/
 .venv/
 __pycache__/
+
+# Build artifacts and temporary files
+_build/
+*.egg-info/
