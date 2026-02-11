@@ -21,13 +21,47 @@ PYLINT := pylint
 
 HERE := $(shell pwd)
 
-.PHONY: help
+.PHONY: help setup
 help:
 	cat Makefile
 	echo "OS: " ${OS}
 	echo "PYTHON: " ${PYTHON}
 	echo "DATE: " ${DATE}
 	echo "HERE: " ${HERE}
+
+setup:
+	@echo "=== SDL2 Setup Instructions for ${OS} ==="
+	@echo ""
+ifeq (Darwin, ${OS})
+	@echo "On macOS, install SDL2 using Homebrew:"
+	@echo ""
+	@echo "  brew install sdl2 sdl2_gfx sdl2_ttf"
+	@echo ""
+	@echo "Then run 'make build' to create venv and install Python dependencies."
+	@echo "PySDL2 will be installed automatically from requirements.txt."
+	@echo ""
+else ifeq (Linux, ${OS})
+	@echo "On Linux (Ubuntu/Debian), install SDL2 using apt:"
+	@echo ""
+	@echo "  sudo apt-get update"
+	@echo "  sudo apt-get install libsdl2-dev libsdl2-gfx-dev libsdl2-ttf-dev"
+	@echo ""
+	@echo "On Linux (Fedora/RHEL), install SDL2 using dnf/yum:"
+	@echo ""
+	@echo "  sudo dnf install SDL2-devel SDL2_gfx-devel SDL2_ttf-devel"
+	@echo ""
+	@echo "Then run 'make build' to create venv and install Python dependencies."
+	@echo "PySDL2 will be installed automatically from requirements.txt."
+	@echo ""
+else
+	@echo "Unsupported OS: ${OS}"
+	@echo "Please install SDL2, SDL2_gfx, and SDL2_ttf manually for your system."
+	@echo "Then run 'make build' to install Python dependencies."
+endif
+	@echo "After installation, you can run the GUI calculator with:"
+	@echo ""
+	@echo "  python3 cnc_gui.py"
+	@echo ""
 
 PYTHON_SOURCE = \
 	cli_cnc.py \
@@ -43,14 +77,28 @@ SOURCE = \
 	Makefile \
 	README.md
 
-.PHONY: clean pylint listings test lint ci
+.PHONY: build install clean pylint listings test lint ci gui
 
 FILES = \
 	${SOURCE} \
 	pylintrc
 
+# Virtual environment setup and build
+build:
+	@if [ ! -d .venv ]; then \
+		echo "Creating virtual environment..."; \
+		${PYTHON} -m venv .venv; \
+	fi
+	@echo "Installing project dependencies..."
+	.venv/bin/pip install --upgrade pip
+	@if [ -f requirements.txt ]; then \
+		echo "Installing from requirements.txt..."; \
+		.venv/bin/pip install -r requirements.txt; \
+	fi
+	.venv/bin/pip install -e .
+
 .PHONY: install
-install: 
+install: build 
 	echo ${HERE}/.venv/bin/python ${HERE}/cli_cnc.py --binary '$$*' > cnc.sh
 	echo ${HERE}/.venv/bin/python ${HERE}/cli_cnc.py --decimal '$$*' > cnc10.sh
 	cp cnc.sh ${HOME}/bin/cnc
@@ -61,7 +109,17 @@ install:
 	- rm cnc10.sh
 
 clean:
-	- rm *.ps *.pdf
+	@echo "Cleaning build artifacts and temporary files..."
+	- rm -f *.ps *.pdf
+	- rm -rf _build
+	- rm -rf .venv
+	- rm -rf __pycache__
+	- find . -type d -name "*.egg-info" -exec rm -rf {} +
+	- find . -type d -name "__pycache__" -exec rm -rf {} +
+	- find . -type f -name "*.pyc" -delete
+	- find . -type f -name "*.pyo" -delete
+	- rm -f ${HOME}/bin/cnc ${HOME}/bin/cnc10
+	@echo "Clean complete. Project ready for fresh build."
 
 pylint:
 	- ${PYLINT} cli_cnc.py
@@ -80,6 +138,21 @@ decimal:
 
 binary:
 	${PYTHON} ./cli_cnc.py --binary
+
+gui: build
+	.venv/bin/python ./cnc_gui.py
+
+screenshot: build
+	@mkdir -p _build
+	.venv/bin/python ./cnc_gui.py --screenshot _build/hp35_latest.png
+	@echo "Screenshot saved to _build/hp35_latest.png"
+
+compare: screenshot
+	@mkdir -p _build
+	.venv/bin/python ./tests/compare_renders.py images/hp35_reference_cropped.jpg _build/hp35_latest.png _build/hp35_diff_latest.png
+
+test-gui: compare
+	@echo "GUI screenshot comparison complete. Check _build/hp35_diff_latest.png for visual differences."
 
 LISTINGS = cnc.pdf cnc10.pdf hp35stack.pdf Makefile.pdf cli_cnc.pdf
 

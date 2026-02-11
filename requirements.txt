@@ -1,0 +1,15 @@
+# Core dependencies
+PySDL2==0.9.17
+tracedebug @ git+https://github.com/nygeek/tracedebug.git@d75ff4bf8e06af50f708c9cce1ea51cca730a8c5
+cmath10 @ git+https://github.com/nygeek/cmath10.git@dc208d9b0a01ea1f85c509e260e180c85ce35a6a
+
+# Testing and image processing dependencies
+pillow==12.1.0
+numpy==2.4.2
+scikit-image==0.26.0
+scipy==1.17.0
+imageio==2.37.2
+tifffile==2026.1.28
+networkx==3.6.1
+packaging==26.0
+lazy_loader==0.4

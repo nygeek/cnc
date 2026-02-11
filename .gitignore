@@ -2,3 +2,13 @@
 .hidden/
 .venv/
 __pycache__/
+
+# Build artifacts and temporary files
+_build/
+*.egg-info/
+*.pyc
+*.pyo
+
+# Temporary workflow state (do not commit)
+.vibe/conversations/
+.vibe/beads-state-*.json

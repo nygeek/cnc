@@ -45,7 +45,8 @@ DEBUG = DebugTrace(False)
 NUM =r'[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)([Ee][+-]?[0-9]+)?'
 
 TOKEN_PATTERNS = [
-    ('COMPLEX',   rf'\({NUM}+\s*,\s*+{NUM}\)'),
+    # Order matters: try longest patterns first
+    ('COMPLEX',   rf'\({NUM}\s*,\s*{NUM}\)'),
     ('NUMBER',    rf'{NUM}'),
     ('OPERATOR',  r'[+\-*/]'),
     ('ALPHA',     r'[a-zA-Z_][a-zA-Z0-9_]*'),
@@ -190,6 +191,8 @@ class ComplexNumberCalculator:
             "xtoy": [self.binary, "put x^y in x, removing both x and y",
                      lambda _x, _y:
                      StdLibAdapter.exp(StdLibAdapter.log(_x).mul(_y))],
+            # ----- Conjugate ----- #
+            "conj": [self.conj, "conjugate (works for complex numbers)", self.no_op],
             }
 
 
@@ -258,7 +261,6 @@ class ComplexNumberCalculator:
     def unary(self, _func):
         """ handle unary operator """
         _x = self.stack.pop()
-        # print(f"DEBUG unary(self: {self}, _func: {_func}")
         _result = _func(_x)
         self.stack.push(_result)
         return _result
@@ -305,8 +307,6 @@ class ComplexNumberCalculator:
 
     def enter(self, _func):
         """ handle enter """
-        print("enter()")
-        # print(self.stack)
         return self.stack.stack[0]
 
 
@@ -401,3 +401,14 @@ class ComplexNumberCalculator:
     def handle_dump_log(self, _func):
         """ dump the 'tape' """
         print(f"Tape: {self.log}")
+
+
+    def conj(self, _func):
+        """ Conjugate - works for complex numbers """
+        _x = self.stack.pop()
+        if hasattr(_x, 'conjugate'):
+            _result = _x.conjugate()
+        else:
+            _result = _x
+        self.stack.push(_result)
+        return _result

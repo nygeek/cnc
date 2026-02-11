@@ -1,6 +1,8 @@
 # CNC
 
-Complex Number Calculator in honor of the late [George
+A faithful recreation of the 1972 HP-35 scientific calculator with both GUI and CLI interfaces.
+
+Created in honor of the late [George
 Stibitz](https://en.wikipedia.org/wiki/George_Stibitz) and the 1972
 [HP-35](https://en.wikipedia.org/wiki/HP-35) scientific calculator.
 
@@ -186,7 +188,6 @@ the calculator back in the day.
 1. 'i' - 'push i on to the stack'
 1. 'imag' - 'put imag(x) into x'
 1. 'inv' - 'replace x with put 1/x'
-1. 'j' - 'push i on to the stack'
 1. 'log' - 'replace x with log(x) - log base 10'
 1. 'ln' - 'replace x with ln(x) - natural log'
 1. 'pi' - 'push pi onto the stack'
@@ -200,6 +201,26 @@ the calculator back in the day.
 1. 'tan' - 'replace x with tan(x)'
 1. 'tape' - 'dump the tape.'
 1. 'xtoy' - 'put x^y in x, removing both x and y'
+1. 'conj' - 'conjugate (works for complex numbers)'
+
+### Input Formats
+
+**Complex numbers**: `(real, imag)`
+- Example: `(3, 4)` represents 3+4i
+
+### GUI Calculator
+
+The GUI provides a faithful recreation of the 1972 HP-35 calculator with authentic button layout, colors, and display. Run it with:
+
+```bash
+make gui
+```
+
+Or take a screenshot for testing:
+
+```bash
+make screenshot
+```
 
 ### Installing
 
