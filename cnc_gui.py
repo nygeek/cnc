@@ -42,7 +42,7 @@ WINDOW_HEIGHT = 823  # Authentic HP-35 proportions matching reference aspect rat
 # Color palette - Based on authentic HP-35 reference photo
 COLORS = {
     # Case and background
-    'CASE_BLACK':       (90, 87, 82),  # Medium gray-brown metal case
+    'CASE_BLACK':       (83, 80, 75),  # Medium gray-brown metal case
     'DISPLAY_BG':       (15, 5, 5),    # Very dark red-tinted background
 
     # LED colors - Classic red LEDs
@@ -51,8 +51,8 @@ COLORS = {
     'LED_GLOW':         (255, 100, 80),
 
     # Button colors - Original HP-35 (from reference photo)
-    'TAN':              (240, 235, 220),   # Off-white/cream digit buttons (slightly lighter)
-    'BLUE':             (90, 170, 210),    # Light cyan operator buttons (slightly darker)
+    'TAN':              (178, 173, 158),   # Off-white/cream digit buttons (slightly lighter)
+    'BLUE':             (85, 165, 205),    # Light cyan operator buttons (slightly darker)
     'BLACK_KEY':        (60, 58, 56),      # Dark charcoal function buttons (lighter than before)
 
     # Text colors
@@ -374,11 +374,11 @@ class ButtonGrid:
         Construct all 47 buttons with exact positions from design.md Section 1.4-1.5.
         """
         # Compact button dimensions matching authentic HP-35
-        btn_w = 58   # Button width
+        btn_w = 57   # Button width
         btn_h = 55   # Button height
-        gap = 8      # Gap between buttons
+        gap = 10      # Gap between buttons
         x_start = 28   # Left margin
-        y_start = 239  # Top margin (adjusted for taller buttons)
+        y_start = 229  # Top margin (adjusted for taller buttons)
 
         # Calculate column positions
         x0 = x_start
