@@ -55,7 +55,7 @@ class HP35Stack:
 
 
     def __str__(self):
-        _result = "M: " + str(self.storcl) + "\n\n"
+        _result = "S: " + str(self.storcl) + "\n\n"
         for j in range(self.depth - 1, -1, -1):
             _result += self.labels[j] + ": " + str(self.stack[j]) + "\n"
         return _result
@@ -105,13 +105,13 @@ class HP35Stack:
 
 
     def sto(self):
-        """ sto function - copy x to M """
+        """ sto function - copy x to S """
         self.storcl = self.stack[0]
         return self.stack[0]
 
 
     def rcl(self):
-        """ rcl function - copy M to x (push the rest up) """
+        """ rcl function - copy S to x (push the rest up) """
         self.push(self.storcl)
 
 
