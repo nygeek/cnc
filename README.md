@@ -37,14 +37,14 @@ retains the affections of a portion of the technical community.
 
 The HP-35 calculator had four primary registers arranged in a stack.
 The four registers were called X, Y, Z, and T.  In addition there
-was a memory register called M.  Our implementation of the HP-35
+was a memory register called S.  Our implementation of the HP-35
 stack has eight elements rather than four.  (There is a command
 line option for the CLI that lets you set the size of the stack.)
 The bottom four are shown as X, Y, Z, and T, but the rest are simply
 shown by their index.
 
 The bottom register, called X, was always displayed on the HP-35.
-This CLI displays the entire stack as well as the M register
+This CLI displays the entire stack as well as the S register
 every time the enter key is pressed.
 
 Pressing enter on the HP-35 would push the number in X up to Y, Y
@@ -54,8 +54,8 @@ Roll down, shown on the HP-35 keyboard with the letter R and a down
 arrow, would move T to Z, Z to Y, Y to X, and X around to T.  We
 call this 'down' in the CLI.
 
-STO would take the value in X and save it in M.  RCL would push
-the value from M onto the stack.
+STO would take the value in X and save it in S.  RCL would push
+the value from S onto the stack.
 
 A unary function, say sqrt,  would replace the value of X with the
 result of the function.
@@ -193,10 +193,10 @@ the calculator back in the day.
 1. 'push' - 'push everything up the stack'
 1. 'quit' - 'exit the calculator'
 1. 'real' - 'put real(x) into x'
-1. 'rcl' - 'replace x with the value in M'
+1. 'rcl' - 'replace x with the value in S'
 1. 'sin' - 'replace x with sin(x)'
 1. 'sqrt' - 'replace x with sqrt(x)'
-1. 'sto' - 'store x into M'
+1. 'sto' - 'store x into S'
 1. 'tan' - 'replace x with tan(x)'
 1. 'tape' - 'dump the tape.'
 1. 'xtoy' - 'put x^y in x, removing both x and y'
